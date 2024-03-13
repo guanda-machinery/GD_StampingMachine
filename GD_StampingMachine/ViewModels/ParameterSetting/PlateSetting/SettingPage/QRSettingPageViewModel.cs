@@ -134,7 +134,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     if (await Method.MethodWinUIMessageBox.AskOverwriteOrNotAsync())
                     {
-                        Application.Current?.Dispatcher.Invoke(() =>
+                        Application.Current.Dispatcher.Invoke(() =>
                         {
                             QRSettingModelCollection[FIndex] = QRSettingVM.DeepCloneByJson();
                         });
@@ -146,7 +146,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
                 else
                 {
-                    Application.Current?.Dispatcher.Invoke(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
                         QRSettingModelCollection.Add(QRSettingVM.DeepCloneByJson());
                     });

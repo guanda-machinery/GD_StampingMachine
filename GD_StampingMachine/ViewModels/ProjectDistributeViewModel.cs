@@ -877,7 +877,7 @@ namespace GD_StampingMachine.ViewModels
                                 }
                             }
 
-                            Application.Current?.Dispatcher.Invoke(new Action(() =>
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
                             {
                                 foreach (var part in addPartsParameterViewModel)
                                 {

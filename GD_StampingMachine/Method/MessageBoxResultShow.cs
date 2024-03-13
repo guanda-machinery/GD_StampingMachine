@@ -21,7 +21,7 @@ namespace GD_CommonLibrary.Method
 
         public MessageBoxResultShow(Window? parent, string messageTitle, string messageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
         {
-            Application.Current?.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 newWindow = new MessageBoxWindow(parent, 
                     messageTitle, messageString, MB_Button, MB_Image, lockWindow)
@@ -44,7 +44,7 @@ namespace GD_CommonLibrary.Method
       /*  public Task<MessageBoxResult> ShowMessageBox()
         {
             MessageBoxResult messageBoxReturn = MessageBoxResult.None;
-            Application.Current?.Dispatcher.Invoke(new Action(async () =>
+            Application.Current.Dispatcher.Invoke(new Action(async () =>
             {
                  messageBoxReturn = newWindow.FloatShow();
             }));
@@ -71,14 +71,14 @@ namespace GD_CommonLibrary.Method
         /// <returns></returns>
         public void CloseMessageBox()
         {
-            Application.Current?.Dispatcher.Invoke(new Action(() =>
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 newWindow?.Close();
             }));
         }
         public async Task CloseMessageBoxAsync()
         {
-            await Application.Current?.Dispatcher.InvokeAsync(new Action(() =>
+            await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
             {
                 try
                 {

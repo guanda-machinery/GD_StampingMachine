@@ -161,6 +161,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+
         private void BoxPartsParameterVMCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             var NParts = e.NewItems as ICollection;
@@ -243,6 +244,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             UpdateSeparateBoxValue();
         }
+
+
+
+
 
         /// <summary>
         /// 更新箱子內的數值

@@ -564,18 +564,6 @@ namespace GD_StampingMachine.ViewModels
                     {
                         return;
                     }
-                    // List<StampingTypeModel> FontsCollection = new();
-
-                    //  for (int i = 0; i < StampMachineData.RotatingTurntableInfoCollection.Count; i++)
-                    //   {
-                    /*var rFont = StampMachineData.RotatingTurntableInfoCollection[i];
-                    if (StampingTypeVMObservableCollection.TryGetValue(i, out var stamptypeVM))
-                    {
-                        FontsCollection.Add(rFont.StampingType);
-                    }
-                    else
-                        FontsCollection.Add(new StampingTypeModel());*/
-                    //}
 
                     var FontsCollection = StampingTypeVMObservableCollection.Select(x => x.StampingTypeString);
 

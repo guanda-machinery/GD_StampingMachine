@@ -62,7 +62,7 @@ namespace GD_StampingMachine.Singletons
                     ResourceString = LogString;
 
                 var OperatingLog = (new OperatingLogModel(DateTime.Now, LogSource, ResourceString, IsAlarm));
-                await System.Windows.Application.Current?.Dispatcher.InvokeAsync((() =>
+                await System.Windows. Application.Current.Dispatcher.InvokeAsync((() =>
                 {
                     this.DataObservableCollection.Add(new OperatingLogViewModel(OperatingLog));
                 }));

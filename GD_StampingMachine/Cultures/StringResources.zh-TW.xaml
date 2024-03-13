@@ -434,7 +434,7 @@
     <sys:String x:Key="Connection_TryConnect">嘗試連線</sys:String>
     <sys:String x:Key="WaitConnection">等待連線</sys:String>
     <sys:String x:Key="Connection_RetryConnect">連線失敗，正在嘗試重新連線</sys:String>
-    <sys:String x:Key="Connection_IsSucessful">連線成功</sys:String>
+    <sys:String x:Key="Connection_IsSuccessful">連線成功</sys:String>
 
     <sys:String x:Key="NoneMachiningData">沒有可加工的資料</sys:String>
     <sys:String x:Key="MachiningDataIsAlreadySended">所選擇的資料已進入機台，不可解除加工</sys:String>

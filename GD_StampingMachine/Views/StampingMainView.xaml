@@ -250,7 +250,7 @@
                                                     <StackPanel 
                                       HorizontalAlignment="Center" VerticalAlignment="Center" >
                                                         <Button Margin="0,10"  Width="45" Height="45"
-                                                    Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}">
+                                                    Command="{Binding StampingFontChangedVM.StampingFontCollectionData_SoftwareToMachine_Command}">
                                                             <GD_UserControls:ImageBrightDarkCustomControl
                                                                 DarkImageSource="{StaticResource Arrow_Right_WhiteDrawingImage}"
                                                                 BrightImageSource="{StaticResource Arrow_Right_BlackDrawingImage}"/>
@@ -258,7 +258,7 @@
                                                         </Button>
                                                         <Button Margin="0,10" Width="45" Height="45"
                                          
-                                                                Command="{Binding StampingFontChangedVM.StampingFontCollectionData_SoftwareToMachine_Command}">
+                                                                Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}">
                                                             <GD_UserControls:ImageBrightDarkCustomControl 
                                                                 DarkImageSource="{StaticResource Arrow_Left_WhiteDrawingImage}"
                                                                 BrightImageSource="{StaticResource Arrow_Left_BlackDrawingImage}"/>

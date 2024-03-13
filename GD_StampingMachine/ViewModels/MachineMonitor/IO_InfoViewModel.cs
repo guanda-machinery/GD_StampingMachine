@@ -50,7 +50,7 @@ namespace GD_StampingMachine.ViewModels
         public Type ValueType { get => IO_Info.ValueType; set { IO_Info.ValueType = value; OnPropertyChanged(); } }
 
         [JsonIgnore]
-        public object IO_Value { get => IO_Info.IO_Value; set { IO_Info.IO_Value = value; OnPropertyChanged(); } }
+        public object? IO_Value { get => IO_Info.IO_Value; set { IO_Info.IO_Value = value; OnPropertyChanged(); } }
 
     }
 }

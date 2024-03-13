@@ -527,7 +527,7 @@ namespace GD_MachineConnect.Machine
         }
 
 
-        public override async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval = 100, bool checkDuplicates = true)
+        public override async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval = 1000, bool checkDuplicates = true)
         {
             var ret = await SubscribeNodesDataChangeAsync<T>(new List<(string, EventHandler<ValueChangedEventArgs<T>>, int, bool checkDuplicates)>
             {

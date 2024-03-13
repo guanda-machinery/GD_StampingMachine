@@ -227,7 +227,7 @@ namespace GD_StampingMachine.Windows
 
         private void CloseMessageBox()
         {
-            Application.Current?.Dispatcher.Invoke(new Action(() =>
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 this.Close();
                 Overlay?.Close();

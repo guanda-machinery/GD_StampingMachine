@@ -168,13 +168,13 @@
 
                                 <Border Style="{StaticResource MachineSettingBorder}"
                                     Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-                                    Path=MachineSettingBaseCollection[9].EngravingIsFinish,
+                                    Path=PlateBaseObservableCollection[9].EngravingIsFinish,
                                     Converter={GD_CommonControl:BooleanToVisibilityConverter Invert=False} , ConverterParameter={x:Static Visibility.Hidden}}"
                                     Width="47.5" HorizontalAlignment="Right" Margin="0,0,475,0" />
 
                                 <Border  Style="{StaticResource MachineSettingBorder}"
                                     Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-                                    Path=MachineSettingBaseCollection[9].EngravingIsFinish,
+                                    Path=PlateBaseObservableCollection[9].EngravingIsFinish,
                                     Converter={GD_CommonControl:BooleanToVisibilityConverter Invert=True} , ConverterParameter={x:Static Visibility.Hidden}}"
                                     Width="47.5" HorizontalAlignment="Right" Margin="0,0,428,0" />
 
@@ -206,7 +206,8 @@
                         
                             <ItemsControl  
                                 HorizontalAlignment="Right" Margin="5,0"   FlowDirection="RightToLeft"
-                                ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection, IsAsync=True}"
+                                ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+                                Path=PlateBaseObservableCollection, IsAsync=True}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"     
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  >
                                 <ItemsControl.ItemTemplate>
@@ -271,7 +272,7 @@
                                                     <Grid Width="400">
                                                             <Viewbox>
                                                                 <GD_SchematicDiagram:QRPlateRowDiagramControl    
-                                                                    DataContext="{Binding SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
+                                                                    DataContext="{Binding SettingBaseVM , IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
                                                                 </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                             </Viewbox>
                                                         </Grid>
@@ -746,8 +747,7 @@
                                 >
 
                             <Button.IsEnabled>
-                                <MultiBinding Converter="{GD_CommonControl:MultiValueHasParameterValueToBooleanConverter}" 
-ConverterParameter="{StaticResource FalseValue}">
+                                <MultiBinding Converter="{GD_CommonControl:MultiValueHasParameterValueToBooleanConverter}" ConverterParameter="{StaticResource FalseValue}">
                                     <MultiBinding.Bindings>
                                         <Binding Source="{x:Static GD_Singletons:StampingMachineSingleton.Instance}" Path="SelectedProjectDistributeVM" Converter="{GD_CommonControl:ObjectIsNullToBooleanConverter}" />
                                         <Binding Path="SendMachiningCommand.IsRunning" Converter="{GD_CommonControl:InvertBooleanConverter}" />
@@ -825,7 +825,7 @@ ConverterParameter="{StaticResource FalseValue}">
                                                    StampingProcess="DataMatrix"                                        
                                     IsBrightMode="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}"                                       
                                     DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-                                    Path=MachineSettingBaseCollection[23]}" ProjectName="{Binding ProductProjectName}" >
+                                    Path=PlateBaseObservableCollection[23]}" ProjectName="{Binding ProductProjectName}" >
 
                                     <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"  
                                 DataContext="{Binding SettingBaseVM}"/>
@@ -838,9 +838,9 @@ ConverterParameter="{StaticResource FalseValue}">
                                     IsBrightMode="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}"       
                                     PlateDiagramIndex="11"  Margin="5,0" 
                             Grid.Column="1" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-                                Path=MachineSettingBaseCollection[10]}" ProjectName="{Binding ProductProjectName}"  
+                                Path=PlateBaseObservableCollection[10]}" ProjectName="{Binding ProductProjectName}"  
                                     Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-                                Path=MachineSettingBaseCollection[9].EngravingIsFinish,
+                                Path=PlateBaseObservableCollection[9].EngravingIsFinish,
                                 Converter={GD_CommonControl:BooleanToVisibilityConverter Invert=False} , ConverterParameter={x:Static Visibility.Hidden}}"
                                 >
                                     <GD_SchematicDiagram:QRPlateRowDiagramControl
@@ -852,9 +852,9 @@ ConverterParameter="{StaticResource FalseValue}">
                                     IsBrightMode="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}"       
                                 PlateDiagramIndex="10"  Margin="5,0" 
                             Grid.Column="1" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-                                Path=MachineSettingBaseCollection[9]}" ProjectName="{Binding ProductProjectName}" 
+                                Path=PlateBaseObservableCollection[9]}" ProjectName="{Binding ProductProjectName}" 
                                 Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-                                Path=MachineSettingBaseCollection[9].EngravingIsFinish,
+                                Path=PlateBaseObservableCollection[9].EngravingIsFinish,
                                 Converter={GD_CommonControl:BooleanToVisibilityConverter Invert=True} , ConverterParameter={x:Static Visibility.Hidden}}"
                                 >
                                     <GD_SchematicDiagram:QRPlateRowDiagramControl
@@ -870,7 +870,7 @@ ConverterParameter="{StaticResource FalseValue}">
                                     IsBrightMode="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}"       
                                     PlateDiagramIndex="1" Margin="5,0" 
                             Grid.Column="2" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}" >
+Path=PlateBaseObservableCollection[0]}" ProjectName="{Binding ProductProjectName}" >
                                     <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4" Width="auto" Height="auto"
                                 DataContext="{Binding SettingBaseVM}"/>
                                 </GD_StampingMachine_UserControls:PlateDiagramCustomControl>

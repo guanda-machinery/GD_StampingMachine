@@ -567,7 +567,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => _importProject_SelectPathFileCommand ??= new (async () =>
             {
-                await Application.Current?.Dispatcher.InvokeAsync(new Action(() =>
+                await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
                 {
                     System.Windows.Forms.OpenFileDialog sfd = new()
                     {
@@ -591,7 +591,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => _importProject_SelectPathFolderCommand ??= new (async () =>
             {
-                await Application.Current?.Dispatcher.InvokeAsync(new Action(() =>
+                await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
                 {
                     System.Windows.Forms.FolderBrowserDialog sfd = new();
                     if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -849,7 +849,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-                    await Application.Current?.Dispatcher.InvokeAsync(async () =>
+                    await Application.Current.Dispatcher.InvokeAsync(async () =>
                     {
                         PartsParameterVMObservableCollection.AddRange(importPartsParameterVMList);
                         await SaveProductProjectAsync();
