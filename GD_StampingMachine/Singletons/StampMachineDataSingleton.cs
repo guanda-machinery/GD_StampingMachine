@@ -2665,6 +2665,11 @@ namespace GD_StampingMachine.Singletons
             }, () => !ReturnToOriginCommand.IsRunning);
         }
 
+
+
+
+
+
         private bool _isReturningToOrigin;
         public bool IsReturningToOrigin
         {

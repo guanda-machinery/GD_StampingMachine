@@ -229,9 +229,6 @@ namespace GD_StampingMachine.UserControls
 
 
 
-        [Category("Appearance")]
-        [TypeConverter(typeof(NullableBoolConverter))]
-        [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
         public bool? IsChecked
         {
             get
