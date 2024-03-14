@@ -14,7 +14,7 @@ namespace GD_StampingMachine.Singletons
     // public class CultureViewModel : GD_CommonControlLibrary.BaseViewModel
     public class CultureViewModel : GD_CommonLibrary.BaseSingleton<CultureViewModel>
     {
-        private CultureViewModel()
+       public CultureViewModel()
         {
             var defaultCulture = CultureInfo.InvariantCulture;
             try

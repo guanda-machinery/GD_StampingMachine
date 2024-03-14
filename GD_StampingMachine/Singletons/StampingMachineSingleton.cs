@@ -26,12 +26,11 @@ namespace GD_StampingMachine.Singletons
 
     public class StampingMachineSingleton : BaseSingleton<StampingMachineSingleton>
     {
-
         protected override void Init()
         {
-            StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
 
-            MachanicalSpecificationVM = new MachanicalSpecificationViewModel(new MachanicalSpecificationModel()
+            StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
+            MechanicalSpecificationVM = new MachanicalSpecificationViewModel(new MachanicalSpecificationModel()
             {
                 AllowMachiningSize = new AllowMachiningSizeModel()
                 {
@@ -71,7 +70,6 @@ namespace GD_StampingMachine.Singletons
 
             };
 
-
             List<StampingTypeViewModel> StampingCollection = new();
             if (JsonHM.ReadUseStampingFont(out var SReaduse))
             {
@@ -95,9 +93,8 @@ namespace GD_StampingMachine.Singletons
             }
 
             StampingFontChangedVM = new StampingFontChangedViewModel(StampingCollection);
-
+            
             {
-
                 if (JsonHM.ReadUnUseStampingFont(out List<StampingTypeModel> SReadunuse))
                 {
                     StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>(
@@ -226,7 +223,9 @@ namespace GD_StampingMachine.Singletons
             }
 
 
-            MachineMonitorVM = new();
+            
+
+            MachineMonitorVM = new(ProductSettingVM , SelectedProjectDistributeVM);
 
             MachineFunctionVM = new();
 
@@ -257,12 +256,13 @@ namespace GD_StampingMachine.Singletons
 
 
         }
+    
 
 
         /// <summary>
         /// 機台規格
         /// </summary>
-        public MachanicalSpecificationViewModel? MachanicalSpecificationVM { get; set; }
+        public MachanicalSpecificationViewModel? MechanicalSpecificationVM { get; set; }
         /// <summary>
         /// 字模
         /// </summary>
@@ -412,16 +412,6 @@ namespace GD_StampingMachine.Singletons
                 {
                     SelectedProjectDistributeVM = NewProjectDistributeVM;
                 }
-
-
-
-
-
-
-
-
-
-
             });
         }
 

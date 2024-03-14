@@ -195,7 +195,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 關於本機
         /// </summary>
-        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get => stampingMain.MachanicalSpecificationVM; }
+        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get => stampingMain.MechanicalSpecificationVM; }
         /// <summary>
         /// 字模設定
         /// </summary>

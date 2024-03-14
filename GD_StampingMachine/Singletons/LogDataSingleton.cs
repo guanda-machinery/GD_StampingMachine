@@ -11,9 +11,6 @@ namespace GD_StampingMachine.Singletons
 {
     internal class LogDataSingleton : GD_CommonLibrary.BaseSingleton<LogDataSingleton>
     {
-
-
-
         public int LogCollectionMax = 100;
         private DXObservableCollection<OperatingLogViewModel>? _dataObservableCollection;
         public DXObservableCollection<OperatingLogViewModel> DataObservableCollection
@@ -40,14 +37,14 @@ namespace GD_StampingMachine.Singletons
         {
             get => _tempOperatingLog ??= new Dictionary<string, List<GD_Model.OperatingLogModel>>();
         }
-
-
-
-
-
         //private static readonly object thisLock = new object();
 
         private readonly SemaphoreSlim semaphoreSlim = new(1, 1);
+
+        public async Task AddLogDataAsync(string SourceName, Exception ex, bool IsAlarm = false)
+        {
+            await AddLogDataAsync(SourceName, ex.Message , IsAlarm);
+        }
         public async Task AddLogDataAsync(string SourceName, string LogString, bool IsAlarm = false)
         {
             try

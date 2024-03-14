@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace GD_CommonLibrary
 {
-    public abstract class BaseSingleton<T> : IAsyncDisposable, INotifyPropertyChanged where T : BaseSingleton<T>
+
+    public abstract class BaseSingleton<T> : IAsyncDisposable, INotifyPropertyChanged where T : BaseSingleton<T> , new()
     {
+        protected BaseSingleton()
+        {
+
+        }
 
         private static readonly Lazy<T> Lazy = new(() => (Activator.CreateInstance(typeof(T), true) as T)!);
+
         private static readonly object thisLock = new();
         private static T? _instance;
-        private bool disposedValue;
+
 
         public static T Instance
         {
@@ -25,7 +31,7 @@ namespace GD_CommonLibrary
                     {
                         if (_instance == null)
                         {
-                            for (int i = 0; i < 10; i++)
+                            while (Debugger.IsAttached)
                             {
                                 try
                                 {
@@ -46,10 +52,6 @@ namespace GD_CommonLibrary
             }
         }
 
-
-
-
-
         /// <summary>
         /// 如果有需要初始化 複寫這裡！
         /// </summary>
@@ -58,7 +60,7 @@ namespace GD_CommonLibrary
 
         }
 
-
+        private bool disposedValue;
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
         protected void OnPropertyChanged([CallerMemberName] string propertyname = null)
         {

@@ -31,12 +31,7 @@ namespace GD_StampingMachine.Singletons
     {
         //  public const string DataSingletonName = "Name_StampMachineDataSingleton";
         public string DataSingletonName => (string)Application.Current.TryFindResource("Name_StampMachineDataSingleton");
-        private AbstractOpcuaConnect opcUaClient;
-
-        private StampMachineDataSingleton()
-        {
-
-        }
+        private AbstractOpcuaConnect? opcUaClient;
 
         protected override void Init()
         {
@@ -2683,7 +2678,7 @@ namespace GD_StampingMachine.Singletons
 
 
         //private List<string> _alarmMessageList = new List<string>();
-        private ObservableCollection<string> _alarmMessageCollection;
+        private ObservableCollection<string>? _alarmMessageCollection;
         public ObservableCollection<string> AlarmMessageCollection
         {
             get=>_alarmMessageCollection??= new ObservableCollection<string>();
@@ -3267,10 +3262,10 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ObservableCollection<StampingTypeViewModel> RotatingTurntableInfoCollection
         {
-            get => _rotatingTurntableInfo ??= new ObservableCollection<StampingTypeViewModel>(); set { _rotatingTurntableInfo = value; OnPropertyChanged(); }
+            get => _rotatingTurntableInfo ??= new ObservableCollection<StampingTypeViewModel>(); private set { _rotatingTurntableInfo = value; OnPropertyChanged(); }
         }
 
-        ObservableCollection<PlateMonitorViewModel> _plateBaseObservableCollection;
+        ObservableCollection<PlateMonitorViewModel>? _plateBaseObservableCollection;
         /// <summary>
         /// 實際加工狀態[25]
         /// </summary>

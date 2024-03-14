@@ -40,24 +40,22 @@ namespace GD_StampingMachine.ViewModels
 
     public class MachineMonitorViewModel : GD_CommonControlLibrary.BaseViewModel
     {
-
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachineMonitoring");
-        public MachineMonitorViewModel()
+
+        public MachineMonitorViewModel(ProductSettingViewModel productSettingVM, ProjectDistributeViewModel? selectedProjectDistributeVM)
         {
-            StampingMachineSingleton.Instance.SelectedProjectDistributeVMChanged += Instance_SelectedProjectDistributeVMChanged;
-            
-
-        }
-
-
-        private void Instance_SelectedProjectDistributeVMChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel> e)
-        {
-            SelectedProjectDistributeVM = e.NewValue;
+            m_selectedProjectDistributeVM = selectedProjectDistributeVM;
+            m_productSettingVM = productSettingVM;
 
         }
 
         StampMachineDataSingleton StampMachineData => GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
 
+        private readonly ProductSettingViewModel m_productSettingVM ;
+        ProductSettingViewModel ProductSettingVM => m_productSettingVM;
+
+        private readonly ProjectDistributeViewModel? m_selectedProjectDistributeVM;
+        public ProjectDistributeViewModel? SelectedProjectDistributeVM => m_selectedProjectDistributeVM;
 
         /// <summary>
         /// 鋼帶捲集合
@@ -67,11 +65,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private ProjectDistributeViewModel? _selectedProjectDistributeVM;
-        public ProjectDistributeViewModel? SelectedProjectDistributeVM 
-        {
-            get => _selectedProjectDistributeVM; set { _selectedProjectDistributeVM = value;OnPropertyChanged(); }
-        }
+
 
 
 
@@ -121,6 +115,7 @@ namespace GD_StampingMachine.ViewModels
         }
         
 
+
         private AsyncRelayCommand? _sendMachiningCommand;
         public AsyncRelayCommand SendMachiningCommand
         {
@@ -128,9 +123,9 @@ namespace GD_StampingMachine.ViewModels
             {
                 try
                 {
-                    FirstIronPlateID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault()?.ID;
-                    MiddleIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
-                    LasttIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
+                    PreviousFirstIronPlateID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault()?.ID;
+                    PreviousMiddleIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
+                    PreviousLasttIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
 
                     //開始依序傳送資料
                     await Task.Run(async () =>
@@ -143,7 +138,7 @@ namespace GD_StampingMachine.ViewModels
 
                              while (true)
                              {
-                                 await Task.Delay(2000,token);
+                                 await Task.Delay(50,token);
                                  if (token.IsCancellationRequested)
                                      token.ThrowIfCancellationRequested();
                                  if (!StampMachineData.IsConnected)
@@ -167,7 +162,7 @@ namespace GD_StampingMachine.ViewModels
                                              ConnectManager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                                          });
                                          //等待連線
-
+                                         await Task.Delay(1000,token);
                                          if (!Debugger.IsAttached)
                                              await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.IsConnected, token);
 
@@ -185,184 +180,190 @@ namespace GD_StampingMachine.ViewModels
                                  //取得歷史資料
                                  //var history = await StampMachineData.GetIronPlateDataCollection();
 
-                                 var workableMachiningCollection = SelectedProjectDistributeVM?.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection.Where(x => x.WorkIndex >= 0);
-                                 
-
-                                 //準備加工(未上傳)
-                                 var readyMachiningCollection = workableMachiningCollection?.Where(x => !x.IsSended).OrderBy(x => x.WorkIndex);
-                                 //已上傳
-                                 var sendedReadyMachiningCollection = workableMachiningCollection?.Where(x => x.IsSended).OrderBy(x => x.WorkIndex);
-
-                                 if (readyMachiningCollection?.Count() == 0)
+                                 var workableMachiningCollection = SelectedProjectDistributeVM?.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection.Where(x => x.WorkIndex >= 0).ToList();
+                                 if (workableMachiningCollection != null)
                                  {
-                                     var result = await MessageBoxResultShow.ShowAsync(null, string.Empty, (string)Application.Current.TryFindResource("NoneMachiningData"), MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyRd);
-                                     _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("NoneMachiningData"));
-                                     break;
-                                 }
-                             
-                                 var readyMachining = readyMachiningCollection?.First();
-                                 if (readyMachining == null)
-                                 {//沒有可加工的資料
-                                     break;
-                                 }
+                                     //準備加工(未上傳)
+                                     var readyMachiningCollection = workableMachiningCollection.Where(x => !x.IsSended && !x.IsFinish).OrderBy(x => x.WorkIndex);
+                                     //已上傳
+                                     var sendedReadyMachiningCollection = workableMachiningCollection.Where(x => x.IsSended).OrderBy(x => x.WorkIndex);
 
-                                 double progress = 0;
-                                 if (sendedReadyMachiningCollection!=null && workableMachiningCollection!=null)
-                                      progress = ((double)sendedReadyMachiningCollection.Count() * 100) / (double)workableMachiningCollection.Count();
-
-                                 SendMachiningProgress = progress;
-
-
-                                 string plateFirstValue = "";
-                                 string plateSecondValue = "";
-                                 readyMachining.SettingBaseVM.PlateNumberList1.ForEach(p =>
-                                 {
-                                     if (string.IsNullOrWhiteSpace(p.FontString))
+                                     var readyMachining = readyMachiningCollection?.First();
+                                     if (readyMachining == null || readyMachiningCollection == null)
                                      {
-                                         plateFirstValue += " ";
+                                         var result = await MessageBoxResultShow.ShowAsync(null, string.Empty, (string)Application.Current.TryFindResource("NoneMachiningData"), MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyRd);
+                                         _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("NoneMachiningData"));
+                                         break;
                                      }
                                      else
                                      {
-                                         plateFirstValue += p.FontString;
-                                     }
-                                 });
+                                         //檢查：鐵牌上的字是否存在於輪盤上
+                                         foreach (var machining in readyMachiningCollection)
+                                         {
+                                             var missingChars = machining.ParameterA.Where(x => !StampMachineData.RotatingTurntableInfoCollection.Any(y => y.StampingTypeString.Contains(x)));
 
-                                 readyMachining.SettingBaseVM.PlateNumberList2.ForEach(p =>
-                                 {
-                                     if (string.IsNullOrWhiteSpace(p.FontString))
-                                     {
-                                         plateSecondValue += " ";
-                                     }
-                                     else
-                                     {
-                                         plateSecondValue += p.FontString;
-                                     }
-                                 });
-
-                                 plateFirstValue = plateFirstValue.TrimEnd();
-                                 plateSecondValue = plateSecondValue.TrimEnd();
-
-                                 plateFirstValue ??= string.Empty;
-                                 plateSecondValue ??= string.Empty;
-
-                                 /*
-                                  * rXAxisPos1 = 10,
-                                  * rYAxisPos1 = 119,
-                                  * rXAxisPos2 = 25,
-                                  * rYAxisPos2 = 119,
-                                  * */
-                                 //產生一個獨有的id
-                                 //生成一個
-
-                                 //List<PartsParameterViewModel> allBoxPartsParameterViewModel = new();
-                                 //所有排版專案
-                                 /*foreach (var productProject in StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMCollection)
-                                 {
-                                     allBoxPartsParameterViewModel.AddRange(productProject.PartsParameterVMObservableCollection);
-                                 }*/
-                                 var allBoxPartsParameterViewModel = StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMCollection
-                                 .SelectMany(productProject => productProject.PartsParameterVMObservableCollection);
-
-                                 HashSet<int> existingIds = new(allBoxPartsParameterViewModel.Select(x => x.ID));
-                                 int hashGuid = 0;
-                                 do
-                                 {
-                                     hashGuid = Math.Abs(Guid.NewGuid().GetHashCode());
-                                     //檢查是否有存在該編號
-                                 } while (existingIds.Contains(hashGuid));
+                                         }
 
 
-                                 var boxIndex = readyMachining.BoxIndex != null ? readyMachining.BoxIndex.Value : 0;
+                                         double progress = 0;
+                                         if (sendedReadyMachiningCollection != null && workableMachiningCollection != null)
+                                             progress = ((double)sendedReadyMachiningCollection.Count() * 100) / (double)workableMachiningCollection.Count();
 
-                                 //readyMachining.SettingBaseVM.IronPlateMarginVM.A_Margin
-                                 var _HMIIronPlateData = new IronPlateDataModel
-                                 {
-                                     bEngravingFinish = false,
-                                     bDataMatrixFinish = false,
-                                     //流水編號
-                                     iIronPlateID = hashGuid,
-                                     iStackingID = boxIndex,
-                                     rXAxisPos1 = readyMachining.SettingBaseVM.StampingMarginPosVM.rXAxisPos1, //     10
-                                     rXAxisPos2 = readyMachining.SettingBaseVM.StampingMarginPosVM.rXAxisPos2,//25
-                                     rYAxisPos1 = readyMachining.SettingBaseVM.StampingMarginPosVM.rYAxisPos1 + MachineConst.StampingMachineYPosition, //119 = 14+105 //
-                                     rYAxisPos2 = readyMachining.SettingBaseVM.StampingMarginPosVM.rYAxisPos1 + MachineConst.StampingMachineYPosition, //*14+105 // 
-                                     sDataMatrixName1 = string.IsNullOrWhiteSpace(readyMachining.ParameterC) ? string.Empty : readyMachining.ParameterC,
-                                     sDataMatrixName2 = string.IsNullOrWhiteSpace(readyMachining.QR_Special_Text) ? string.Empty : readyMachining.QR_Special_Text,
-                                     sIronPlateName1 = string.IsNullOrWhiteSpace(plateFirstValue) ? string.Empty : plateFirstValue,
-                                     sIronPlateName2 = string.IsNullOrWhiteSpace(plateSecondValue) ? string.Empty : plateSecondValue
-                                 };
+                                         SendMachiningProgress = progress;
 
 
-                                 try
-                                 {
-                                     _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WaitRequsetSignal"));
+                                         string plateFirstValue = "";
+                                         string plateSecondValue = "";
+                                         readyMachining.SettingBaseVM.PlateNumberList1.ForEach(p =>
+                                         {
+                                             if (string.IsNullOrWhiteSpace(p.FontString))
+                                             {
+                                                 plateFirstValue += " ";
+                                             }
+                                             else
+                                             {
+                                                 plateFirstValue += p.FontString;
+                                             }
+                                         });
 
-                                     var Rdatabit = false;
-                                     var requestDatabit = StampMachineData.GetRequestDatabitAsync();
-                                     if ((await requestDatabit).Item1)
-                                         Rdatabit = (await requestDatabit).Item2;
+                                         readyMachining.SettingBaseVM.PlateNumberList2.ForEach(p =>
+                                         {
+                                             if (string.IsNullOrWhiteSpace(p.FontString))
+                                             {
+                                                 plateSecondValue += " ";
+                                             }
+                                             else
+                                             {
+                                                 plateSecondValue += p.FontString;
+                                             }
+                                         });
 
-                                     if(!Rdatabit)
-                                         await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.Rdatabit, 2000, token);
-                                 }
-                                 catch
-                                 {
-                                     await Task.Delay(1000,token);
-                                     continue;
-                                 }
+                                         plateFirstValue = plateFirstValue.TrimEnd();
+                                         plateSecondValue = plateSecondValue.TrimEnd();
 
-                                 var sendhmi = false;
-                                 do
-                                 {
-                                     if (token.IsCancellationRequested)
-                                         token.ThrowIfCancellationRequested();
-                                     _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WritingMachiningData"));
-                                     sendhmi = await StampMachineData.SetHMIIronPlateDataAsync(_HMIIronPlateData);
-                                     //hmi設定完之後還需要進行設定變更!
-                                     if (sendhmi)
-                                     {
+                                         plateFirstValue ??= string.Empty;
+                                         plateSecondValue ??= string.Empty;
+
+                                         /*
+                                          * rXAxisPos1 = 10,
+                                          * rYAxisPos1 = 119,
+                                          * rXAxisPos2 = 25,
+                                          * rYAxisPos2 = 119,
+                                          * */
+                                         //產生一個獨有的id
+                                         //生成一個
+
+                                         //List<PartsParameterViewModel> allBoxPartsParameterViewModel = new();
+                                         //所有排版專案
+                                         /*foreach (var productProject in ProductSettingVM.ProductProjectVMCollection)
+                                         {
+                                             allBoxPartsParameterViewModel.AddRange(productProject.PartsParameterVMObservableCollection);
+                                         }*/
+                                         var allBoxPartsParameterViewModel = ProductSettingVM.ProductProjectVMCollection
+                                         .SelectMany(productProject => productProject.PartsParameterVMObservableCollection);
+
+                                         HashSet<int> existingIds = new(allBoxPartsParameterViewModel.Select(x => x.ID));
+                                         int hashGuid = 0;
+                                         do
+                                         {
+                                             hashGuid = Math.Abs(Guid.NewGuid().GetHashCode());
+                                             //檢查是否有存在該編號
+                                         } while (existingIds.Contains(hashGuid));
+
+
+                                         var boxIndex = readyMachining.BoxIndex != null ? readyMachining.BoxIndex.Value : 0;
+
+                                         //readyMachining.SettingBaseVM.IronPlateMarginVM.A_Margin
+                                         var _HMIIronPlateData = new IronPlateDataModel
+                                         {
+                                             bEngravingFinish = false,
+                                             bDataMatrixFinish = false,
+                                             //流水編號
+                                             iIronPlateID = hashGuid,
+                                             iStackingID = boxIndex,
+                                             rXAxisPos1 = readyMachining.SettingBaseVM.StampingMarginPosVM.rXAxisPos1, //     10
+                                             rXAxisPos2 = readyMachining.SettingBaseVM.StampingMarginPosVM.rXAxisPos2,//25
+                                             rYAxisPos1 = readyMachining.SettingBaseVM.StampingMarginPosVM.rYAxisPos1 + MachineConst.StampingMachineYPosition, //119 = 14+105 //
+                                             rYAxisPos2 = readyMachining.SettingBaseVM.StampingMarginPosVM.rYAxisPos1 + MachineConst.StampingMachineYPosition, //*14+105 // 
+                                             sDataMatrixName1 = string.IsNullOrWhiteSpace(readyMachining.ParameterC) ? string.Empty : readyMachining.ParameterC,
+                                             sDataMatrixName2 = string.IsNullOrWhiteSpace(readyMachining.QR_Special_Text) ? string.Empty : readyMachining.QR_Special_Text,
+                                             sIronPlateName1 = string.IsNullOrWhiteSpace(plateFirstValue) ? string.Empty : plateFirstValue,
+                                             sIronPlateName2 = string.IsNullOrWhiteSpace(plateSecondValue) ? string.Empty : plateSecondValue
+                                         };
+
+
+                                         try
+                                         {
+                                             _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WaitRequsetSignal"));
+
+                                             var Rdatabit = false;
+                                             var requestDatabit = StampMachineData.GetRequestDatabitAsync();
+                                             if ((await requestDatabit).Item1)
+                                                 Rdatabit = (await requestDatabit).Item2;
+
+                                             if (!Rdatabit)
+                                                 await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.Rdatabit, 2000, token);
+                                         }
+                                         catch
+                                         {
+                                             await Task.Delay(1000, token);
+                                             continue;
+                                         }
+
+                                         var sendhmi = false;
                                          do
                                          {
                                              if (token.IsCancellationRequested)
                                                  token.ThrowIfCancellationRequested();
-                                             try
+                                             _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WritingMachiningData"));
+                                             sendhmi = await StampMachineData.SetHMIIronPlateDataAsync(_HMIIronPlateData);
+                                             //hmi設定完之後還需要進行設定變更!
+                                             if (sendhmi)
                                              {
-                                                 if (await StampMachineData.SetRequestDatabitAsync(false))
+                                                 do
                                                  {
-                                                     await WaitForCondition.WaitAsyncIsFalse(() => StampMachineData.Rdatabit, token);
-                                                     break;
+                                                     if (token.IsCancellationRequested)
+                                                         token.ThrowIfCancellationRequested();
+                                                     try
+                                                     {
+                                                         if (await StampMachineData.SetRequestDatabitAsync(false))
+                                                         {
+                                                             await WaitForCondition.WaitAsyncIsFalse(() => StampMachineData.Rdatabit, token);
+                                                             break;
+                                                         }
+                                                     }
+                                                     catch
+                                                     {
+                                                         await Task.Delay(500, token);
+                                                         await Task.Yield();
+                                                     }
                                                  }
-                                             }
-                                             catch
-                                             {
-                                                 await Task.Delay(500, token);
-                                                 await Task.Yield();
+                                                 while (true);
+
+                                                 await Task.Delay(1000, token);
+                                                 /*ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WritingMachiningDataSuccessful");
+                                                 Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ManagerVM.Status);*/
+                                                 readyMachining.ID = hashGuid;
+                                                 _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WritingMachiningDataSuccessful"));
                                              }
                                          }
-                                         while (true);
+                                         while (!sendhmi);
 
-                                         await Task.Delay(1000,token);
-                                         /*ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WritingMachiningDataSuccessful");
-                                         Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ManagerVM.Status);*/
-                                         readyMachining.ID = hashGuid;
-                                         _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WritingMachiningDataSuccessful"));
+                                         //readyMachining.IsSended = true;
+
+                                         //等待最後一支變成id
+                                         //   await WaitForCondition.WaitAsync(() => StampMachineData.LastIronPlateID.oldValue, readyMachining.ID, token);
+                                         //ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningIsProcessing");
+                                         // await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ManagerVM.Status);
+                                         await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_MachiningIsProcessing"));
+
+                                         readyMachining.IsSended = true;
+                                         await SelectedProjectDistributeVM?.SaveProductProjectVMCollectionAsync();
+
+                                         await Task.Delay(2000, token);
+                                         await Task.Yield();
                                      }
                                  }
-                                 while (!sendhmi);
-
-                                 //readyMachining.IsSended = true;
-
-                                 //等待最後一支變成id
-                                 //   await WaitForCondition.WaitAsync(() => StampMachineData.LastIronPlateID.oldValue, readyMachining.ID, token);
-                                 //ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningIsProcessing");
-                                 // await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ManagerVM.Status);
-                                 await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_MachiningIsProcessing"));
-                                 
-                                 readyMachining.IsSended = true;
-                                 await SelectedProjectDistributeVM?.SaveProductProjectVMCollectionAsync();
-
-                                 await Task.Delay(2000,token);
-                                 await Task.Yield();
                              }
                          }
                          catch(Exception ex)
@@ -405,11 +406,9 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private int? FirstIronPlateID = -1;
-        private int? MiddleIronPlateID = -1;
-        private int? LasttIronPlateID = -1;
-
-
+        private int? PreviousFirstIronPlateID ;
+        private int? PreviousMiddleIronPlateID;
+        private int? PreviousLasttIronPlateID;
 
 
 
@@ -419,13 +418,13 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (sender is ICollection<PlateMonitorViewModel> PlateCollection)
                 {
-                    var PartCollection = StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMCollection.SelectMany(x => x.PartsParameterVMObservableCollection);
+                    var PartCollection = ProductSettingVM.ProductProjectVMCollection.SelectMany(x => x.PartsParameterVMObservableCollection);
 
-                    if (PlateCollection.FirstOrDefault()?.ID == FirstIronPlateID)
+                    if (PlateCollection.FirstOrDefault()?.ID != PreviousFirstIronPlateID)
                     {
-                        if (FirstIronPlateID != null)
+                        if (PreviousFirstIronPlateID != null)
                         {
-                            var FirstPart = PartCollection.FirstOrDefault(x => x.ID == FirstIronPlateID); 
+                            var FirstPart = PartCollection.FirstOrDefault(x => x.ID == PreviousFirstIronPlateID); 
                             if (FirstPart != null)
                             {
                                 FirstPart.FinishProgress = 100;
@@ -434,11 +433,11 @@ namespace GD_StampingMachine.ViewModels
                         }
                     }
 
-                    if (PlateCollection.LastOrDefault(x=> x.EngravingIsFinish)?.ID == MiddleIronPlateID)
+                    if (PlateCollection.LastOrDefault(x=> x.EngravingIsFinish)?.ID != PreviousMiddleIronPlateID)
                     {
-                        if (LasttIronPlateID != null)
+                        if (PreviousMiddleIronPlateID != null)
                         {
-                            var MiddlePart = PartCollection.LastOrDefault(x => x.ID == MiddleIronPlateID);
+                            var MiddlePart = PartCollection.LastOrDefault(x => x.ID == PreviousMiddleIronPlateID);
                             if (MiddlePart != null)
                             {
                                 if(MiddlePart.FinishProgress<66)
@@ -448,11 +447,11 @@ namespace GD_StampingMachine.ViewModels
                         }
                     }
 
-                    if (PlateCollection.LastOrDefault()?.ID == LasttIronPlateID)
+                    if (PlateCollection.LastOrDefault()?.ID != PreviousLasttIronPlateID)
                     {
-                        if (LasttIronPlateID != null)
+                        if (PreviousLasttIronPlateID != null)
                         {
-                            var LastPart = PartCollection.LastOrDefault(x => x.ID == LasttIronPlateID);
+                            var LastPart = PartCollection.LastOrDefault(x => x.ID == PreviousLasttIronPlateID);
                             if (LastPart != null)
                             {
 
@@ -464,9 +463,9 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-                    FirstIronPlateID = PlateCollection.FirstOrDefault()?.ID;
-                    MiddleIronPlateID = PlateCollection.LastOrDefault(x=>x.EngravingIsFinish)?.ID;
-                    LasttIronPlateID = PlateCollection.LastOrDefault()?.ID;
+                    PreviousFirstIronPlateID = PlateCollection.FirstOrDefault()?.ID;
+                    PreviousMiddleIronPlateID = PlateCollection.LastOrDefault(x=>x.EngravingIsFinish)?.ID;
+                    PreviousLasttIronPlateID = PlateCollection.LastOrDefault()?.ID;
                 }
             }
             catch (Exception ex)
@@ -534,42 +533,43 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _completeMachiningDataCommand ??= new(async (CancellationToken token) =>
             {
-                    var ManagerVM = new DXSplashScreenViewModel
+                var ManagerVM = new DXSplashScreenViewModel
+                {
+                    Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
+                    Title = "GD_StampingMachine",
+                    Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessStart"),
+                    Progress = 0,
+                    IsIndeterminate = false,
+                    Subtitle = "",
+                    Copyright = "Copyright © 2023 GUANDA",
+                };
+                SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
+
+                manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+                try
+                {
+                    PreviousFirstIronPlateID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault()?.ID;
+                    PreviousMiddleIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
+                    PreviousLasttIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
+
+                    StampMachineData.PlateBaseObservableCollection.CollectionChanged += PlateBaseObservableCollection_CollectionChanged;
+
+                    StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged += StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
+                    StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged += StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
+
+                    int? isNeedWorkListLengthInit = null;
+                    while (true)
                     {
-                        Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
-                        Title = "GD_StampingMachine",
-                        Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessStart"),
-                        Progress = 0,
-                        IsIndeterminate = false,
-                        Subtitle = "",
-                        Copyright = "Copyright © 2023 GUANDA",
-                    };
-                    SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-
-                    manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
-
-                    try
-                    {
-                        FirstIronPlateID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault()?.ID;
-                        MiddleIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
-                        LasttIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
-
-                        StampMachineData.PlateBaseObservableCollection.CollectionChanged += PlateBaseObservableCollection_CollectionChanged;
-
-                        StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged += StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
-                        StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged += StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
-
-                        int? isNeedWorkListLengthInit = null;
-                        while (true)
+                        try
                         {
                             if (token.IsCancellationRequested)
                                 token.ThrowIfCancellationRequested();
-
 
                             if (!StampMachineData.IsConnected)
                             {
                                 _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("WaitConnection"));
                                 ManagerVM.Status = (string)Application.Current.TryFindResource("WaitConnection");
+
                                 await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.IsConnected, token);
                                 ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessStart");
                             }
@@ -607,10 +607,6 @@ namespace GD_StampingMachine.ViewModels
                                     CompleteMachiningProgress = ManagerVM.Progress;
                                 }
                             }
-
-
-
-
 
                             if (isNeedWorkList.Count == 0)
                             {
@@ -679,32 +675,40 @@ namespace GD_StampingMachine.ViewModels
                             }
                             while (!sendhmi);
                         }
+                        catch (OperationCanceledException ocex)
+                        {
+                            throw;
+                        }
+                        catch(Exception ex)
+                        {
+                            _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ex, true);
+                        }
                     }
-                    catch (OperationCanceledException ocex)
-                    {
+                }
+                catch (OperationCanceledException ocex)
+                {
+                    _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ocex, false);
+                }
+                catch (Exception ex)
+                {
+                    _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ex , true);
+                }
+                finally
+                {
+                    StampMachineData.PlateBaseObservableCollection.CollectionChanged -= PlateBaseObservableCollection_CollectionChanged;
 
-                    }
-                    catch (Exception ex)
-                    {
+                    StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged -= StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
+                    StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged -= StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
 
-                    }
-                    finally
-                    {
-
-
-                        StampMachineData.PlateBaseObservableCollection.CollectionChanged -= PlateBaseObservableCollection_CollectionChanged;
-
-                        StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged -= StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
-                        StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged -= StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
-
-                        //cts.Cancel();
-                        ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessEnd");
-                        manager?.Close();
-                        CompleteMachiningProgress = 0;
-                    }
-            },()=> !CompleteMachiningDataCommand.IsRunning && !SendMachiningCommand.IsRunning);
+                    //cts.Cancel();
+                    ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessEnd");
+                    manager?.Close();
+                    CompleteMachiningProgress = 0;
+                }
+            }, () => !CompleteMachiningDataCommand.IsRunning && !SendMachiningCommand.IsRunning);
         }
 
+        /*
         [Obsolete]
         private async Task MonitorFirstIronPlateAsync(Func<(int oldValue, int NewValue)> ironPlateID, CancellationTokenSource cts)
         {
@@ -721,9 +725,9 @@ namespace GD_StampingMachine.ViewModels
                     //取得id
                     //改為訂閱第一片id
 
-                    /* var getIdAsync = await StampMachineData.GetFirstIronPlateIDAsync();
-                     if (getIdAsync.Item1)
-                     {*/
+                    //var getIdAsync = await StampMachineData.GetFirstIronPlateIDAsync();
+                   //  if (getIdAsync.Item1)
+                    // {
                     _ = Task.Run(async () =>
                     {
                         foreach (var projectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
@@ -732,7 +736,7 @@ namespace GD_StampingMachine.ViewModels
 
                             if (finishPartParameter != null)
                             {
-                                finishPartParameter.FinishProgress = 100;
+                                finishPartParameter.FinishProgress = 100;d
                                 finishPartParameter.ShearingIsFinish = true;
                                 finishPartParameter.IsFinish = true;
                                 try
@@ -762,7 +766,7 @@ namespace GD_StampingMachine.ViewModels
 
                 await LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, ex.Message);
             }
-        }
+        }*/
         /*
         [Obsolete]
         private async Task MonitorLastIronPlateAsync(Func<(int oldValue, int newValue)> ironPlateID, CancellationTokenSource cts)

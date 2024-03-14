@@ -21,7 +21,20 @@ namespace GD_MachineConnect.Machine
 
 
 
-        public int ReconnectPeriod { get; set; } = 10;
+        private int m_reconnectPeriod = 10;
+        public int ReconnectPeriod
+        {
+            get
+            {
+                return m_reconnectPeriod;
+            }
+            set
+            {
+                m_reconnectPeriod = value;
+            }
+        }
+
+
 
         private readonly string OpcUaName = "OpcUa";
 
@@ -137,6 +150,19 @@ namespace GD_MachineConnect.Machine
 
 
 
+        private EventHandler m_KeepAliveComplete;
+        public event EventHandler KeepAliveComplete
+        {
+            add
+            {
+                m_KeepAliveComplete = (EventHandler)Delegate.Combine(m_KeepAliveComplete, value);
+            }
+            remove
+            {
+                m_KeepAliveComplete = (EventHandler)Delegate.Remove(m_KeepAliveComplete, value);
+            }
+        }
+
 
         private EventHandler _reconnectStarting;
         public event EventHandler ReconnectStarting
@@ -171,9 +197,9 @@ namespace GD_MachineConnect.Machine
 
         private bool disposedValue;
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
-        public override async Task<bool> ConnectAsync(string hostPath, string user = null, string password = null)
+        public override async Task<bool> ConnectAsync(string hostPath, string? user = null, string? password = null)
         {
-            IUserIdentity userIdentity = null;
+            IUserIdentity? userIdentity = null;
             if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(password))
                 userIdentity = new Opc.Ua.UserIdentity(user, password);
 
@@ -201,7 +227,7 @@ namespace GD_MachineConnect.Machine
 
                 if (ServiceResult.IsBad(e.Status))
                 {
-                    if (ReconnectPeriod <= 0)
+                    if (m_reconnectPeriod <= 0)
                     {
                         return;
                     }
@@ -210,13 +236,13 @@ namespace GD_MachineConnect.Machine
                     {
                         _reconnectStarting?.Invoke(this, e);
                         _reConnectHandler = new SessionReconnectHandler();
-                        _reConnectHandler.BeginReconnect(m_session, ReconnectPeriod * 1000, _reconnectEnd);
+                        _reConnectHandler.BeginReconnect(m_session, m_reconnectPeriod * 1000, _reconnectEnd);
                     }
                 }
                 else
                 {
                     //UpdateStatus(false, e.CurrentTime, "Connected [{0}]", session.Endpoint.EndpointUrl);
-                    //m_KeepAliveComplete?.Invoke(this, e);
+                    m_KeepAliveComplete?.Invoke(this, e);
                 }
             }
             catch (Exception)

@@ -740,7 +740,8 @@
 
                         <Button Margin="5"  Padding="5,2,5,0"
                                 Command="{Binding SendMachiningCommand}" 
-                                Content="{DynamicResource btnMachiningDataTransfer}"                                materialDesign:ButtonProgressAssist.IndicatorForeground="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"
+                                Content="{DynamicResource btnMachiningDataTransfer}"                    
+                                materialDesign:ButtonProgressAssist.IndicatorForeground="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"
                                 materialDesign:ButtonProgressAssist.IsIndeterminate="False"
                                 materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
                                 materialDesign:ButtonProgressAssist.Value="{Binding SendMachiningProgress}"

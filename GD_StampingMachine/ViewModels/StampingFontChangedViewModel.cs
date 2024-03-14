@@ -221,9 +221,9 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        private StampingTypeModelMartixViewModel? _stampingTypeModelMartix = new();
+        private StampingTypeModelMatrixViewModel? _stampingTypeModelMartix = new();
 
-        public StampingTypeModelMartixViewModel StampingTypeModelMartix
+        public StampingTypeModelMatrixViewModel StampingTypeModelMartix
         {
             get => _stampingTypeModelMartix;
             set
@@ -678,7 +678,7 @@ namespace GD_StampingMachine.ViewModels
 
     }
 
-    public class StampingTypeModelMartixViewModel : GD_CommonControlLibrary.BaseViewModel
+    public class StampingTypeModelMatrixViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         [JsonIgnore]
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingFontChangedViewModel");
