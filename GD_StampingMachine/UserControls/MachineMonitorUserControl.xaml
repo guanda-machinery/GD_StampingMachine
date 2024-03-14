@@ -694,7 +694,7 @@
                 HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningStatus}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
                                                     <dxg:GridColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <GD_StampingMachine_UserControls:GradientEllipse Width="20"  Height="20"/>
+                                                            <GD_StampingMachine_UserControls:GradientEllipse Width="20"  Height="20" Style="{StaticResource RowGradientEllipse}"/>
                                                         </DataTemplate>
                                                     </dxg:GridColumn.CellTemplate>
                                                 </dxg:GridColumn>
@@ -1289,7 +1289,7 @@ Path=PlateBaseObservableCollection[0]}" ProjectName="{Binding ProductProjectName
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
 
-                                <GD_StampingMachine_UserControls:GradientEllipse Width="20" Height="20"/>
+                                <GD_StampingMachine_UserControls:GradientEllipse Width="20" Height="20" Style="{StaticResource RowGradientEllipse}"/>
 
 
                             </DataTemplate>

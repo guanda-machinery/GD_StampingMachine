@@ -1,6 +1,7 @@
 ﻿using GD_CommonControlLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.ViewModels.ParameterSetting;
+using System;
 
 namespace GD_StampingMachine.ViewModels.MachineMonitor
 {
@@ -77,11 +78,18 @@ namespace GD_StampingMachine.ViewModels.MachineMonitor
             get => PlateMonitor.EngravingIsFinish; set { PlateMonitor.EngravingIsFinish = value; OnPropertyChanged(); }
         }
 
-
         public bool ShearingIsFinish
         {
             get => PlateMonitor.ShearingIsFinish; set { PlateMonitor.ShearingIsFinish = value; OnPropertyChanged(); }
         }
 
+        /// <summary>
+        /// 沒有使用到本屬性
+        /// </summary>
+        [Obsolete]
+        public bool IsFinish
+        {
+            get => false;
+        }
     }
 }
