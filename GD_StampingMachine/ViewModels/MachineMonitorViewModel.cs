@@ -42,20 +42,31 @@ namespace GD_StampingMachine.ViewModels
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachineMonitoring");
 
-        public MachineMonitorViewModel(ProductSettingViewModel productSettingVM, ProjectDistributeViewModel? selectedProjectDistributeVM)
+        public MachineMonitorViewModel()
         {
-            m_selectedProjectDistributeVM = selectedProjectDistributeVM;
-            m_productSettingVM = productSettingVM;
+
+            GD_StampingMachine.Singletons.StampingMachineSingleton.Instance.SelectedProjectDistributeVMChanged += Instance_SelectedProjectDistributeVMChanged;
 
         }
 
+        private void Instance_SelectedProjectDistributeVMChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel> e)
+        {
+            SelectedProjectDistributeVM = e.NewValue;
+        }
+
         StampMachineDataSingleton StampMachineData => GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
+        ProductSettingViewModel? ProductSettingVM => GD_StampingMachine.Singletons.StampingMachineSingleton.Instance.ProductSettingVM;
 
-        private readonly ProductSettingViewModel m_productSettingVM ;
-        ProductSettingViewModel ProductSettingVM => m_productSettingVM;
 
-        private readonly ProjectDistributeViewModel? m_selectedProjectDistributeVM;
-        public ProjectDistributeViewModel? SelectedProjectDistributeVM => m_selectedProjectDistributeVM;
+        private ProjectDistributeViewModel? _selectedProjectDistributeVM;
+        public ProjectDistributeViewModel? SelectedProjectDistributeVM
+        {
+            get => _selectedProjectDistributeVM; 
+            set
+            {
+                _selectedProjectDistributeVM = value;OnPropertyChanged();
+            }
+        } 
 
         /// <summary>
         /// 鋼帶捲集合
