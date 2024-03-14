@@ -28,7 +28,6 @@ namespace GD_StampingMachine.Singletons
     {
         protected override void Init()
         {
-
             StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
             MechanicalSpecificationVM = new MachanicalSpecificationViewModel(new MachanicalSpecificationModel()
             {
