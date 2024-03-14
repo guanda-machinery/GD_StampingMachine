@@ -21,7 +21,7 @@
             Command="{Binding Command}"
             CommandTarget="{Binding CommandTarget}"
             CommandParameter="{Binding CommandParameter}"          
-			IsChecked="{Binding IsChecked, Mode=TwoWay}"
+			IsChecked="{Binding IsChecked}"
             IsThreeState="{Binding IsThreeState}" x:Name="Toggle"
             Content="{Binding ButtonContent, Mode=OneWay}"
 			Background="Transparent"

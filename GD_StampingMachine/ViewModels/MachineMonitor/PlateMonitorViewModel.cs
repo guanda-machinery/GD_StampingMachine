@@ -4,66 +4,83 @@ using GD_StampingMachine.ViewModels.ParameterSetting;
 
 namespace GD_StampingMachine.ViewModels.MachineMonitor
 {
+
+    public class PlateMonitorModel 
+    {
+        public SettingBaseViewModel? SettingBaseVM { get; set; }
+
+        public SteelBeltStampingStatusEnum StampingStatus { get; set; }
+
+        public int ID { get; set; }
+        public string? ProductProjectName { get; set; }
+        public bool DataMatrixIsFinish { get; set; }
+        public bool EngravingIsFinish { get; set; }
+        public bool ShearingIsFinish { get; set; }
+    }
+
+
     public class PlateMonitorViewModel : BaseViewModel
     {
         public override string ViewModelName => nameof(PlateMonitorViewModel);
 
-        private SettingBaseViewModel? _settingBaseVM;
-        public SettingBaseViewModel SettingBaseVM
+        public PlateMonitorViewModel() 
         {
-            get => _settingBaseVM;
-            set { _settingBaseVM = value; OnPropertyChanged(); }
+            PlateMonitor = new();
+        }
+        readonly PlateMonitorModel PlateMonitor;
+
+
+
+        public SettingBaseViewModel? SettingBaseVM
+        {
+            get => PlateMonitor.SettingBaseVM;
+            set { PlateMonitor.SettingBaseVM = value; OnPropertyChanged(); }
         }
 
-        private SteelBeltStampingStatusEnum _stampingStatus;
         public SteelBeltStampingStatusEnum StampingStatus
         {
-            get => _stampingStatus;
+            get => PlateMonitor.StampingStatus;
             set
             {
-                _stampingStatus = value;
+                PlateMonitor.StampingStatus = value;
                 OnPropertyChanged();
             }
 
         }
 
-        private int _id;
         public int ID
         {
-            get => _id; 
+            get => PlateMonitor.ID; 
             set
             {
-                _id = value; OnPropertyChanged();
+                PlateMonitor.ID = value; OnPropertyChanged();
             }
         }
 
-        private string? _productProjectName;
-        public string ProductProjectName
+        public string? ProductProjectName
         {
-            get => _productProjectName;
+            get => PlateMonitor.ProductProjectName;
             set
             {
-                _productProjectName = value; OnPropertyChanged();
+                PlateMonitor.ProductProjectName = value; OnPropertyChanged();
             }
         }
 
 
-
-        private bool _dataMatrixIsFinish;
         public bool DataMatrixIsFinish
         {
-            get => _dataMatrixIsFinish; set { _dataMatrixIsFinish = value; OnPropertyChanged(); }
-        }
-        private bool _engravingIsFinish;
-        public bool EngravingIsFinish
-        {
-            get => _engravingIsFinish; set { _engravingIsFinish = value; OnPropertyChanged(); }
+            get => PlateMonitor.DataMatrixIsFinish; set { PlateMonitor.DataMatrixIsFinish = value; OnPropertyChanged(); }
         }
 
-        private bool _shearingIsFinish;
+        public bool EngravingIsFinish
+        {
+            get => PlateMonitor.EngravingIsFinish; set { PlateMonitor.EngravingIsFinish = value; OnPropertyChanged(); }
+        }
+
+
         public bool ShearingIsFinish
         {
-            get => _shearingIsFinish; set { _shearingIsFinish = value; OnPropertyChanged(); }
+            get => PlateMonitor.ShearingIsFinish; set { PlateMonitor.ShearingIsFinish = value; OnPropertyChanged(); }
         }
 
     }

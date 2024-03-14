@@ -184,6 +184,7 @@
   <ItemGroup>
     <Compile Remove="Cultures\EnumResources.Designer.cs" />
     <Compile Remove="Method\GD_CsvHelperMethod.cs" />
+    <Compile Remove="UserControls\CustomControls\FunctionToggleButton.cs" />
     <Compile Remove="UserControls\CustomControls\FunctionToggleControl.cs" />
     <Compile Remove="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramBaseUserControl.cs" />
     <Compile Remove="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramViewUserControl.xaml.cs" />

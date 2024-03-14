@@ -195,7 +195,7 @@ namespace GD_StampingMachine
                 //顯示彈窗
 
                 MessageBox.Show($"An unhandled exception occurred: {exception.Message} , Source:{exception.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                Debugger.Break();
             }
         }
 

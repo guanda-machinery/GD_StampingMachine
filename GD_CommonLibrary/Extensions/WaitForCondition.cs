@@ -140,7 +140,38 @@ namespace GD_CommonLibrary.Extensions
         }
 
 
-     
+
+
+        public static async Task<bool> WaitAsync<T>(Func<T> conditionFunc, T result, bool isEqual, params CancellationToken[] cancellationTokens)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            await Task.Run(async () =>
+            {
+                try
+                {
+                    while (isEqual != Equals(conditionFunc(), result))
+                    {
+                        List<Task> CWaitTasks = new()
+                        {
+                            Task.Delay(10)
+                        };
+                        foreach (var token in cancellationTokens)
+                        {
+                            CWaitTasks.Add(Task.Delay(10, token));
+                        }
+                        await Task.WhenAll(CWaitTasks);
+                        CWaitTasks.Clear();
+                    }
+                    tcs.SetResult(true);
+                }
+                catch(Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+            });
+            return tcs.Task.Result;
+        }
+
 
 
         /// <summary>
@@ -150,7 +181,7 @@ namespace GD_CommonLibrary.Extensions
         /// <param name="result"></param>
         /// <param name="isEqual"></param>
         /// <returns></returns>
-        public static async Task<bool> WaitAsync<T>(Func<T> conditionFunc, T result, bool isEqual, params CancellationToken[] tokens)
+        /*public static async Task<bool> WaitAsync<T>(Func<T> conditionFunc, T result, bool isEqual, params CancellationToken[] tokens)
         {
             // 创建 TaskCompletionSource
             var tcs = new TaskCompletionSource<bool>();
@@ -160,13 +191,6 @@ namespace GD_CommonLibrary.Extensions
             // 等待條件滿足
             return await tcs.Task;
         }
-
-
-        //滿足條件後等待固定秒數
-
-
-
-
 
         static async Task<bool> MonitorConditionAsync<T>(Func<T> conditionFunc, T result, bool isEqual, TaskCompletionSource<bool> tcs, params CancellationToken[] tokens)
         {
@@ -193,7 +217,7 @@ namespace GD_CommonLibrary.Extensions
             }
 
             return tcs.Task.Result;
-        }
+        }*/
 
 
     }
