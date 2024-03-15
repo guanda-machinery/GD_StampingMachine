@@ -144,7 +144,6 @@ namespace GD_StampingMachine.ViewModels
                              StampMachineData.PlateBaseObservableCollection.CollectionChanged += PlateBaseObservableCollection_CollectionChanged;
                              StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged += StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
                              StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged += StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
-
                              while (true)
                              {
                                  await Task.Delay(50,token);
@@ -171,18 +170,27 @@ namespace GD_StampingMachine.ViewModels
                                              ConnectManager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                                          });
                                          //等待連線
-                                         await Task.Delay(1000,token);
-                                         if (!Debugger.IsAttached)
-                                             await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.IsConnected, token);
+                                         await Task.Delay(10,token);
+                                         CancellationTokenSource cts = new(60000);
 
+                                         await WaitForCondition.WaitAsync(() => StampMachineData.IsConnected,true, token, cts.Token);
                                      }
-                                     catch
+                                     catch(OperationCanceledException ocex)
                                      {
-                                         ConnectManager.Close();
+                                         //外部解除
+                                         if(ocex.CancellationToken == token)
+                                         {
+                                             throw;
+                                         }
+                                     }
+                                     catch(Exception ex)
+                                     {
                                          break;
                                      }
-
-                                     ConnectManager.Close();
+                                     finally
+                                     {
+                                         ConnectManager.Close();
+                                     }
                                  }
                                  //燈號
                                  //StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection
@@ -388,9 +396,9 @@ namespace GD_StampingMachine.ViewModels
                          }
                      }, token);
                 }
-                catch (OperationCanceledException oex)
+                catch (OperationCanceledException ocex)
                 {
-                    _ = LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, oex.Message);
+                    _ = LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, ocex.Message);
                 }
                 catch (Exception ex)
                 {
@@ -1285,7 +1293,7 @@ namespace GD_StampingMachine.ViewModels
                      }
                      RefreshBoxPartsParameterVMRowFilter();
 
-                     await SelectedProjectDistributeVM.SaveProductProjectVMCollectionAsync();
+                     await SelectedProjectDistributeVM?.SaveProductProjectVMCollectionAsync();
                  });
             });
         }

@@ -151,25 +151,27 @@ namespace GD_CommonLibrary.Extensions
                 {
                     while (isEqual != Equals(conditionFunc(), result))
                     {
-                        List<Task> CWaitTasks = new()
-                        {
-                            Task.Delay(10)
-                        };
+                        await Task.Delay(10);
+
                         foreach (var token in cancellationTokens)
                         {
-                            CWaitTasks.Add(Task.Delay(10, token));
+                            if (token.IsCancellationRequested)
+                                token.ThrowIfCancellationRequested();
                         }
-                        await Task.WhenAll(CWaitTasks);
-                        CWaitTasks.Clear();
+
                     }
                     tcs.SetResult(true);
+                }
+                catch (OperationCanceledException ocex)
+                {
+                    tcs.SetException(ocex);
                 }
                 catch(Exception ex)
                 {
                     tcs.SetException(ex);
                 }
             });
-            return tcs.Task.Result;
+            return await tcs.Task;
         }
 
 
