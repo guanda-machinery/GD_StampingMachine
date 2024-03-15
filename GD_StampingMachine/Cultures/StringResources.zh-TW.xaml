@@ -302,6 +302,11 @@
     <sys:String x:Key="Text_EditPart">編輯零件</sys:String>
 
 
+    
+                    
+    <sys:String x:Key="Text_ReSendPartsParameter">重新上傳</sys:String>
+    <sys:String x:Key="Text_FinishPartsParameter">強制完成</sys:String>
+
     <sys:String x:Key="Text_IronPlateString">鋼印字串</sys:String>
     <sys:String x:Key="Text_QrCodeContent">QR內容</sys:String>
     <sys:String x:Key="Text_QR_Special_IronPlateString">側邊參數</sys:String>
@@ -471,10 +476,10 @@
 
     <sys:String x:Key="Text_EngravingToOriginTimeout">鋼印Z軸回原點超時</sys:String>
     <sys:String x:Key="Text_CuttingToOriginTimeout">裁切組回原點超時</sys:String>
-    <sys:String x:Key="Text_ToOriginisSuccessful">原點復歸完成</sys:String>
-    <sys:String x:Key="Text_ToOriginisCancel">原點復歸取消</sys:String>
-    <sys:String x:Key="Text_ToOriginisFail">原點復歸失敗</sys:String>
-    <sys:String x:Key="Text_ToOriginisTimeout">原點復歸失敗，命令超時</sys:String>
+    <sys:String x:Key="Text_ToOriginIsSuccessful">原點復歸完成</sys:String>
+    <sys:String x:Key="Text_ToOriginIsCancel">原點復歸取消</sys:String>
+    <sys:String x:Key="Text_ToOriginIsFail">原點復歸失敗</sys:String>
+    <sys:String x:Key="Text_ToOriginIsTimeout">原點復歸失敗，命令超時</sys:String>
 
 
     <!--enum-->

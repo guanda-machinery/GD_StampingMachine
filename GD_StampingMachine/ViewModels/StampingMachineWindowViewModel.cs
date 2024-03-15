@@ -36,7 +36,14 @@ namespace GD_StampingMachine.ViewModels
         private double _opacity = 1;
         public double Opacity
         {
-            get => _opacity; set { _opacity = value; OnPropertyChanged(); }
+            get => _opacity; set 
+            {
+                if (value > 1)
+                    _opacity = 1;
+                else
+                    _opacity = value;
+                OnPropertyChanged(); 
+            }
         }
 
         private WindowState _windowState = WindowState.Normal;

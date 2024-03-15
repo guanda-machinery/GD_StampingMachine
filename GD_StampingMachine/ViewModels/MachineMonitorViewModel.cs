@@ -44,12 +44,20 @@ namespace GD_StampingMachine.ViewModels
 
         public MachineMonitorViewModel()
         {
+            StampingMachineSingleton.Instance.SelectedProjectDistributeVMChanged += Instance_SelectedProjectDistributeVMChanged;
 
-            StampingMachineSingleton.Instance.SelectedProjectDistributeVMChanged += (s, e) =>
-            {
-                SelectedProjectDistributeVM = e.NewValue;
-            };
+
+
         }
+
+        private void Instance_SelectedProjectDistributeVMChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel> e)
+        {
+            SelectedProjectDistributeVM = e.NewValue;
+        }
+
+
+
+
 
         StampMachineDataSingleton StampMachineData => GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
         ProductSettingViewModel? ProductSettingVM => GD_StampingMachine.Singletons.StampingMachineSingleton.Instance.ProductSettingVM;
@@ -57,11 +65,110 @@ namespace GD_StampingMachine.ViewModels
         private ProjectDistributeViewModel? _selectedProjectDistributeVM;
         public ProjectDistributeViewModel? SelectedProjectDistributeVM
         {
-            get => _selectedProjectDistributeVM;  private set { _selectedProjectDistributeVM = value; OnPropertyChanged(); }
+            get
+            {
+                if (_selectedProjectDistributeVM != null)
+                {
+                    foreach (var stampingBox in _selectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection)
+                    {
+                        stampingBox.StateChanged -= StampingBoxPartsVM_StateChanged;
+                        stampingBox.StateChanged += StampingBoxPartsVM_StateChanged;
+                    }
+                }
+                return _selectedProjectDistributeVM;
+            }
+            private set 
+            {
+                if (_selectedProjectDistributeVM != null)
+                {
+                    foreach (var stampingBox in _selectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection)
+                    {
+                        stampingBox.StateChanged -= StampingBoxPartsVM_StateChanged;
+                    }
+                }
+                if (value != null)
+                {
+                    foreach (var stampingBox in value.StampingBoxPartsVM.SeparateBoxVMObservableCollection)
+                    {
+                        stampingBox.StateChanged += StampingBoxPartsVM_StateChanged;
+                    }
+                }
+                _selectedProjectDistributeVM = value; 
+                OnPropertyChanged();
+            }
+        }
+
+        private PartsParameterViewModel _boxPartsParameterCurrentItem;
+        public PartsParameterViewModel BoxPartsParameterCurrentItem
+        {
+            get => _boxPartsParameterCurrentItem; set { _boxPartsParameterCurrentItem = value;OnPropertyChanged(); }
+        }
+
+
+        private ObservableCollection<PartsParameterViewModel> _boxPartsParameterSelectedItems;
+        public ObservableCollection<PartsParameterViewModel> BoxPartsParameterSelectedItems
+        {
+            get => _boxPartsParameterSelectedItems??=new(); set { _boxPartsParameterSelectedItems = value; OnPropertyChanged(); }
         }
 
 
 
+        private ICommand _reSendPartsParameterCommand;
+        public ICommand ReSendPartsParameterCommand
+        {
+            get => _reSendPartsParameterCommand??=new AsyncRelayCommand<object>(async obj =>
+            {
+                if (obj is IList<GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel> partsParameterList)
+                {
+                    foreach(var partsParameter in partsParameterList)
+                    {
+                        if (partsParameter.IsSended)
+                        {
+                            partsParameter.IsSended = false;
+                            partsParameter.DataMatrixIsFinish = false;
+                            partsParameter.EngravingIsFinish = false;
+                            partsParameter.ShearingIsFinish = false;
+                            partsParameter.IsFinish = false;
+                            partsParameter.FinishProgress = 0;
+                        }
+                    }
+                }
+
+
+            });
+        }
+
+        private ICommand _finishPartsParameterCommand;
+        public ICommand FinishPartsParameterCommand
+        {
+            get => _finishPartsParameterCommand??=new AsyncRelayCommand<object>(async obj =>
+            {
+                var b = BoxPartsParameterSelectedItems;
+        
+                if (obj is IList<GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel> partsParameterList)
+                {
+                    foreach (var partsParameter in partsParameterList)
+                    {
+                            partsParameter.IsSended = true;
+                            partsParameter.DataMatrixIsFinish = true;
+                            partsParameter.EngravingIsFinish = true;
+                            partsParameter.ShearingIsFinish = true;
+                            partsParameter.IsFinish = true;
+                            partsParameter.IsTransported = false;
+                            partsParameter.FinishProgress = 100;
+                        
+                    }
+
+                }
+            });
+        }
+
+        private bool PauseStateChangedEvent = false;
+        private void StampingBoxPartsVM_StateChanged(object? sender, EventArgs e)
+        {
+            if(!PauseStateChangedEvent)
+                RefreshBoxPartsParameterVMRowFilter();
+        }
 
 
 
@@ -218,7 +325,6 @@ namespace GD_StampingMachine.ViewModels
                                          foreach (var machining in readyMachiningCollection)
                                          {
                                              var missingChars = machining.ParameterA.Where(x => !StampMachineData.RotatingTurntableInfoCollection.Any(y => y.StampingTypeString.Contains(x)));
-
                                          }
 
 
@@ -227,7 +333,6 @@ namespace GD_StampingMachine.ViewModels
                                              progress = ((double)sendedReadyMachiningCollection.Count() * 100) / (double)workableMachiningCollection.Count();
 
                                          SendMachiningProgress = progress;
-
 
                                          string plateFirstValue = "";
                                          string plateSecondValue = "";
@@ -242,7 +347,6 @@ namespace GD_StampingMachine.ViewModels
                                                  plateFirstValue += p.FontString;
                                              }
                                          });
-
                                          readyMachining.SettingBaseVM.PlateNumberList2.ForEach(p =>
                                          {
                                              if (string.IsNullOrWhiteSpace(p.FontString))
@@ -328,6 +432,7 @@ namespace GD_StampingMachine.ViewModels
                                          }
 
                                          var sendhmi = false;
+
                                          do
                                          {
                                              if (token.IsCancellationRequested)
@@ -341,6 +446,7 @@ namespace GD_StampingMachine.ViewModels
                                                  {
                                                      if (token.IsCancellationRequested)
                                                          token.ThrowIfCancellationRequested();
+
                                                      try
                                                      {
                                                          if (await StampMachineData.SetRequestDatabitAsync(false))
@@ -349,29 +455,25 @@ namespace GD_StampingMachine.ViewModels
                                                              break;
                                                          }
                                                      }
+                                                     catch(OperationCanceledException)
+                                                     {
+                                                         throw;
+                                                     }
                                                      catch
                                                      {
-                                                         await Task.Delay(500, token);
                                                          await Task.Yield();
                                                      }
                                                  }
                                                  while (true);
 
                                                  await Task.Delay(1000, token);
-                                                 /*ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WritingMachiningDataSuccessful");
-                                                 Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ManagerVM.Status);*/
+
                                                  readyMachining.ID = hashGuid;
                                                  _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WritingMachiningDataSuccessful"));
                                              }
                                          }
                                          while (!sendhmi);
 
-                                         //readyMachining.IsSended = true;
-
-                                         //等待最後一支變成id
-                                         //   await WaitForCondition.WaitAsync(() => StampMachineData.LastIronPlateID.oldValue, readyMachining.ID, token);
-                                         //ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningIsProcessing");
-                                         // await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ManagerVM.Status);
                                          await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_MachiningIsProcessing"));
 
                                          readyMachining.IsSended = true;
@@ -1311,7 +1413,7 @@ namespace GD_StampingMachine.ViewModels
 
         public void RefreshBoxPartsParameterVMRowFilter()
         {
-            Application.Current.Dispatcher.Invoke(() => 
+            Application.Current.Dispatcher.Invoke(async () => 
             {
                 OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
             }
@@ -1350,52 +1452,55 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-        private ICommand?_clearFinishItemCommand;
-        public ICommand ClearFinishItemCommand
+        private AsyncRelayCommand? _clearFinishItemCommand;
+        public AsyncRelayCommand ClearFinishItemCommand
         {
             get => _clearFinishItemCommand ??= new AsyncRelayCommand(async () =>
             {
-                try
+                await Task.Run(async () =>
                 {
-                    
-                    if (SelectedProjectDistributeVM!=null && SelectedProjectDistributeVM?.StampingBoxPartsVM.SelectedSeparateBoxVM != null)
+                    PauseStateChangedEvent = true;
+                    try
                     {
-                        var selectedBoxIndex = SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
-                        string Outputstring = "";
-                        var clearBoxConfirmNotify = (string)Application.Current.TryFindResource("Text_ClearBoxConfirm");
-                        if (clearBoxConfirmNotify != null)
+                        if (SelectedProjectDistributeVM != null && SelectedProjectDistributeVM?.StampingBoxPartsVM.SelectedSeparateBoxVM != null)
                         {
-                            Outputstring = string.Format(clearBoxConfirmNotify, selectedBoxIndex);
-                        }
-                        var result = await MessageBoxResultShow.ShowYesNoAsync(null, null, Outputstring, GD_MessageBoxNotifyResult.NotifyBl);
-                        if (result is MessageBoxResult.Yes)
-                        {
-                            ShowIsTransported = false;
+                            var selectedBoxIndex = SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
+                            string Outputstring = "";
+                            var clearBoxConfirmNotify = (string)Application.Current.TryFindResource("Text_ClearBoxConfirm");
+                            if (clearBoxConfirmNotify != null)
+                            {
+                                Outputstring = string.Format(clearBoxConfirmNotify, selectedBoxIndex);
+                            }
+                            var result = await MessageBoxResultShow.ShowYesNoAsync(null, null, Outputstring, GD_MessageBoxNotifyResult.NotifyBl);
+                            if (result is MessageBoxResult.Yes)
+                            {
+                                ShowIsTransported = false;
 
-                            var unTransportedCollection = this.SelectedProjectDistributeVM?.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection.Where(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
-                            if (unTransportedCollection != null)
-                                foreach (var unTransPorted in unTransportedCollection)
+                                var unTransportedCollection = this.SelectedProjectDistributeVM?.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection.Where(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
+                                if (unTransportedCollection != null)
                                 {
-                                    unTransPorted.IsTransported = true;
+                                    unTransportedCollection.Select(item =>
+                                    {
+                                        item.IsTransported = true;
+                                        return item;
+                                    }).ToList();
                                 }
+                                _ = SelectedProjectDistributeVM?.SaveProductProjectVMCollectionAsync();
+                            }
+                        }
+                        else
+                        {
 
-
-                            RefreshBoxPartsParameterVMRowFilter();
-                            _ = SelectedProjectDistributeVM.SaveProductProjectVMCollectionAsync();
                         }
                     }
-                    else
+                    catch
                     {
 
                     }
-                }
-                catch
-                {
-
-                }
-                RefreshBoxPartsParameterVMRowFilter();
-
-            });
+                    PauseStateChangedEvent = false;
+                    RefreshBoxPartsParameterVMRowFilter();
+                });
+            },()=> !ClearFinishItemCommand.IsRunning);
         }
 
 

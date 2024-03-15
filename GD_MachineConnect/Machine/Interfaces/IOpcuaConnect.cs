@@ -81,7 +81,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="samplingInterval"></param>
         /// <param name="checkDuplicates"></param>
         /// <returns></returns>
-        Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval = 10, bool checkDuplicates = true);
+        Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval = 1000, bool checkDuplicates = true);
         /// <summary>
         /// 
         /// </summary>
@@ -91,7 +91,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList);
 
 
-        Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval = 10, bool checkDuplicates = true);
+        Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval = 1000, bool checkDuplicates = true);
         Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval, bool checkDuplicates)> nodeList);
 
 

@@ -1659,7 +1659,7 @@ dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
                                 <GD_UserControls:FunctionToggleUserControl x:Name="TBtn_ReturningToOriginPoint"
                                                                              IsThreeState="False"
                                                                              IsEnabled="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=IsConnected}" 
-                                                                             IsChecked="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=IsReturningToOrigin}"     
+                                                                             IsChecked="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=IsReturningToOrigin, Mode=TwoWay}"     
                                                                              Command="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=ReturnToOriginCommand}" Cursor="Hand"                        
                                                                              >
                                     <GD_UserControls:FunctionToggleUserControl.Style>

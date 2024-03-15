@@ -433,6 +433,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
+
+
         // private SendMachineCommandViewModel? _sendMachineCommandVM;
 
         //  [JsonIgnore]
@@ -442,6 +444,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
              set { _sendMachineCommandVM = value;OnPropertyChanged();}
          }*/
     }
+
+
+
+
+
+
     /// <summary>
     /// ABC參數加工表
     /// </summary>

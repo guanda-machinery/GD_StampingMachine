@@ -2572,6 +2572,8 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                 <Button Content="Opcua StopScan"  Margin="5" Padding="5,3,5,0"
                                     IsEnabled="{Binding StampMachineData.IsScanning}"
                                     Command="{Binding OpcuaStopScanCommand}"/>
+                                
+                                
 
                             </StackPanel>
                         </GroupBox>

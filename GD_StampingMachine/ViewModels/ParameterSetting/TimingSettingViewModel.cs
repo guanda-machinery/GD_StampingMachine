@@ -529,11 +529,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     }
                     else
                         IsDeleteButtonTrigger = false;
-                    /* if (e.LeftButton == MouseButtonState.Pressed)
-                     {
-                         Thumb thumb = (Thumb)sender;
-                         thumb.CaptureMouse();
-                     }*/
                 }
 
 
@@ -671,7 +666,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<bool>> IsWorkChanged;
+        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<bool>>? IsWorkChanged;
 
         protected virtual void OnIsWorkChanged(GD_CommonLibrary.ValueChangedEventArgs<bool> e)
         {

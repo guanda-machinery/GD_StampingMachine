@@ -45,7 +45,6 @@ namespace GD_StampingMachine
                 Copyright = "Copyright © 2024 GUANDA",
             };
 
-
             StampingMachineWindow MachineWindow = new()
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
@@ -69,22 +68,15 @@ namespace GD_StampingMachine
             {
                 try
                 {
-                    stampingMachineWindowVM.Opacity = 0.01;
+                    stampingMachineWindowVM.Opacity = 0.1;
                     ManagerVM.IsIndeterminate = true;
-                   /* var monitorTask = Task.Run(async () =>
-                    {
-                        stampingMachineWindowVM.StampingMainVM.TBtn_MachineMonitorIsChecked = true;
-                        await Task.Delay(1000);
-                        stampingMachineWindowVM.StampingMainVM.TBtn_MachineMonitorIsChecked = false;
-                    });
-                    await Task.Delay(2000);*/
 
                     ManagerVM.IsIndeterminate = false;
 
-                    for (int i = 0; i <= 100; i++)
+                    for (int i = 0; i <= 100; i=i+5)
                     {
                         ManagerVM.Progress = i / 1.0;
-                        stampingMachineWindowVM.Opacity = i / 100.0;
+                        stampingMachineWindowVM.Opacity += i / 100.0;
 
                         if(i>20)
                         {
@@ -93,11 +85,11 @@ namespace GD_StampingMachine
 
                         await Task.Delay(1);
                     }
-                    await Task.Delay(1000);
+                    await Task.Delay(50);
 
                     ManagerVM.Title = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
 
-                    await Task.Delay(1000);
+                    await Task.Delay(50);
                     stampingMachineWindowVM.IsEnabled = true;
                     manager.Close();
 

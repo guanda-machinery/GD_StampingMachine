@@ -138,7 +138,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-
+ 
 
         private void SubscriberBoxPartsParameterChange(PartsParameterViewModelObservableCollection collection)
         {
@@ -157,6 +157,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     part.IsFinishChanged += ParameterChanged; ;
                     part.WorkIndexChanged += ParameterChanged;
                     part.IsTransportedChanged += ParameterChanged;
+
                 }
             }
         }
@@ -426,6 +427,18 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+       /* private void Part_StateChanged(object? sender, EventArgs e)
+        {
+            InternalPartsParameterStateChanged?.Invoke(this, sender, e);
+        }*/
+
+        /// <summary>
+        /// 內部的PartsParameter屬性被變更
+        /// </summary>
+        public event EventHandler? InternalPartsParameterStateChanged;
+
+
+
         public SeparateBoxExtViewModelObservableCollection(IEnumerable<SeparateBoxExtViewModel> collection) : base(collection)
         {
             m_scheduledPartsParameterCollection = new();
@@ -442,7 +455,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
                 foreach (var part in item.BoxPartsParameterVMCollection)
                 {
-                    part.IsScheduledChanged += PParameter_IsScheduledChanged;
+                    part.IsScheduledChanged += PParameter_IsScheduledChanged; 
                 }
             }
         }
@@ -483,7 +496,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                                 {
                                     this.AddPartsParameter(part);
                                     part.IsScheduledChanged += PParameter_IsScheduledChanged;
-                               }
+                                }
                             }
                         }
                     }
@@ -599,7 +612,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         private void AddPartsParameter(PartsParameterViewModel partsParameter)
         {
-
             partsParameter.IsScheduledChanged += PParameter_IsScheduledChanged;
 
             if (partsParameter.IsScheduled)
@@ -625,6 +637,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             var unscheduledIndex = UnscheduledPartsParameterCollection.IndexOf(oldPartsParameter);
 
             newPartsParameter.IsScheduledChanged += PParameter_IsScheduledChanged;
+
             oldPartsParameter.IsScheduledChanged -= PParameter_IsScheduledChanged;
 
             if (oldPartsParameter.IsScheduled == newPartsParameter.IsScheduled)

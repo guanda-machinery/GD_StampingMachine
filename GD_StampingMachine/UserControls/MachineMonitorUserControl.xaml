@@ -1099,15 +1099,32 @@ Path=PlateBaseObservableCollection[0]}" ProjectName="{Binding ProductProjectName
                                   Padding="5,3,5,0" Margin="5,5,5,10"/>
                 </StackPanel>
 
-                <dxg:GridControl Grid.Row="1" 
+                <dxg:GridControl Name="BoxPartsParameterVMCollectionGridControl"
+                    Grid.Row="1" 
             Grid.Column="1"
             IsEnabled="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
             Margin="10,0"
+                                 
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
                Background="Transparent"   MaxHeight="5000"
             Style="{StaticResource ProjectGridControl}"
+                                 CurrentItem="{Binding BoxPartsParameterCurrentItem}"
+                                 SelectedItems="{Binding BoxPartsParameterSelectedItems , UpdateSourceTrigger=PropertyChanged}"
+                                 
             ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxPartsParameterVMCollection}" 
           >
+                    <dxg:GridControl.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="{Binding ReSendPartsParameterCommand}" IsEnabled="{Binding BoxPartsParameterCurrentItem.IsSended}"
+                                      CommandParameter="{Binding BoxPartsParameterSelectedItems}"
+                                                Header="{DynamicResource Text_ReSendPartsParameter}"/>
+                            <MenuItem Command="{Binding FinishPartsParameterCommand}" IsEnabled="{Binding BoxPartsParameterCurrentItem.IsFinish, Converter={GD_CommonControl:InvertBooleanConverter}}"
+                                      CommandParameter="{Binding BoxPartsParameterSelectedItems}"
+                                                Header="{DynamicResource Text_FinishPartsParameter}"/>
+                        </ContextMenu>
+                    </dxg:GridControl.ContextMenu>
+
+
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SizeChanged">
                             <i:InvokeCommandAction Command="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.GridControlSizeChangedCommand}" 

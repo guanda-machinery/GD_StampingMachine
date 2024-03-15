@@ -152,7 +152,7 @@ namespace GD_CommonLibrary.Extensions
                     while (isEqual != Equals(conditionFunc(), result))
                     {
                         await Task.Delay(10);
-
+                        
                         foreach (var token in cancellationTokens)
                         {
                             if (token.IsCancellationRequested)

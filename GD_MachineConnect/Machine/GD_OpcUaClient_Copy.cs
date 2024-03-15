@@ -11,8 +11,6 @@ using System.Threading.Tasks;
 
 namespace GD_MachineConnect.Machine
 {
-
-
     public class GD_OpcUaClient : AbstractOpcuaConnect, IDisposable
     {
         private Session m_session;
@@ -21,13 +19,25 @@ namespace GD_MachineConnect.Machine
 
 
 
-        public int ReconnectPeriod { get; set; } = 10;
+        private int m_reconnectPeriod = 10;
+        public int ReconnectPeriod
+        {
+            get
+            {
+                return m_reconnectPeriod;
+            }
+            set
+            {
+                m_reconnectPeriod = value;
+            }
+        }
+
+
 
         private readonly string OpcUaName = "OpcUa";
 
         public GD_OpcUaClient()
         {
-
             //dic_subscriptions = new Dictionary<string, Subscription>();
             CertificateValidator certificateValidator = new CertificateValidator();
             certificateValidator.CertificateValidation += delegate (CertificateValidator sender, CertificateValidationEventArgs eventArgs)
@@ -137,6 +147,19 @@ namespace GD_MachineConnect.Machine
 
 
 
+        private EventHandler m_KeepAliveComplete;
+        public event EventHandler KeepAliveComplete
+        {
+            add
+            {
+                m_KeepAliveComplete = (EventHandler)Delegate.Combine(m_KeepAliveComplete, value);
+            }
+            remove
+            {
+                m_KeepAliveComplete = (EventHandler)Delegate.Remove(m_KeepAliveComplete, value);
+            }
+        }
+
 
         private EventHandler _reconnectStarting;
         public event EventHandler ReconnectStarting
@@ -171,9 +194,9 @@ namespace GD_MachineConnect.Machine
 
         private bool disposedValue;
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
-        public override async Task<bool> ConnectAsync(string hostPath, string user = null, string password = null)
+        public override async Task<bool> ConnectAsync(string hostPath, string? user = null, string? password = null)
         {
-            IUserIdentity userIdentity = null;
+            IUserIdentity? userIdentity = null;
             if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(password))
                 userIdentity = new Opc.Ua.UserIdentity(user, password);
 
@@ -201,7 +224,7 @@ namespace GD_MachineConnect.Machine
 
                 if (ServiceResult.IsBad(e.Status))
                 {
-                    if (ReconnectPeriod <= 0)
+                    if (m_reconnectPeriod <= 0)
                     {
                         return;
                     }
@@ -210,13 +233,13 @@ namespace GD_MachineConnect.Machine
                     {
                         _reconnectStarting?.Invoke(this, e);
                         _reConnectHandler = new SessionReconnectHandler();
-                        _reConnectHandler.BeginReconnect(m_session, ReconnectPeriod * 1000, _reconnectEnd);
+                        _reConnectHandler.BeginReconnect(m_session, m_reconnectPeriod * 1000, _reconnectEnd);
                     }
                 }
                 else
                 {
                     //UpdateStatus(false, e.CurrentTime, "Connected [{0}]", session.Endpoint.EndpointUrl);
-                    //m_KeepAliveComplete?.Invoke(this, e);
+                    m_KeepAliveComplete?.Invoke(this, e);
                 }
             }
             catch (Exception)
@@ -329,7 +352,13 @@ namespace GD_MachineConnect.Machine
         /// <returns></returns>
         public override async Task<T> ReadNodeAsync<T>(string tag)
         {
-            ReadValueIdCollection nodesToRead = new ReadValueIdCollection
+            TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<T>();
+
+            _ = Task.Run(() =>
+            {
+                try
+                {
+                    ReadValueIdCollection nodesToRead = new ReadValueIdCollection
             {
                 new ReadValueId
                 {
@@ -337,27 +366,35 @@ namespace GD_MachineConnect.Machine
                     AttributeId = 13u
                 }
             };
-            TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<T>();
-            m_session.BeginRead(null, 0.0, TimestampsToReturn.Neither, nodesToRead, delegate (IAsyncResult ar)
-            {
-                DataValueCollection results;
-                DiagnosticInfoCollection diagnosticInfos;
-                ResponseHeader responseHeader = m_session.EndRead(ar, out results, out diagnosticInfos);
-                try
-                {
-                    if (!StatusCode.IsGood(responseHeader.ServiceResult))
-                        throw new Exception($"Invalid response from the server.");
-                    if (!StatusCode.IsGood(results[0].StatusCode))
-                        throw new Exception($"Invalid response from the server.");
+                    m_session.Read(null, 0.0, TimestampsToReturn.Neither, nodesToRead, out var results, out var diagnosticInfos);
+                    ClientBase.ValidateResponse(results, nodesToRead);
+                    ClientBase.ValidateDiagnosticInfos(diagnosticInfos, nodesToRead);
+                    m_session.BeginRead(null, 0.0, TimestampsToReturn.Neither, nodesToRead, delegate (IAsyncResult ar)
+                    {
+                        DataValueCollection results;
+                        DiagnosticInfoCollection diagnosticInfos;
+                        ResponseHeader responseHeader = m_session.EndRead(ar, out results, out diagnosticInfos);
+                        try
+                        {
+                            if (!StatusCode.IsGood(responseHeader.ServiceResult))
+                                throw new Exception($"Invalid response from the server.");
+                            if (!StatusCode.IsGood(results[0].StatusCode))
+                                throw new Exception($"Invalid response from the server.");
 
-                    DataValue dataValue = results[0];
-                    taskCompletionSource.TrySetResult((T)dataValue.Value);
+                            DataValue dataValue = results[0];
+                            taskCompletionSource.TrySetResult((T)dataValue.Value);
+                        }
+                        catch (Exception exception)
+                        {
+                            taskCompletionSource.TrySetException(exception);
+                        }
+                    }, null);
                 }
-                catch (Exception exception)
+                catch (Exception ex)
                 {
-                    taskCompletionSource.TrySetException(exception);
+                    taskCompletionSource.SetException(ex);
                 }
-            }, null);
+            });
 
             return await taskCompletionSource.Task;
         }
@@ -366,47 +403,57 @@ namespace GD_MachineConnect.Machine
 
         public override async Task<IEnumerable<object>> ReadNodesAsync(IEnumerable<string> nodeIds)
         {
-            ReadValueIdCollection readValueIdCollection = new ReadValueIdCollection();
-
-            foreach (string nodeId in nodeIds)
-            {
-                readValueIdCollection.Add(new ReadValueId
-                {
-                    NodeId = nodeId,
-                    AttributeId = 13u
-                });
-            }
-
             TaskCompletionSource<IEnumerable<object>> taskCompletionSource = new TaskCompletionSource<IEnumerable<object>>();
-            m_session.BeginRead(null, 0.0, TimestampsToReturn.Neither, readValueIdCollection, delegate (IAsyncResult ar)
+
+            _ = Task.Run(() =>
             {
-                DataValueCollection results;
-                DiagnosticInfoCollection diagnosticInfos;
-                ResponseHeader responseHeader = m_session.EndRead(ar, out results, out diagnosticInfos);
                 try
                 {
-                    if (!StatusCode.IsGood(responseHeader.ServiceResult))
-                        throw new Exception($"Invalid response from the server.");
-
-                    List<object> list = new List<object>();
-                    foreach (DataValue item in results)
+                    ReadValueIdCollection readValueIdCollection = new ReadValueIdCollection();
+                    foreach (string nodeId in nodeIds)
                     {
-                        list.Add(item.Value);
+                        readValueIdCollection.Add(new ReadValueId
+                        {
+                            NodeId = nodeId,
+                            AttributeId = 13u
+                        });
                     }
-                    taskCompletionSource.TrySetResult(list);
+                    m_session?.BeginRead(null, 0.0, TimestampsToReturn.Neither, readValueIdCollection, delegate (IAsyncResult ar)
+                    {
+                        DataValueCollection results;
+                        DiagnosticInfoCollection diagnosticInfos;
+                        ResponseHeader responseHeader = m_session.EndRead(ar, out results, out diagnosticInfos);
+                        try
+                        {
+                            if (!StatusCode.IsGood(responseHeader.ServiceResult))
+                                throw new Exception($"Invalid response from the server.");
+
+                            List<object> list = new List<object>();
+                            foreach (DataValue item in results)
+                            {
+                                list.Add(item.Value);
+                            }
+                            taskCompletionSource.TrySetResult(list);
+                        }
+                        catch (Exception exception)
+                        {
+                            taskCompletionSource.TrySetException(exception);
+                        }
+                    }, null);
                 }
-                catch (Exception exception)
+                catch(Exception ex)
                 {
-                    taskCompletionSource.TrySetException(exception);
+                    taskCompletionSource.SetException(ex);
                 }
-            }, null);
+
+            });
             return await taskCompletionSource.Task;
         }
 
 
-        public override async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval = 100, bool checkDuplicates = true)
+        public override async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval = 1000, bool checkDuplicates = true)
         {
-            var ret = await SubscribeNodesDataChangeAsync<T>(new List<(string, Action<T>, int, bool checkDuplicates)>
+            var ret = await SubscribeNodesDataChangeAsync(new List<(string, Action<T>, int, bool checkDuplicates)>
             {
                 (NodeID, updateAction , samplingInterval , checkDuplicates)
             });
@@ -416,7 +463,6 @@ namespace GD_MachineConnect.Machine
         private readonly SemaphoreSlim subscribeSemaphoreSlim = new SemaphoreSlim(1, 1);
         public override async Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList)
         {
-
             TaskCompletionSource<IEnumerable<bool>> taskCompletionSource = new TaskCompletionSource<IEnumerable<bool>>();
             await subscribeSemaphoreSlim.WaitAsync();
             try
@@ -434,8 +480,13 @@ namespace GD_MachineConnect.Machine
                             //將響應時間當作訂閱的名稱進行分類
                             string skey = samplingInterval.ToString();
 
-                            Subscription opcSubscription = m_session.Subscriptions.FirstOrDefault(x => x.DisplayName == skey);
-                            if (opcSubscription == null)
+                            Subscription opcSubscription;
+                            var Existed = m_session.Subscriptions.Any(x => x.DisplayName == skey);
+                            if (Existed)
+                            {
+                                opcSubscription = m_session.Subscriptions.First(x => x.DisplayName == skey);
+                            }
+                            else
                             {
                                 opcSubscription = new Subscription(m_session.DefaultSubscription);
                                 opcSubscription.PublishingEnabled = true;
@@ -457,7 +508,6 @@ namespace GD_MachineConnect.Machine
                                 ret = true;
                                 break;
                             }
-
                             var item = new MonitoredItem()
                             {
                                 StartNodeId = new NodeId(NodeID),
@@ -473,9 +523,9 @@ namespace GD_MachineConnect.Machine
                                 {
                                     if (e.NotificationValue is Opc.Ua.MonitoredItemNotification notification)
                                     {
-                                        if (notification.Value.Value is T Tvalue)
+                                        if (notification.Value.Value is T tValue)
                                         {
-                                            updateAction?.Invoke(Tvalue);
+                                            updateAction?.Invoke(tValue);
                                         }
                                     }
                                 }
@@ -498,10 +548,7 @@ namespace GD_MachineConnect.Machine
                             //CancellationTokenSource cts = new CancellationTokenSource(10000);
                             //await WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Connected, cts.Token);
 
-
-
                             opcSubscription.ApplyChanges();
-
                             break;
                         }
                         catch (Exception ex)
@@ -522,12 +569,11 @@ namespace GD_MachineConnect.Machine
                 taskCompletionSource.TrySetException(ex);
             }
             subscribeSemaphoreSlim.Release();
-
             return await taskCompletionSource.Task;
         }
 
 
-        public override async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval = 100, bool checkDuplicates = true)
+        public override async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval = 1000, bool checkDuplicates = true)
         {
             var ret = await SubscribeNodesDataChangeAsync<T>(new List<(string, EventHandler<ValueChangedEventArgs<T>>, int, bool checkDuplicates)>
             {
@@ -540,9 +586,11 @@ namespace GD_MachineConnect.Machine
         {
 
             TaskCompletionSource<IEnumerable<bool>> taskCompletionSource = new TaskCompletionSource<IEnumerable<bool>>();
-            await subscribeSemaphoreSlim.WaitAsync();
-            try
+            _ = Task.Run(async () =>
             {
+                await subscribeSemaphoreSlim.WaitAsync();
+                try
+                {
                 List<bool> retList = new List<bool>();
                 for (int i = 0; i < nodeList.Count(); i++)
                 {
@@ -556,7 +604,7 @@ namespace GD_MachineConnect.Machine
                             //將響應時間當作訂閱的名稱進行分類
                             string skey = samplingInterval.ToString();
 
-                            Subscription opcSubscription = m_session.Subscriptions.FirstOrDefault(x => x.DisplayName == skey);
+                            Subscription opcSubscription = m_session.Subscriptions.First(x => x.DisplayName == skey);
                             if (opcSubscription == null)
                             {
                                 opcSubscription = new Subscription(m_session.DefaultSubscription);
@@ -596,11 +644,10 @@ namespace GD_MachineConnect.Machine
                                 {
                                     if (e.NotificationValue is Opc.Ua.MonitoredItemNotification notification)
                                     {
-                                        if (notification.Value.Value is T Tvalue)
-                                        {
-                                            // updateAction?.Invoke(Tvalue);
-                                            updateAction?.Invoke(this, new ValueChangedEventArgs<T>(oldValue, Tvalue));
-                                            oldValue = Tvalue;
+                                        if (notification.Value.Value is T newValue)
+                                        { 
+                                            updateAction?.Invoke(this, new ValueChangedEventArgs<T>(oldValue, newValue));
+                                            oldValue = newValue;
                                         }
                                     }
                                 }
@@ -646,8 +693,8 @@ namespace GD_MachineConnect.Machine
 
                 taskCompletionSource.TrySetException(ex);
             }
-            subscribeSemaphoreSlim.Release();
-
+                subscribeSemaphoreSlim.Release();
+            });
             return await taskCompletionSource.Task;
         }
 
@@ -655,44 +702,46 @@ namespace GD_MachineConnect.Machine
         public override async Task<bool> UnsubscribeNodeAsync(string NodeID, int samplingInterval)
         {
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
-
-            await subscribeSemaphoreSlim.WaitAsync();
-            try
+            _ = Task.Run(async () =>
             {
-                Subscription opcSubscription = m_session.Subscriptions.FirstOrDefault(x => Equals(x.DisplayName, samplingInterval.ToString()));
-                if (opcSubscription != null)
+                await subscribeSemaphoreSlim.WaitAsync();
+                try
                 {
-                    List<MonitoredItem> removeItems = new List<MonitoredItem>();
-                    foreach (var monitoredItem in opcSubscription.MonitoredItems)
+                    Subscription opcSubscription = m_session.Subscriptions.First(x => Equals(x.DisplayName, samplingInterval.ToString()));
+                    if (opcSubscription != null)
                     {
-                        if (new NodeId(NodeID) == monitoredItem.StartNodeId)
+                        List<MonitoredItem> removeItems = new List<MonitoredItem>();
+                        foreach (var monitoredItem in opcSubscription.MonitoredItems)
                         {
-                            removeItems.Add(monitoredItem);
+                            if (new NodeId(NodeID) == monitoredItem.StartNodeId)
+                            {
+                                removeItems.Add(monitoredItem);
+                            }
                         }
+
+                        foreach (var mitem in removeItems)
+                        {
+                            opcSubscription.RemoveItem(mitem);
+                        }
+                        opcSubscription.ApplyChanges();
+
+                        if (opcSubscription.MonitoredItemCount == 0)
+                        {
+                            m_session.RemoveSubscription(opcSubscription);
+                        }
+
+
+                        taskCompletionSource.TrySetResult(true);
                     }
-
-                    foreach (var mitem in removeItems)
-                    {
-                        opcSubscription.RemoveItem(mitem);
-                    }
-                    opcSubscription.ApplyChanges();
-
-                    if (opcSubscription.MonitoredItemCount == 0)
-                    {
-                        m_session.RemoveSubscription(opcSubscription);
-                    }
-
-
-                    taskCompletionSource.TrySetResult(true);
+                    else
+                        taskCompletionSource.TrySetResult(false);
                 }
-                else
-                    taskCompletionSource.TrySetResult(false);
-            }
-            catch (Exception ex)
-            {
-                taskCompletionSource.TrySetException(ex);
-            }
-            subscribeSemaphoreSlim.Release();
+                catch (Exception ex)
+                {
+                    taskCompletionSource.TrySetException(ex);
+                }
+                subscribeSemaphoreSlim.Release();
+            });
             return await taskCompletionSource.Task;
         }
 

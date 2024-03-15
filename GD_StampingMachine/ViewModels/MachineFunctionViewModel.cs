@@ -298,7 +298,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private AsyncRelayCommand? _sleepSettingStartCommand;
+        /*private AsyncRelayCommand? _sleepSettingStartCommand;
         public AsyncRelayCommand SleepSettingStartCommand
         {
             get => _sleepSettingStartCommand ??= new AsyncRelayCommand(async () =>
@@ -306,7 +306,7 @@ namespace GD_StampingMachine.ViewModels
                 await SleepSettingStopAsync();
                 SleepSettingStart();
             }, () => !SleepSettingStartCommand.IsRunning);
-        }
+        }*/
 
         private AsyncRelayCommand? _sleepSettingStopCommand;
         public AsyncRelayCommand SleepSettingStopCommand
@@ -329,253 +329,262 @@ namespace GD_StampingMachine.ViewModels
         {
             if (SleepSettingTask == null)
             {
-                SleepSettingCts = new CancellationTokenSource();
-                SleepSettingTask = Task.Run(async () =>
+                try
                 {
-                    TaskCompletionSource<bool> tcs = new();
-                    SleepModeIsActivated = true;
-                    try
+                    SleepSettingCts = new CancellationTokenSource();
+                    SleepSettingTask = Task.Run(async () =>
                     {
-                        while (true)
+                        TaskCompletionSource<bool> tcs = new();
+
+                        SleepModeIsActivated = true;
+                        try
                         {
-                            //若停留在計時頁面
-                            if (ParameterSettingVM.TbtnTimimgSettingIsChecked)
-                                continue;
-
-
-                            if (SleepSettingCts.Token.IsCancellationRequested)
-                                SleepSettingCts.Token.ThrowIfCancellationRequested();
-                            try
+                            while (true)
                             {
-                                //休眠
-                                //找出現在是否在自動狀態
-                                //   DateTime.Now
-                                var EnableTimingControl = ParameterSettingVM.TimingSettingVM.TimingControlVMCollection.Where(x => x.IsEnable).ToList();
+                                //若停留在計時頁面
+                                if (ParameterSettingVM.TbtnTimimgSettingIsChecked)
+                                    continue;
 
-                                //若目前時間落在之間
-                                if (!SleepRangeList.Exists(x => x.RestTime < DateTime.Now && DateTime.Now < x.OpenTime))
+                                if (SleepSettingCts.Token.IsCancellationRequested)
+                                    SleepSettingCts.Token.ThrowIfCancellationRequested();
+                                try
                                 {
-                                    var restTimeRange = EnableTimingControl.Where(x => x.DateTimeIsBetween(DateTime.Now)).ToList();
-                                    if (restTimeRange.Count != 0)
+                                    //休眠
+                                    //找出現在是否在自動狀態
+                                    //   DateTime.Now
+                                    var EnableTimingControl = ParameterSettingVM.TimingSettingVM.TimingControlVMCollection.Where(x => x.IsEnable).ToList();
+
+                                    //若目前時間落在之間
+                                    if (!SleepRangeList.Exists(x => x.RestTime < DateTime.Now && DateTime.Now < x.OpenTime))
                                     {
-                                        //找出啟動和休息的最大區間
-                                        List<DateTime> restList = new List<DateTime>();
-                                        List<DateTime> openList = new List<DateTime>();
-                                        foreach (var timeRange in restTimeRange)
+                                        var restTimeRange = EnableTimingControl.Where(x => x.DateTimeIsBetween(DateTime.Now)).ToList();
+                                        if (restTimeRange.Count != 0)
                                         {
-                                            var todayDate = DateTime.Now.Date;
-                                            DateTime rtime, oTime;
-                                            if (timeRange.OpenTime >= timeRange.RestTime)
+                                            //找出啟動和休息的最大區間
+                                            List<DateTime> restList = new();
+                                            List<DateTime> openList = new();
+                                            foreach (var timeRange in restTimeRange)
                                             {
-                                                rtime = todayDate.AddTicks(timeRange.RestTime.Ticks);
-                                                oTime = todayDate.AddTicks(timeRange.OpenTime.Ticks);
-                                            }
-                                            else
-                                            {
-                                                rtime = todayDate.AddTicks(timeRange.RestTime.Ticks).AddDays(-1);
-                                                oTime = todayDate.AddTicks(timeRange.OpenTime.Ticks);
-                                            }
-
-                                            restList.Add(rtime);
-                                            openList.Add(oTime);
-                                        }
-                                        DateTime restMin = restList.Min();
-                                        DateTime openMax = openList.Max();
-                                        //在休息時間內不會再問是否要啟動
-                                        //sleeptime
-                                        SleepRangeList.Add(new(restMin, openMax));
-
-                                        //跳出等待
-                                        var sleepString=  (string)System.Windows.Application.Current.TryFindResource("Text_MachiningSleeping");
-                                        string Outputting = string.Format(sleepString, openMax.ToString("HH:mm:ss"));
-    
-
-                                        var result = new MessageBoxResultShow(null, "", Outputting, MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyBl);
-
-
-                                        CancellationTokenSource cts = new CancellationTokenSource();
-                                        //彈出式視窗關閉
-                                        var showTask = Task.Run(() => result.ShowMessageBox());
-                                        //等待時間到
-                                        var waitTask = Task.Run(async () =>
-                                        {
-                                            try
-                                            {
-                                                while (true)
+                                                var todayDate = DateTime.Now.Date;
+                                                DateTime rTime, oTime;
+                                                if (timeRange.OpenTime >= timeRange.RestTime)
                                                 {
-                                                    if (SleepSettingCts.Token.IsCancellationRequested)
-                                                    {
-                                                        cts.Cancel();
-                                                    }
-
-                                                    if (cts.Token.IsCancellationRequested)
-                                                    {
-                                                        cts.Token.ThrowIfCancellationRequested();
-                                                    }
-
-                                                    if (DateTime.Now > openMax)
-                                                    {
-                                                        break;
-                                                    }
-                                                    await Task.Delay(1000);
-                                                }
-                                            }
-                                            catch
-                                            {
-
-                                            }
-                                        }, cts.Token);
-                                        //機台停止
-
-                                        var originMode = StampMachineData.OperationMode;
-                                        var machineSleepTask = Task.Run(async () =>
-                                        {
-                                            var ret = false;
-                                            try
-                                            {
-                                                if (StampMachineData.IsConnected)
-                                                {
-                                                    if ((StampMachineData.OperationMode == OperationModeEnum.FullAutomatic ||
-                                                    StampMachineData.OperationMode == OperationModeEnum.HalfAutomatic))
-                                                    {
-                                                        await StampMachineData.SetOperationModeAsync(OperationModeEnum.HalfAutomatic);
-                                                        //等待機台完成工作
-                                                        await Task.Delay(500);
-                                                        await WaitForCondition.WaitAsync(() => StampMachineData.StoppedLamp, true, cts.Token);
-                                                        await Task.Delay(100);
-                                                        await StampMachineData.SetOperationModeAsync(OperationModeEnum.Setup);
-                                                        await Task.Delay(500);
-                                                        await StampMachineData.SetHydraulicPumpMotorAsync(false);
-                                                        await WaitForCondition.WaitAsync(() => StampMachineData.HydraulicPumpIsActive, false, cts.Token);
-                                                        //關閉油壓
-
-                                                        ret = true;
-                                                    }
+                                                    rTime = todayDate.AddTicks(timeRange.RestTime.Ticks);
+                                                    oTime = todayDate.AddTicks(timeRange.OpenTime.Ticks);
                                                 }
                                                 else
                                                 {
-                                                    var (result, value) = await StampMachineData.GetHydraulicPumpMotorAsync();
-                                                    if(result && value)
-                                                    {
-                                                        await StampMachineData.SetOperationModeAsync(OperationModeEnum.Setup);
-                                                        await Task.Delay(100);
-                                                        await StampMachineData.SetHydraulicPumpMotorAsync(false);
-                                                    }
+                                                    rTime = todayDate.AddTicks(timeRange.RestTime.Ticks).AddDays(-1);
+                                                    oTime = todayDate.AddTicks(timeRange.OpenTime.Ticks);
                                                 }
 
+                                                restList.Add(rTime);
+                                                openList.Add(oTime);
                                             }
-                                            catch (OperationCanceledException)
-                                            {
-                                                Debugger.Break();
-                                            }
-                                            catch (Exception)
-                                            {
+                                            DateTime restMin = restList.Min();
+                                            DateTime openMax = openList.Max();
+                                            //在休息時間內不會再問是否要啟動
+                                            //sleeptime
+                                            SleepRangeList.Add(new(restMin, openMax));
 
-                                            }
-                                            return ret;
-                                        });
-
-                                        //監視機台停止後是否有其他行為
-                                        var MonitorMachineAwakeTask = Task.Run(async () =>
-                                        {
-                                            try
-                                            {
-                                                await Task.WhenAny(machineSleepTask).ConfigureAwait(false);
-                                                var isNotSetupAutoTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.OperationMode, cts.Token);
-                                                var isStartTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.RunningLamp, cts.Token);
-                                                var isStopTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.StoppedLamp, cts.Token);
-                                                var isAlarmTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.AlarmLamp, cts.Token);
-                                                var isESPTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.DI_EmergencyStop1, cts.Token);
-                                                await Task.WhenAny(isNotSetupAutoTask, isStartTask, isStopTask, isAlarmTask, isESPTask);
-                                            }
-                                            catch
-                                            {
-
-                                            }
-                                        });
+                                            //跳出等待
+                                            var sleepString = (string)System.Windows.Application.Current.TryFindResource("Text_MachiningSleeping");
+                                            string Outputting = string.Format(sleepString, openMax.ToString("HH:mm:ss"));
 
 
-                                        if (waitTask == await Task.WhenAny(waitTask, showTask, MonitorMachineAwakeTask))
-                                        {
-                                            //正常結束休眠 可被喚醒
-                                            try
+                                            var result = new MessageBoxResultShow(null, "", Outputting, MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyBl);
+
+
+                                            CancellationTokenSource cts = new CancellationTokenSource();
+                                            //彈出式視窗關閉
+                                            var showTask = Task.Run(() => result.ShowMessageBox());
+                                            //等待時間到
+                                            var waitTask = Task.Run(async () =>
                                             {
-                                                //機台有進行休眠流程且沒有被打斷
-                                                var IsSleeped = await machineSleepTask;
-                                                if (IsSleeped)
+                                                try
                                                 {
-                                                    if (await StampMachineData.SetHydraulicPumpMotorAsync(true))
+                                                    while (true)
                                                     {
-                                                        //馬達啟動超時
-                                                        var MotorOutTimeCts = new CancellationTokenSource(15000);
-                                                        try
+                                                        if (SleepSettingCts.Token.IsCancellationRequested)
                                                         {
-                                                            await WaitForCondition.WaitAsync(() => StampMachineData.HydraulicPumpIsActive, true, cts.Token, MotorOutTimeCts.Token);
-                                                            if (await StampMachineData.SetOperationModeAsync(originMode))
-                                                            {
-                                                                await WaitForCondition.WaitAsync(() => StampMachineData.OperationMode, originMode, cts.Token);
-                                                                if (originMode == OperationModeEnum.FullAutomatic)
-                                                                    await StampMachineData.CycleStartAsync();
-                                                            }
-                                                        }
-                                                        catch (OperationCanceledException cex)
-                                                        {
-                                                            if(cex.CancellationToken == MotorOutTimeCts.Token)
-                                                            {
-                                                                //馬達啟動超時
-                                                               _ =  MessageBoxResultShow.ShowOKAsync(null,"", (string)System.Windows.Application.Current.TryFindResource("Text_HydraulicPumpMotorActivatedFailure") , GD_MessageBoxNotifyResult.NotifyRd , false);
-                                                            }
-
-
-
-                                                        }
-                                                        catch(Exception ex)
-                                                        {
-                                                        Debug.WriteLine(ex.ToString());
+                                                            cts.Cancel();
                                                         }
 
+                                                        if (cts.Token.IsCancellationRequested)
+                                                        {
+                                                            cts.Token.ThrowIfCancellationRequested();
+                                                        }
+
+                                                        if (DateTime.Now > openMax)
+                                                        {
+                                                            break;
+                                                        }
+                                                        await Task.Delay(1000);
                                                     }
                                                 }
-                                            }
-                                            catch
+                                                catch
+                                                {
+
+                                                }
+                                            }, cts.Token);
+                                            //機台停止
+
+                                            var originMode = StampMachineData.OperationMode;
+                                            var machineSleepTask = Task.Run(async () =>
                                             {
+                                                var ret = false;
+                                                try
+                                                {
+                                                    if (StampMachineData.IsConnected)
+                                                    {
+                                                        if ((StampMachineData.OperationMode == OperationModeEnum.FullAutomatic ||
+                                                        StampMachineData.OperationMode == OperationModeEnum.HalfAutomatic))
+                                                        {
+                                                            await StampMachineData.SetOperationModeAsync(OperationModeEnum.HalfAutomatic);
+                                                            //等待機台完成工作
+                                                            await Task.Delay(500);
+                                                            await WaitForCondition.WaitAsync(() => StampMachineData.StoppedLamp, true, cts.Token);
+                                                            await Task.Delay(100);
+                                                            await StampMachineData.SetOperationModeAsync(OperationModeEnum.Setup);
+                                                            await Task.Delay(500);
+                                                            await StampMachineData.SetHydraulicPumpMotorAsync(false);
+                                                            await WaitForCondition.WaitAsync(() => StampMachineData.HydraulicPumpIsActive, false, cts.Token);
+                                                            //關閉油壓
 
+                                                            ret = true;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        var (result, value) = await StampMachineData.GetHydraulicPumpMotorAsync();
+                                                        if (result && value)
+                                                        {
+                                                            await StampMachineData.SetOperationModeAsync(OperationModeEnum.Setup);
+                                                            await Task.Delay(100);
+                                                            await StampMachineData.SetHydraulicPumpMotorAsync(false);
+                                                        }
+                                                    }
+
+                                                }
+                                                catch (OperationCanceledException)
+                                                {
+                                                    Debugger.Break();
+                                                }
+                                                catch (Exception)
+                                                {
+
+                                                }
+                                                return ret;
+                                            });
+
+                                            //監視機台停止後是否有其他行為
+                                            var MonitorMachineAwakeTask = Task.Run(async () =>
+                                            {
+                                                try
+                                                {
+                                                    await Task.WhenAny(machineSleepTask).ConfigureAwait(false);
+                                                    var isNotSetupAutoTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.OperationMode, cts.Token);
+                                                    var isStartTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.RunningLamp, cts.Token);
+                                                    var isStopTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.StoppedLamp, cts.Token);
+                                                    var isAlarmTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.AlarmLamp, cts.Token);
+                                                    var isESPTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.DI_EmergencyStop1, cts.Token);
+                                                    await Task.WhenAny(isNotSetupAutoTask, isStartTask, isStopTask, isAlarmTask, isESPTask);
+                                                }
+                                                catch
+                                                {
+
+                                                }
+                                            });
+
+
+                                            if (waitTask == await Task.WhenAny(waitTask, showTask, MonitorMachineAwakeTask))
+                                            {
+                                                //正常結束休眠 可被喚醒
+                                                try
+                                                {
+                                                    //機台有進行休眠流程且沒有被打斷
+                                                    var IsSleeped = await machineSleepTask;
+                                                    if (IsSleeped)
+                                                    {
+                                                        if (await StampMachineData.SetHydraulicPumpMotorAsync(true))
+                                                        {
+                                                            //馬達啟動超時
+                                                            var MotorOutTimeCts = new CancellationTokenSource(15000);
+                                                            try
+                                                            {
+                                                                await WaitForCondition.WaitAsync(() => StampMachineData.HydraulicPumpIsActive, true, cts.Token, MotorOutTimeCts.Token);
+                                                                if (await StampMachineData.SetOperationModeAsync(originMode))
+                                                                {
+                                                                    await WaitForCondition.WaitAsync(() => StampMachineData.OperationMode, originMode, cts.Token);
+                                                                    if (originMode == OperationModeEnum.FullAutomatic)
+                                                                        await StampMachineData.CycleStartAsync();
+                                                                }
+                                                            }
+                                                            catch (OperationCanceledException cex)
+                                                            {
+                                                                if (cex.CancellationToken == MotorOutTimeCts.Token)
+                                                                {
+                                                                    //馬達啟動超時
+                                                                    _ = MessageBoxResultShow.ShowOKAsync(null, "", (string)System.Windows.Application.Current.TryFindResource("Text_HydraulicPumpMotorActivatedFailure"), GD_MessageBoxNotifyResult.NotifyRd, false);
+                                                                }
+
+
+
+                                                            }
+                                                            catch (Exception ex)
+                                                            {
+                                                                Debug.WriteLine(ex.ToString());
+                                                            }
+
+                                                        }
+                                                    }
+                                                }
+                                                catch
+                                                {
+
+                                                }
                                             }
-                                        }
 
-                                       
-                                        //機台上做出特定行為導致被中斷
-                                        //關閉視窗
-                                        await result.CloseMessageBoxAsync();
-                                        //被中斷
-                                        cts?.Cancel();
+
+                                            //機台上做出特定行為導致被中斷
+                                            //關閉視窗
+                                            await result.CloseMessageBoxAsync();
+                                            //被中斷
+                                            cts?.Cancel();
+                                        }
                                     }
                                 }
+                                catch (OperationCanceledException)
+                                {
+                                    throw;
+                                }
+                                catch (Exception ex)
+                                {
+                                    _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ex);
+                                    Debug.WriteLine(ex.ToString());
+                                }
+                                await Task.Delay(100);
                             }
-                            catch(OperationCanceledException)
-                            {
-
-                            }
-                            catch(Exception ex)
-                            {
-                                Debug.WriteLine(ex.ToString());
-
-                            }
-                            await Task.Delay(100);
                         }
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        tcs.SetResult(false);
-                    }
-                    catch (Exception ex)
-                    {
-                        tcs.SetException(ex);
-                    }
-                    SleepModeIsActivated = false;
+                        catch (OperationCanceledException)
+                        {
+                            tcs.SetResult(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            tcs.SetException(ex);
+                        }
+                        finally
+                        {
+                            SleepModeIsActivated = false;
+                        }
+                        return await tcs.Task;
+                    }, SleepSettingCts.Token);
+                }
+                catch
+                {
 
-                    return tcs.Task;
-                }, SleepSettingCts.Token);
+                }
             }
         }
 

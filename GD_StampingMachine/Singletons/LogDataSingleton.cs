@@ -1,9 +1,11 @@
 ﻿using DevExpress.Mvvm.Native;
+using GD_CommonLibrary.Method;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,21 +13,19 @@ namespace GD_StampingMachine.Singletons
 {
     internal class LogDataSingleton : GD_CommonLibrary.BaseSingleton<LogDataSingleton>
     {
-        public int LogCollectionMax = 100;
-        private DXObservableCollection<OperatingLogViewModel>? _dataObservableCollection;
-        public DXObservableCollection<OperatingLogViewModel> DataObservableCollection
+        public LogDataSingleton()
         {
-            get
-            {
-                _dataObservableCollection ??= new DXObservableCollection<OperatingLogViewModel>();
-                if (_dataObservableCollection.Count > LogCollectionMax)
-                {
-                    _dataObservableCollection.RemoveRange(0, _dataObservableCollection.Count - LogCollectionMax);
-                }
-                return _dataObservableCollection;
-            }
-            private set => _dataObservableCollection = value;
+            LogCollectionMax = 100;
         }
+
+        public int LogCollectionMax 
+        {
+            get => DataObservableCollection.Capacity;
+            set => DataObservableCollection.Capacity = value;
+        } 
+        private LimitedSizeObservableCollection<OperatingLogViewModel>? _dataObservableCollection;
+        public LimitedSizeObservableCollection<OperatingLogViewModel> DataObservableCollection=> _dataObservableCollection ??= new LimitedSizeObservableCollection<OperatingLogViewModel>();
+
 
 
 
