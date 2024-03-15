@@ -42,20 +42,29 @@ namespace GD_StampingMachine.ViewModels
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachineMonitoring");
 
-        public MachineMonitorViewModel(ProductSettingViewModel productSettingVM, ProjectDistributeViewModel? selectedProjectDistributeVM)
+        public MachineMonitorViewModel()
         {
-            m_selectedProjectDistributeVM = selectedProjectDistributeVM;
-            m_productSettingVM = productSettingVM;
 
+            StampingMachineSingleton.Instance.SelectedProjectDistributeVMChanged += (s, e) =>
+            {
+                SelectedProjectDistributeVM = e.NewValue;
+            };
         }
 
         StampMachineDataSingleton StampMachineData => GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
+        ProductSettingViewModel? ProductSettingVM => GD_StampingMachine.Singletons.StampingMachineSingleton.Instance.ProductSettingVM;
 
-        private readonly ProductSettingViewModel m_productSettingVM ;
-        ProductSettingViewModel ProductSettingVM => m_productSettingVM;
+        private ProjectDistributeViewModel? _selectedProjectDistributeVM;
+        public ProjectDistributeViewModel? SelectedProjectDistributeVM
+        {
+            get => _selectedProjectDistributeVM;  private set { _selectedProjectDistributeVM = value; OnPropertyChanged(); }
+        }
 
-        private readonly ProjectDistributeViewModel? m_selectedProjectDistributeVM;
-        public ProjectDistributeViewModel? SelectedProjectDistributeVM => m_selectedProjectDistributeVM;
+
+
+
+
+
 
         /// <summary>
         /// 鋼帶捲集合
@@ -1209,9 +1218,12 @@ namespace GD_StampingMachine.ViewModels
                 });
 
                 //OnPropertyChanged(nameof(CustomColumnSortByWorkIndex));
-                //RefreshBoxPartsParameterVMRowFilter();
+                RefreshBoxPartsParameterVMRowFilter();
                 if(SelectedProjectDistributeVM!=null)
                     await SelectedProjectDistributeVM.SaveProductProjectVMCollectionAsync();
+
+
+
 
             }, e=> !ArrangeWorkCommand.IsRunning);
         }

@@ -224,7 +224,7 @@ namespace GD_StampingMachine.Singletons
 
             
 
-            MachineMonitorVM = new(ProductSettingVM , SelectedProjectDistributeVM);
+            MachineMonitorVM = new();
 
             MachineFunctionVM = new();
 
