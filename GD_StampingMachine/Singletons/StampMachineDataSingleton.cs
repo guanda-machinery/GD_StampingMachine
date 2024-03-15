@@ -1240,9 +1240,42 @@ namespace GD_StampingMachine.Singletons
                                                         });
                                                     }
                                                 });
+                                            
+
+                                            //訂閱所有鐵牌的id
+                                            for(int i=0;i< MachineConst.PlateCount; i++)
+                                            {
+                                                int index = i;
+                                                string nodeID = $"{StampingOpcUANode.system.sv_IronPlateData}[{index + MachineConst.PlateFirstNumber}]";
+                                                await this.opcUaClient.SubscribeNodeDataChangeAsync<int>(nodeID,
+                                                    (sender, e) =>
+                                                    {
+                                                        try
+                                                        {
+                                                            _ = Task.Run(async () =>
+                                                            {
+                                                                var NewiIronPlateID = e.NewValue;
+                                                                if (PlateBaseObservableCollection[index].ID != NewiIronPlateID)
+                                                                {
+                                                                    var ret = await GetIronPlateAsync(nodeID);
+                                                                    if (ret.Item1)
+                                                                    {
+
+                                                                        // LogDataSingleton.Instance.AddLogDataAsync();
+                                                                    }
+                                                                    //PlateBaseObservableCollection[index] = ne ret.Item2;
+                                                                }
+                                                            });
+                                                        }
+                                                        catch
+                                                        {
+
+                                                        }
 
 
 
+                                                    },1000);
+                                            }
                                         }
                                         break;
                                     }
@@ -1657,7 +1690,7 @@ namespace GD_StampingMachine.Singletons
                                             {
 
                                             }
-                                            await Task.Delay(2000);
+                                            await Task.Delay(5000);
                                         }
                                     }
                                     while (IsConnected);
@@ -3737,7 +3770,7 @@ namespace GD_StampingMachine.Singletons
 
 
         private AsyncRelayCommand<object>? _setOperationModeCommand;
-        public ARelayCommand<object> SetOperationModeCommand
+        public AsyncRelayCommand<object> SetOperationModeCommand
         {
             get => _setOperationModeCommand ??= new AsyncRelayCommand<object>(async para =>
             {
@@ -4475,6 +4508,10 @@ Y軸馬達位置移動命令
             return ret;
         }
 
+
+        
+       
+
         /// <summary>
         /// 取得鐵片群資訊
         /// </summary>
@@ -4490,9 +4527,9 @@ Y軸馬達位置移動命令
                 {
                     //剪切
                     //ironPlateDataList.Add(new IronPlateDataModel());
-                    for (int i = 1; i <= 24; i++)
+                    for (int i = 0; i < MachineConst.PlateCount; i++)
                     {
-                        var node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i}]";
+                        var node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i+ MachineConst.PlateFirstNumber}]";
                         if ((await GetIronPlateAsync(node)).Item1)
                         {
                             ironPlateDataList.Add((await GetIronPlateAsync(node)).Item2);
@@ -4511,7 +4548,6 @@ Y軸馬達位置移動命令
             }
             return (false, ironPlateDataList);
         }
-
 
 
         private async Task<(bool, IronPlateDataModel)> GetIronPlateAsync(string rootNode)

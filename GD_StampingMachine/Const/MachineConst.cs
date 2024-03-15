@@ -15,6 +15,10 @@
         public const float FontHorizonInterval = 7.5F;
 
         /// <summary>
+        /// 鋼印開頭編號
+        /// </summary>
+        public const int PlateFirstNumber = 1;
+        /// <summary>
         /// 鋼印數量
         /// </summary>
         public const int PlateCount = 24;
