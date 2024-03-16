@@ -28,7 +28,7 @@ namespace GD_StampingMachine.Singletons
     {
         protected override void Init()
         {
-            StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
+            StampingMachineJsonHelper JsonHM = new();
             MechanicalSpecificationVM = new MachanicalSpecificationViewModel(new MachanicalSpecificationModel()
             {
                 AllowMachiningSize = new AllowMachiningSizeModel()
@@ -103,9 +103,9 @@ namespace GD_StampingMachine.Singletons
                 {
                     StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
                 {
-                    new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0}) ,
-                    new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0}),
-                    new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0})
+                    new(new StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0}) ,
+                    new(new StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0}),
+                    new(new StampingTypeModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0})
                 };
                 }
                 AxisSettingModel AxisSetting = new();
@@ -166,10 +166,10 @@ namespace GD_StampingMachine.Singletons
 
             if (JsonHM.ReadProjectSettingJson(out List<ProjectModel> PathList))
             {
-                List<string> FileNotExistedList = new List<string>();
+                List<string> FileNotExistedList = new();
                 PathList.ForEach(EPath =>
                 {
-                    string fileName = null;
+                    string? fileName = null;
                     if (!string.IsNullOrEmpty(EPath.ProjectPath) && !string.IsNullOrEmpty(EPath.Name))
                     {
                         fileName = System.IO.Path.Combine(EPath.ProjectPath, EPath.Name);
@@ -347,7 +347,7 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-        public bool FalseValue
+        public static bool FalseValue
         {
             get => false;
             set

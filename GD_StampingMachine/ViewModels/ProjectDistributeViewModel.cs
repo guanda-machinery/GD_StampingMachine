@@ -4,6 +4,7 @@ using DevExpress.DataAccess.Json;
 using DevExpress.Mvvm.Native;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.Office.Utils;
+using DevExpress.Utils.DragDrop.Internal;
 using DevExpress.Utils.Extensions;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.CodeView;
@@ -98,12 +99,13 @@ namespace GD_StampingMachine.ViewModels
         public ProjectDistributeViewModel(ProjectDistributeModel projectDistribute , 
             SeparateBoxExtViewModelObservableCollection separateBoxExtVMCollection, ObservableCollection<ProductProjectViewModel> productProjectVMCollection)
         {
-            StampingBoxPartsVM = new StampingBoxPartsViewModel(projectDistribute.ProjectDistributeName, separateBoxExtVMCollection);
+            //StampingBoxPartsVM = new StampingBoxPartsViewModel(projectDistribute.ProjectDistributeName, separateBoxExtVMCollection);
+            SeparateBoxExtVMCollection = separateBoxExtVMCollection;
             ProjectDistribute = projectDistribute;
             ProductProjectVMCollection = productProjectVMCollection;
         }
-
-
+       
+        readonly SeparateBoxExtViewModelObservableCollection SeparateBoxExtVMCollection;
 
 
 
@@ -111,6 +113,8 @@ namespace GD_StampingMachine.ViewModels
         /// 資料結構
         /// </summary>
         public readonly ProjectDistributeModel ProjectDistribute;
+
+
 
 
         internal async Task SaveProductProjectVMCollectionAsync()
@@ -129,13 +133,13 @@ namespace GD_StampingMachine.ViewModels
         public HashSet<string> ProductProjectNameList { get => ProjectDistribute.ProductProjectNameList ??= new HashSet<string>(); set { ProjectDistribute.ProductProjectNameList = value; OnPropertyChanged(); } }
 
 
-        private StampingBoxPartsViewModel _stampingBoxPartsVM;
+        private StampingBoxPartsViewModel? _stampingBoxPartsVM;
         /// <summary>
         /// 盒子與專案
         /// </summary>
         public StampingBoxPartsViewModel StampingBoxPartsVM
         {
-            get => _stampingBoxPartsVM;
+            get => _stampingBoxPartsVM ??= new StampingBoxPartsViewModel(ProjectDistribute.ProjectDistributeName, SeparateBoxExtVMCollection);
             set
             {
                 _stampingBoxPartsVM = value;
@@ -164,7 +168,7 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        private ICommand _closeTypeSettingCommand;
+        private ICommand? _closeTypeSettingCommand;
         /// <summary>
         /// 關閉排版專案
         /// </summary>
@@ -687,17 +691,19 @@ namespace GD_StampingMachine.ViewModels
                 {
                     if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
                     {
-                        var DragDropData = e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) as DevExpress.Xpf.Core.RecordDragDropData;
-                        foreach (var _record in DragDropData.Records)
+                        var dragDropObject = e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData));
+                        if (dragDropObject is DevExpress.Xpf.Core.RecordDragDropData DragDropData)
                         {
-                            if (_record is PartsParameterViewModel PartsParameterVM)
+                            foreach (var _record in DragDropData.Records)
                             {
-                                PartsParameterVM.DistributeName = string.Empty;
-                                PartsParameterVM.BoxIndex = null;
-                                e.Effects = System.Windows.DragDropEffects.Move;
+                                if (_record is PartsParameterViewModel PartsParameterVM)
+                                {
+                                    PartsParameterVM.DistributeName = string.Empty;
+                                    PartsParameterVM.BoxIndex = null;
+                                    e.Effects = System.Windows.DragDropEffects.Move;
+                                }
                             }
                         }
-
                         //StampingBoxPartsVM.RefreshBoxPartsParameterVMRowFilter();
                         await SaveProductProjectVMCollectionAsync();
                         //OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
@@ -1007,7 +1013,9 @@ namespace GD_StampingMachine.ViewModels
                     try
                     {
                         var movableCollection = this.StampingBoxPartsVM.SelectedSeparateBoxVM?.BoxPartsParameterVMCollection.Where(x =>
-                        (!x.IsFinish && !x.IsSended && !x.IsTransported)).ToList();
+                        (!x.IsFinish && !x.IsSended && !x.IsTransported));
+                        if(movableCollection == null)
+                            return;
 
                         foreach (var moveableItem in movableCollection)
                         //for (int i = 0; i < movableCollection.Count; i++)

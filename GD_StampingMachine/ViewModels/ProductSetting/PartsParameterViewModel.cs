@@ -469,8 +469,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
             foreach (var item in list)
             {
-                item.FinishProgressChanged += item_FinishProgressChanged;
-                item.IsFinishChanged += item_IsFinishChanged;
+                item.FinishProgressChanged += Item_FinishProgressChanged;
+                item.IsFinishChanged += Item_IsFinishChanged;
                 item.DistributeNameChanged += Item_DistributeNameChanged;
             }
             CalcFinishProgress();
@@ -487,8 +487,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
             foreach (var item in collection)
             {
-                item.FinishProgressChanged += item_FinishProgressChanged;
-                item.IsFinishChanged += item_IsFinishChanged;
+                item.FinishProgressChanged += Item_FinishProgressChanged;
+                item.IsFinishChanged += Item_IsFinishChanged;
                 item.DistributeNameChanged += Item_DistributeNameChanged;
             }
 
@@ -504,8 +504,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (newItem is PartsParameterViewModel item)
                     {
-                        item.FinishProgressChanged += item_FinishProgressChanged;
-                        item.IsFinishChanged += item_IsFinishChanged;
+                        item.FinishProgressChanged += Item_FinishProgressChanged;
+                        item.IsFinishChanged += Item_IsFinishChanged;
                         item.DistributeNameChanged += Item_DistributeNameChanged;
                     }
                 }
@@ -516,8 +516,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (oldItems is PartsParameterViewModel item)
                     {
-                        item.FinishProgressChanged -= item_FinishProgressChanged;
-                        item.IsFinishChanged -= item_IsFinishChanged;
+                        item.FinishProgressChanged -= Item_FinishProgressChanged;
+                        item.IsFinishChanged -= Item_IsFinishChanged;
                         item.DistributeNameChanged -= Item_DistributeNameChanged;
                     }
                 }
@@ -532,8 +532,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
         protected override void InsertItem(int index, PartsParameterViewModel item)
         {
-            item.FinishProgressChanged += item_FinishProgressChanged;
-            item.IsFinishChanged += item_IsFinishChanged;
+            item.FinishProgressChanged += Item_FinishProgressChanged;
+            item.IsFinishChanged += Item_IsFinishChanged;
             item.DistributeNameChanged += Item_DistributeNameChanged;
 
             CalcFinishProgress();
@@ -542,11 +542,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             base.InsertItem(index, item);
         }
 
-        private void item_FinishProgressChanged(object? sender, float e)
+        private void Item_FinishProgressChanged(object? sender, float e)
         {
             CalcFinishProgress();
         }
-        private void item_IsFinishChanged(object? sender, bool e)
+        private void Item_IsFinishChanged(object? sender, bool e)
         {
             CalcUnFinishedCount(); 
             ItemFinish = this.Select(p => p.IsFinish);

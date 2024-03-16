@@ -610,7 +610,7 @@ namespace GD_CommonControlLibrary
         {
             if (int.TryParse(value.ToString(), out int result))
             {
-                ObservableCollection<double> list = new ObservableCollection<double>();
+                ObservableCollection<double> list = [];
 
                 for (int i = 0; i < result; i++)
                 {

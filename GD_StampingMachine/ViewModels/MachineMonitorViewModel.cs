@@ -16,6 +16,7 @@ using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.MachineMonitor;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using GD_StampingMachine.Windows;
+using Microsoft.VisualStudio.Threading;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -59,8 +60,8 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        StampMachineDataSingleton StampMachineData => GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
-        ProductSettingViewModel? ProductSettingVM => GD_StampingMachine.Singletons.StampingMachineSingleton.Instance.ProductSettingVM;
+      static  StampMachineDataSingleton StampMachineData => GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
+       static ProductSettingViewModel? ProductSettingVM => GD_StampingMachine.Singletons.StampingMachineSingleton.Instance.ProductSettingVM;
 
         private ProjectDistributeViewModel? _selectedProjectDistributeVM;
         public ProjectDistributeViewModel? SelectedProjectDistributeVM
@@ -98,14 +99,14 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        private PartsParameterViewModel _boxPartsParameterCurrentItem;
+        private PartsParameterViewModel? _boxPartsParameterCurrentItem;
         public PartsParameterViewModel BoxPartsParameterCurrentItem
         {
             get => _boxPartsParameterCurrentItem; set { _boxPartsParameterCurrentItem = value;OnPropertyChanged(); }
         }
 
 
-        private ObservableCollection<PartsParameterViewModel> _boxPartsParameterSelectedItems;
+        private ObservableCollection<PartsParameterViewModel>? _boxPartsParameterSelectedItems;
         public ObservableCollection<PartsParameterViewModel> BoxPartsParameterSelectedItems
         {
             get => _boxPartsParameterSelectedItems??=new(); set { _boxPartsParameterSelectedItems = value; OnPropertyChanged(); }
@@ -113,32 +114,33 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private ICommand _reSendPartsParameterCommand;
+        private ICommand? _reSendPartsParameterCommand;
         public ICommand ReSendPartsParameterCommand
         {
             get => _reSendPartsParameterCommand??=new AsyncRelayCommand<object>(async obj =>
             {
-                if (obj is IList<GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel> partsParameterList)
+                await Task.Run(() =>
                 {
-                    foreach(var partsParameter in partsParameterList)
+                    if (obj is IList<GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel> partsParameterList)
                     {
-                        if (partsParameter.IsSended)
+                        foreach (var partsParameter in partsParameterList)
                         {
-                            partsParameter.IsSended = false;
-                            partsParameter.DataMatrixIsFinish = false;
-                            partsParameter.EngravingIsFinish = false;
-                            partsParameter.ShearingIsFinish = false;
-                            partsParameter.IsFinish = false;
-                            partsParameter.FinishProgress = 0;
+                            if (partsParameter.IsSended)
+                            {
+                                partsParameter.IsSended = false;
+                                partsParameter.DataMatrixIsFinish = false;
+                                partsParameter.EngravingIsFinish = false;
+                                partsParameter.ShearingIsFinish = false;
+                                partsParameter.IsFinish = false;
+                                partsParameter.FinishProgress = 0;
+                            }
                         }
                     }
-                }
-
-
+                });
             });
         }
 
-        private ICommand _finishPartsParameterCommand;
+        private ICommand? _finishPartsParameterCommand;
         public ICommand FinishPartsParameterCommand
         {
             get => _finishPartsParameterCommand??=new AsyncRelayCommand<object>(async obj =>
@@ -272,7 +274,7 @@ namespace GD_StampingMachine.ViewModels
                                      try
                                      {
                                          _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("WaitConnection"));
-                                         await Application.Current.Dispatcher.InvokeAsync(() =>
+                                         await Application.Current.Dispatcher.InvokeAsync(async () =>
                                          {
                                              ConnectManager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                                          });
@@ -290,7 +292,7 @@ namespace GD_StampingMachine.ViewModels
                                              throw;
                                          }
                                      }
-                                     catch(Exception ex)
+                                     catch(Exception)
                                      {
                                          break;
                                      }
@@ -330,7 +332,7 @@ namespace GD_StampingMachine.ViewModels
 
                                          double progress = 0;
                                          if (sendedReadyMachiningCollection != null && workableMachiningCollection != null)
-                                             progress = ((double)sendedReadyMachiningCollection.Count() * 100) / (double)workableMachiningCollection.Count();
+                                             progress = ((double)sendedReadyMachiningCollection.Count() * 100) / (double)workableMachiningCollection.Count;
 
                                          SendMachiningProgress = progress;
 
@@ -380,8 +382,11 @@ namespace GD_StampingMachine.ViewModels
                                          {
                                              allBoxPartsParameterViewModel.AddRange(productProject.PartsParameterVMObservableCollection);
                                          }*/
-                                         var allBoxPartsParameterViewModel = ProductSettingVM.ProductProjectVMCollection
+                                         var allBoxPartsParameterViewModel = ProductSettingVM?.ProductProjectVMCollection
                                          .SelectMany(productProject => productProject.PartsParameterVMObservableCollection);
+
+                                         if (allBoxPartsParameterViewModel==null)
+                                             break;
 
                                          HashSet<int> existingIds = new(allBoxPartsParameterViewModel.Select(x => x.ID));
                                          int hashGuid = 0;
@@ -537,7 +542,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (sender is ICollection<PlateMonitorViewModel> PlateCollection)
                 {
-                    var PartCollection = ProductSettingVM.ProductProjectVMCollection.SelectMany(x => x.PartsParameterVMObservableCollection);
+                    var PartCollection = ProductSettingVM?.ProductProjectVMCollection.SelectMany(x => x.PartsParameterVMObservableCollection);
 
                     if (PlateCollection.FirstOrDefault()?.ID != PreviousFirstIronPlateID)
                     {
@@ -587,7 +592,7 @@ namespace GD_StampingMachine.ViewModels
                     PreviousLasttIronPlateID = PlateCollection.LastOrDefault()?.ID;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -794,7 +799,7 @@ namespace GD_StampingMachine.ViewModels
                             }
                             while (!sendhmi);
                         }
-                        catch (OperationCanceledException ocex)
+                        catch (OperationCanceledException)
                         {
                             throw;
                         }
@@ -1207,7 +1212,7 @@ namespace GD_StampingMachine.ViewModels
                     await LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, ex.Message);
                     //跳出
                 }
-            }, () => !_clearMachiningDataCommand.IsRunning);
+            }, () => !ClearMachiningDataCommand.IsRunning);
         }
 
 
@@ -1258,8 +1263,8 @@ namespace GD_StampingMachine.ViewModels
                                         var wData = partsParameterVMCollection.Where(x => x.WorkIndex < 0 && !x.IsFinish && !x.IsSended);
                                         foreach (var partsParameter in wData)
                                         {
-                                            SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.
-                                            UnscheduledPartsParameterCollection.Count(x => x.BoxIndex == partsParameter.BoxIndex);
+                                            /*SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.
+                                            UnscheduledPartsParameterCollection.Count(x => x.BoxIndex == partsParameter.BoxIndex);*/
                                             /*var unTransportedCount = SelectedProjectDistributeVM.PartsParameterVMObservableCollection
                                                 .Count(x => x.BoxIndex == partsParameter.BoxIndex && x.WorkIndex >= 0 && !x.IsTransported);*/
                                             if (partsParameter.BoxIndex is int boxIndex)
@@ -1279,7 +1284,7 @@ namespace GD_StampingMachine.ViewModels
                                         if (workableData.Count > 0)
                                         {
                                             var indexMax = SelectedProjectDistributeVM.StampingBoxPartsVM.
-                                            SeparateBoxVMObservableCollection.SelectMany(x => x.BoxPartsParameterVMCollection).Count()==0
+                                            SeparateBoxVMObservableCollection.SelectMany(x => x.BoxPartsParameterVMCollection).Any()
                                             ? -1 :
                                             SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.
                                             SelectMany(x=>x.BoxPartsParameterVMCollection).Max(x => x.WorkIndex);
@@ -1413,18 +1418,18 @@ namespace GD_StampingMachine.ViewModels
 
         public void RefreshBoxPartsParameterVMRowFilter()
         {
-            Application.Current.Dispatcher.Invoke(async () => 
+            _ = Application.Current.Dispatcher.InvokeAsync(async () =>
             {
+                await Task.CompletedTask;
                 OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
-            }
-            ); ;
+            }); ;
         }
 
         //private DevExpress.Mvvm.DelegateCommand<RowFilterArgs> _boxPartsParameterVMRowFilterCommand;
         [JsonIgnore]
         public DevExpress.Mvvm.DelegateCommand<RowFilterArgs> BoxPartsParameterVMRowFilterCommand
         {
-            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
+            get => new(args =>
             {
                 if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PParameter)
                 {
@@ -1479,12 +1484,14 @@ namespace GD_StampingMachine.ViewModels
                                 var unTransportedCollection = this.SelectedProjectDistributeVM?.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection.Where(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
                                 if (unTransportedCollection != null)
                                 {
-                                    unTransportedCollection.Select(item =>
+                                    foreach (var part in unTransportedCollection)
                                     {
-                                        item.IsTransported = true;
-                                        return item;
-                                    }).ToList();
+                                        part.IsTransported = true;
+                                    }
                                 }
+
+                                ShowIsTransported = true;
+
                                 _ = SelectedProjectDistributeVM?.SaveProductProjectVMCollectionAsync();
                             }
                         }
