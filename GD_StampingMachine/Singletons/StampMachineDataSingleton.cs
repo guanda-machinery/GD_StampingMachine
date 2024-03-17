@@ -1254,14 +1254,20 @@ namespace GD_StampingMachine.Singletons
                                                         {
                                                             _ = Task.Run(async () =>
                                                             {
-                                                                var NewiIronPlateID = e.NewValue;
-                                                                if (PlateBaseObservableCollection[index].ID != NewiIronPlateID)
+                                                                try
                                                                 {
-                                                                    var ret = await GetIronPlateAsync(nodeID);
-                                                                    if (ret.Item1)
+                                                                    var NewiIronPlateID = e.NewValue;
+                                                                    if (PlateBaseObservableCollection[index].ID != NewiIronPlateID)
                                                                     {
-                                                                        PlateBaseObservableCollection[index] = new PlateMonitorViewModel(ret.Item2);
+                                                                        var ret = await GetIronPlateAsync(nodeID);
+                                                                        if (ret.Item1)
+                                                                        {
+                                                                            PlateBaseObservableCollection[index] = new PlateMonitorViewModel(ret.Item2);
+                                                                        }
                                                                     }
+                                                                }catch(Exception ex)
+                                                                {
+                                                                    LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, ex, true);
                                                                 }
                                                             });
                                                         }

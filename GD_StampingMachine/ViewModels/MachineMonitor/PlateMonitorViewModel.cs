@@ -4,6 +4,7 @@ using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels.MachineMonitor
