@@ -268,7 +268,7 @@ namespace GD_StampingMachine.ViewModels
                                          Progress = 0,
                                          IsIndeterminate = true,
                                          Subtitle = "",
-                                         Copyright = "Copyright © 2023 GUANDA",
+                                         Copyright = "Copyright © 2024 GUANDA",
                                      };
                                      SplashScreenManager ConnectManager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ConnectManagerVM);
                                      try
