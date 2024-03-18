@@ -15,8 +15,15 @@
                        Background="Transparent"
                        DataContext="{x:Static dxmvvm:DXSplashScreenViewModel.DesignTimeData}">
     <Grid MinWidth="500" Height="100">
+        <Grid.Resources>
+            <Style TargetType="TextBlock" BasedOn="{ StaticResource Body1TextBlock }">
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                <Setter Property="Padding" Value="0,0,0,0"/>
+            </Style>
+        </Grid.Resources>
+
         <Border
-            Background="{StaticResource solidclr_CreamyWhite}"
+            Background="{DynamicResource PrimaryHueLightBrush}"
                 BorderBrush="#49FFFFFF"
                 CornerRadius="20"
                 BorderThickness="0">
@@ -31,11 +38,12 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <ProgressBar BorderThickness="0" Grid.Row="0" Padding="0"  Margin="10" Grid.RowSpan="2" VerticalAlignment="Center"
-                         Foreground="{StaticResource SecondaryHueLightBrush}"
+                         Foreground="{StaticResource SecondaryAccentBrush}"
+
                          Value="{Binding Progress}"
                          Maximum="100" 
                          Width="60" Height="60"
-                         Background="LightGray"
+                         Background="{StaticResource solidclr_LightGray}"
                          IsIndeterminate="{Binding IsIndeterminate}"
                          Style="{ StaticResource MaterialDesignCircularProgressBar }"
                      >
@@ -58,26 +66,26 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-            <TextBlock  Margin="0,0,0,0" Padding="0"  VerticalAlignment="Center"
+            <TextBlock VerticalAlignment="Center"
                    FontSize="20" 
                    Text="{Binding Status, UpdateSourceTrigger=PropertyChanged}"
                    ToolTip="{Binding Status, UpdateSourceTrigger=PropertyChanged}"
                    HorizontalAlignment="Left"
-                   Style="{ StaticResource MaterialDesignBody1TextBlock }" />
-                <TextBlock  Margin="0,-2,0,0"   Padding="0" Grid.Row="1"   VerticalAlignment="Center" Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text, Converter={GD_CommonControl:ObjectIsNullToVisibilityConverter}}"
+                        />
+                <TextBlock   Grid.Row="1"   VerticalAlignment="Center" Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text, Converter={GD_CommonControl:ObjectIsNullToVisibilityConverter}}"
                    FontSize="12"
                    Text="{Binding Subtitle, UpdateSourceTrigger=PropertyChanged}"
                    ToolTip="{Binding Subtitle, UpdateSourceTrigger=PropertyChanged}"
                    HorizontalAlignment="Left"
-                   Style="{ StaticResource MaterialDesignBody1TextBlock }" />
+                 />
             </Grid>
             <ProgressBar BorderThickness="0"  Grid.Row="2" Grid.Column="1" Padding="0"  Margin="0,0,10,10"
-                     Foreground="{StaticResource SecondaryHueLightBrush}"
+                     Foreground="{StaticResource SecondaryAccentBrush}"
                      VerticalAlignment="Bottom"
                      Value="{Binding Progress}"
                      Maximum="100"
                      Height="25"
-                     Background="LightGray"
+                         Background="{StaticResource solidclr_LightGray}"
                      IsIndeterminate="{Binding IsIndeterminate}"
                      Style="{ StaticResource MaterialDesignLinearProgressBar }"
                      >

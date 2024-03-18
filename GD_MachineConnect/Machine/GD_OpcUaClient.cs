@@ -27,7 +27,6 @@ namespace GD_MachineConnect.Machine
 
         public GD_OpcUaClient()
         {
-
             //dic_subscriptions = new Dictionary<string, Subscription>();
             CertificateValidator certificateValidator = new CertificateValidator();
             certificateValidator.CertificateValidation += delegate (CertificateValidator sender, CertificateValidationEventArgs eventArgs)
@@ -106,6 +105,7 @@ namespace GD_MachineConnect.Machine
                     DefaultSessionTimeout = 30000,
                     MinSubscriptionLifetime = -1
                 },
+               
                 DisableHiResClock = true
             };
             applicationConfiguration.Validate(ApplicationType.Client);
@@ -167,7 +167,7 @@ namespace GD_MachineConnect.Machine
             }
         }
 
-        private SessionReconnectHandler _reConnectHandler;
+        private SessionReconnectHandler m_reConnectHandler;
 
         private bool disposedValue;
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
@@ -206,11 +206,11 @@ namespace GD_MachineConnect.Machine
                         return;
                     }
 
-                    if (_reConnectHandler == null)
+                    if (m_reConnectHandler == null)
                     {
                         _reconnectStarting?.Invoke(this, e);
-                        _reConnectHandler = new SessionReconnectHandler();
-                        _reConnectHandler.BeginReconnect(m_session, ReconnectPeriod * 1000, _reconnectEnd);
+                        m_reConnectHandler = new SessionReconnectHandler();
+                        m_reConnectHandler.BeginReconnect(m_session, ReconnectPeriod * 1000, _reconnectEnd);
                     }
                 }
                 else
@@ -226,14 +226,14 @@ namespace GD_MachineConnect.Machine
         }
 
 
-        public Exception ConnectException { get; private set; }
+       // public Exception ConnectException { get; private set; }
 
         public override void Disconnect()
         {
-            if (_reConnectHandler != null)
+            if (m_reConnectHandler != null)
             {
-                _reConnectHandler.Dispose();
-                _reConnectHandler = null;
+                m_reConnectHandler.Dispose();
+                m_reConnectHandler = null;
             }
 
             if (m_session != null)
