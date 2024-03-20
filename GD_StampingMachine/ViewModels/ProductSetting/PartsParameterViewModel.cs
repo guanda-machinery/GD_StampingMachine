@@ -52,10 +52,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 PartsParameter.Processing = value;
                 OnPropertyChanged();
-                FinishProgressChanged?.Invoke(this, value);
             }
         }
-        public event EventHandler<float>? FinishProgressChanged;
 
         /// <summary>
         ///加工分配專案名
@@ -69,11 +67,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.DistributeName = value;
                     OnPropertyChanged();
-                    DistributeNameChanged?.Invoke(this, value);
                 }
             }
         }
-        public event EventHandler<string>? DistributeNameChanged;
 
 
         /// <summary>
@@ -88,12 +84,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.ProductProjectName = value;
                     OnPropertyChanged();
-                    //  ProductProjectNameChanged?.Invoke(this, value); 
                 }
             }
         }
 
-        //public event EventHandler<string>? ProductProjectNameChanged;
 
 
         /// <summary>
@@ -110,8 +104,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        public event EventHandler? StateChanged;
-
         /// <summary>
         /// QR陣列已完成
         /// </summary>
@@ -124,7 +116,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.DataMatrixIsFinish = value;
                     OnPropertyChanged();
-                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -140,7 +131,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.EngravingIsFinish = value;
                     OnPropertyChanged();
-                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -156,7 +146,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.ShearingIsFinish = value;
                     OnPropertyChanged();
-                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -172,12 +161,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.IsFinish = value;
                     OnPropertyChanged();
-                    IsFinishChanged?.Invoke(this, value);
-                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
-        public event EventHandler<bool>? IsFinishChanged;
 
         public bool IsTransported
         {
@@ -188,13 +174,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.IsTransported = value;
                     OnPropertyChanged();
-                    IsTransportedChanged?.Invoke(this, value);
-                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
 
-        public event EventHandler<bool>? IsTransportedChanged;
 
 
 
@@ -212,7 +195,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.SendMachineCommand.IsSended = value;
                     OnPropertyChanged();
-                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -230,15 +212,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     PartsParameter.SendMachineCommand.WorkIndex = value;
                     OnPropertyChanged();
 
-                    WorkIndexChanged?.Invoke(this, value);
-                    StateChanged?.Invoke(this, new EventArgs());
-
                     IsScheduled = value != -1;
                 }
             }
         }
 
-        public event EventHandler<int>? WorkIndexChanged;
 
         private bool? _isScheduled;
         public bool IsScheduled
@@ -250,12 +228,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     _isScheduled = value;
                     OnPropertyChanged(nameof(IsScheduled));
-                    IsScheduledChanged?.Invoke(this, value);
                 }
             }
         }
 
-        public event EventHandler<bool>? IsScheduledChanged;
 
 
 
@@ -269,12 +245,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     PartsParameter.IronPlateString = value;
                     SettingBaseVM.PlateNumber = value;
                     OnPropertyChanged();
-                    ParameterAChanged?.Invoke(this, value);
                 }
             }
         }
-
-        public event EventHandler<string>? ParameterAChanged;
 
 
         /*public string ParameterB
@@ -296,11 +269,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     PartsParameter.QrCodeContent = value;
                     SettingBaseVM.QrCodeContent = value;
                     OnPropertyChanged(nameof(ParameterC));
-                    ParameterCChanged?.Invoke(this, value);
                 }
             }
         }
-        public event EventHandler<string>? ParameterCChanged;
 
         /*public string IronPlateString
         { 
@@ -337,11 +308,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     PartsParameter.QR_Special_Text = value;
                     SettingBaseVM.QR_Special_Text = value;
                     OnPropertyChanged();
-                    QR_Special_TextChanged?.Invoke(this, value);
                 }
             }
         }
-        public event EventHandler<string>? QR_Special_TextChanged;
 
 
         /// <summary>
@@ -464,18 +433,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public PartsParameterViewModelObservableCollection(List<PartsParameterViewModel> list) : base(list)
         {
-
-
-
             foreach (var item in list)
             {
-                item.FinishProgressChanged += Item_FinishProgressChanged;
-                item.IsFinishChanged += Item_IsFinishChanged;
-                item.DistributeNameChanged += Item_DistributeNameChanged;
+                item.PropertyChanged += Item_PropertyChanged;
             }
-            CalcFinishProgress();
-            CalcUnFinishedCount();
-            CalcNotAssignedProductProjectCount();
+            CalcNotifyCollectionChange();
         }
 
         public PartsParameterViewModelObservableCollection(IEnumerable<PartsParameterViewModel> collection):base(collection) 
@@ -487,14 +449,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
             foreach (var item in collection)
             {
-                item.FinishProgressChanged += Item_FinishProgressChanged;
-                item.IsFinishChanged += Item_IsFinishChanged;
-                item.DistributeNameChanged += Item_DistributeNameChanged;
+                item.PropertyChanged += Item_PropertyChanged;
             }
 
-            CalcFinishProgress();
-            CalcUnFinishedCount();
-            CalcNotAssignedProductProjectCount();
+            CalcNotifyCollectionChange();
         }
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
@@ -504,9 +462,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (newItem is PartsParameterViewModel item)
                     {
-                        item.FinishProgressChanged += Item_FinishProgressChanged;
-                        item.IsFinishChanged += Item_IsFinishChanged;
-                        item.DistributeNameChanged += Item_DistributeNameChanged;
+                        item.PropertyChanged += Item_PropertyChanged;
                     }
                 }
             }
@@ -516,64 +472,40 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (oldItems is PartsParameterViewModel item)
                     {
-                        item.FinishProgressChanged -= Item_FinishProgressChanged;
-                        item.IsFinishChanged -= Item_IsFinishChanged;
-                        item.DistributeNameChanged -= Item_DistributeNameChanged;
+                        item.PropertyChanged += Item_PropertyChanged;
+
                     }
                 }
             }
 
-            CalcFinishProgress();
-            CalcUnFinishedCount();
-            CalcNotAssignedProductProjectCount();
+            CalcNotifyCollectionChange();
             //CalcSeparateBoxValue();
 
             base.OnCollectionChanged(e);
         }
         protected override void InsertItem(int index, PartsParameterViewModel item)
         {
-            item.FinishProgressChanged += Item_FinishProgressChanged;
-            item.IsFinishChanged += Item_IsFinishChanged;
-            item.DistributeNameChanged += Item_DistributeNameChanged;
+            item.PropertyChanged += Item_PropertyChanged;
 
-            CalcFinishProgress();
-            CalcUnFinishedCount();
-            CalcNotAssignedProductProjectCount();
+            CalcNotifyCollectionChange();
             base.InsertItem(index, item);
         }
 
-        private void Item_FinishProgressChanged(object? sender, float e)
+        private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            CalcFinishProgress();
+            CalcNotifyCollectionChange();
         }
-        private void Item_IsFinishChanged(object? sender, bool e)
+
+        private void CalcNotifyCollectionChange()
         {
-            CalcUnFinishedCount(); 
             ItemFinish = this.Select(p => p.IsFinish);
-        }
-        private void Item_DistributeNameChanged(object? sender, string e)
-        {
-            CalcNotAssignedProductProjectCount();
-        }
-
-        private void CalcFinishProgress()
-        {
-            this.FinishProgress = this.Any() ? this.Average(p => p.FinishProgress) : 0;
-        }
-        private void CalcUnFinishedCount()
-        {
+            FinishProgress = this.Any() ? this.Average(p => p.FinishProgress) : 0;
             UnFinishedCount = this.Any() ? this.Count(p => !p.IsFinish) : 0;
-
-        }
-        private void CalcNotAssignedProductProjectCount()
-        {
             NotAssignedProductProjectCount = this.Any() ? this.Count(p => string.IsNullOrEmpty(p.DistributeName) && !p.IsFinish) : 0;
         }
 
-        public event EventHandler<IEnumerable<bool>>? ItemFinishChanged;
-        public event EventHandler<float>? FinishProgressChanged;
-        public event EventHandler<int>? UnFinishedCountChanged;
-        public event EventHandler<int>? NotAssignedProductProjectCountChanged;
+
+
 
         private IEnumerable<bool>? _itemFinish;
         /// <summary>
@@ -586,7 +518,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 _itemFinish = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(ItemFinish)));
-                ItemFinishChanged?.Invoke(this, value);
             }
         }
 
@@ -601,7 +532,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 _finishProgress = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(FinishProgress)));
-                FinishProgressChanged?.Invoke(this, value);
             }
         }
 
@@ -616,7 +546,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 _unFinishedCount = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(UnFinishedCount)));
-                UnFinishedCountChanged?.Invoke(this, value);
             }
         }
 
@@ -632,7 +561,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 _notAssignedProductProjectCount = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(NotAssignedProductProjectCount)));
-                NotAssignedProductProjectCountChanged?.Invoke(this, value);
             }
         }
 

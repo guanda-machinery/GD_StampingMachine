@@ -29,6 +29,17 @@ namespace GD_StampingMachine.Method
             return await MessageBoxReturn == MessageBoxResult.Yes;
         }
 
+        public static async Task<bool> AskDelPartAsync(Window? Parent, string NumberSetting)
+        {
+            var MessageBoxReturn = ShowYesNoAsync(Parent,
+                (string)Application.Current.TryFindResource("Text_notify"),
+                (string)Application.Current.TryFindResource("Text_AskDelPart") +
+                "\r\n" +
+                $"{NumberSetting}" +
+                "?", GD_MessageBoxNotifyResult.NotifyBl);
+            return await MessageBoxReturn == MessageBoxResult.Yes;
+        }
+
 
         public static async Task<bool> AskDelProjectAsync(Window? Parent,string NumberSetting)
         {

@@ -72,8 +72,8 @@ namespace GD_StampingMachine.ViewModels
                 {
                     foreach (var stampingBox in _selectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection)
                     {
-                        stampingBox.StateChanged -= StampingBoxPartsVM_StateChanged;
-                        stampingBox.StateChanged += StampingBoxPartsVM_StateChanged;
+                        stampingBox.PropertyChanged -= StampingBoxPartsVM_StateChanged;
+                        stampingBox.PropertyChanged += StampingBoxPartsVM_StateChanged;
                     }
                 }
                 return _selectedProjectDistributeVM;
@@ -84,14 +84,14 @@ namespace GD_StampingMachine.ViewModels
                 {
                     foreach (var stampingBox in _selectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection)
                     {
-                        stampingBox.StateChanged -= StampingBoxPartsVM_StateChanged;
+                        stampingBox.PropertyChanged -= StampingBoxPartsVM_StateChanged;
                     }
                 }
                 if (value != null)
                 {
                     foreach (var stampingBox in value.StampingBoxPartsVM.SeparateBoxVMObservableCollection)
                     {
-                        stampingBox.StateChanged += StampingBoxPartsVM_StateChanged;
+                        stampingBox.PropertyChanged += StampingBoxPartsVM_StateChanged;
                     }
                 }
                 _selectedProjectDistributeVM = value; 

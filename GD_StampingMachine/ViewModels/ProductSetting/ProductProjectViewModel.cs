@@ -146,22 +146,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     var obj = _addNumberSettingSavedCollection[i];
 
                     obj.PlateNumber = AddNewPartsParameterVM.ParameterA;
-                    AddNewPartsParameterVM.ParameterAChanged += (s, e) =>
-                    {
-                        obj.PlateNumber = e;
-                    };
-
                     obj.QrCodeContent = AddNewPartsParameterVM.ParameterC;
-                    AddNewPartsParameterVM.ParameterCChanged += (s, e) =>
+                    obj.QR_Special_Text = AddNewPartsParameterVM.QR_Special_Text;
+                    AddNewPartsParameterVM.PropertyChanged += (s, e) =>
                     {
-                        obj.QrCodeContent = e;
+                        if (s is PartsParameterViewModel PParameter)
+                        {
+                            obj.PlateNumber = PParameter.ParameterA;
+                            obj.QrCodeContent = PParameter.ParameterC;
+                            obj.QR_Special_Text = PParameter.QR_Special_Text;
+                        }
                     };
 
-                    obj.QR_Special_Text = AddNewPartsParameterVM.QR_Special_Text;
-                    AddNewPartsParameterVM.QR_Special_TextChanged += (s, e) =>
-                    {
-                        obj.QR_Special_Text = e;
-                    };
+
                 }
 
 
@@ -182,22 +179,20 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         var obj = EditNumberSettingSavedCollection[i];
                         obj.PlateNumber = EditPartsParameterVM_Cloned.ParameterA;
-                        EditPartsParameterVM_Cloned.ParameterAChanged += (s, e) =>
+                        obj.QrCodeContent = EditPartsParameterVM_Cloned.ParameterC;
+                        obj.QR_Special_Text = EditPartsParameterVM_Cloned.QR_Special_Text;
+
+                        EditPartsParameterVM_Cloned.PropertyChanged += (s, e) =>
                         {
-                            obj.PlateNumber = e;
+                            if(s is PartsParameterViewModel PParameter)
+                            {
+                                obj.PlateNumber = PParameter.ParameterA;
+                                obj.QrCodeContent = PParameter.ParameterC;
+                                obj.QR_Special_Text = PParameter.QR_Special_Text;
+                            }
+                        
                         };
 
-                        obj.QrCodeContent = _editPartsParameterVM_Cloned.ParameterC;
-                        EditPartsParameterVM_Cloned.ParameterCChanged += (s, e) =>
-                        {
-                            obj.QrCodeContent = e;
-                        };
-
-                        obj.QR_Special_Text = _editPartsParameterVM_Cloned.QR_Special_Text;
-                        EditPartsParameterVM_Cloned.QR_Special_TextChanged += (s, e) =>
-                        {
-                            obj.QR_Special_Text = e;
-                        };
                     }
                 }
 

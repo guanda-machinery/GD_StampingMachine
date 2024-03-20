@@ -146,18 +146,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 collection.CollectionChanged -= BoxPartsParameterVMCollection_CollectionChanged;
                 collection.CollectionChanged += BoxPartsParameterVMCollection_CollectionChanged;
-                foreach (var part in collection)
+                foreach (var item in collection)
                 {
-                    part.StateChanged -= Item_StateChanged;
-                    part.IsFinishChanged -= ParameterChanged; ;
-                    part.WorkIndexChanged -= ParameterChanged;
-                    part.IsTransportedChanged -= ParameterChanged;
+                    item.PropertyChanged -= Item_PropertyChanged;
 
-                    part.StateChanged += Item_StateChanged;
-                    part.IsFinishChanged += ParameterChanged; ;
-                    part.WorkIndexChanged += ParameterChanged;
-                    part.IsTransportedChanged += ParameterChanged;
-
+                    item.PropertyChanged += Item_PropertyChanged;
                 }
             }
         }
@@ -176,12 +169,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         {
                             foreach (var part in newCollection)
                             {
-                                if (part is PartsParameterViewModel item)
+                                if (part is INotifyPropertyChanged item)
                                 {
-                                    item.StateChanged += Item_StateChanged;
-                                    item.IsFinishChanged += ParameterChanged; ;
-                                    item.WorkIndexChanged += ParameterChanged;
-                                    item.IsTransportedChanged += ParameterChanged;
+                                    item.PropertyChanged += Item_PropertyChanged;
                                 }
                             }
                         }
@@ -195,10 +185,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                             {
                                 if (part is PartsParameterViewModel item)
                                 {
-                                    item.StateChanged -= Item_StateChanged;
-                                    item.IsFinishChanged -= ParameterChanged; ;
-                                    item.WorkIndexChanged -= ParameterChanged;
-                                    item.IsTransportedChanged -= ParameterChanged;
+                                    item.PropertyChanged += Item_PropertyChanged;
                                 }
                             }
                         }
@@ -212,15 +199,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                             .Zip(newCollection.OfType<PartsParameterViewModel>(), (oldItem, newItem) => (oldItem, newItem));
                             foreach (var (oldItem, newItem) in replacements)
                             {
-                                oldItem.StateChanged -= Item_StateChanged;
-                                oldItem.IsFinishChanged -= ParameterChanged; ;
-                                oldItem.WorkIndexChanged -= ParameterChanged;
-                                oldItem.IsTransportedChanged -= ParameterChanged;
+                                oldItem.PropertyChanged -= Item_PropertyChanged;
+                                newItem.PropertyChanged += Item_PropertyChanged;
 
-                                newItem.StateChanged += Item_StateChanged;
-                                newItem.IsFinishChanged += ParameterChanged; ;
-                                newItem.WorkIndexChanged += ParameterChanged;
-                                newItem.IsTransportedChanged += ParameterChanged;
                             }
                         }
                     }
@@ -236,15 +217,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             UpdateSeparateBoxValue();
         }
 
-        private void Item_StateChanged(object? sender, EventArgs e)
-        {
-            StateChanged?.Invoke(this, e);
-        }
-
-        private void ParameterChanged<T>(object? sender, T e)
+        private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             UpdateSeparateBoxValue();
         }
+
 
 
 
@@ -272,10 +249,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
             }
         }
-        /// <summary>
-        /// 內部參數變動通知
-        /// </summary>
-        public event EventHandler? StateChanged;
+
 
 
         private static void SeparateBoxExtViewModel_BoxSliderValueChanged(object? sender, double e)
@@ -421,7 +395,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
                 foreach(var part in NewSeparateBoxExtViewModel.BoxPartsParameterVMCollection)
                 {
-                    part.IsScheduledChanged += PParameter_IsScheduledChanged;
+                    part.PropertyChanged += NewPartsParameter_PropertyChanged;
                 }
                 base.Items.Add(NewSeparateBoxExtViewModel);
             }
@@ -455,7 +429,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
                 foreach (var part in item.BoxPartsParameterVMCollection)
                 {
-                    part.IsScheduledChanged += PParameter_IsScheduledChanged; 
+                    part.PropertyChanged += NewPartsParameter_PropertyChanged; 
                 }
             }
         }
@@ -495,7 +469,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                                 foreach (var part in separateBox.BoxPartsParameterVMCollection)
                                 {
                                     this.AddPartsParameter(part);
-                                    part.IsScheduledChanged += PParameter_IsScheduledChanged;
+                                    part.PropertyChanged += NewPartsParameter_PropertyChanged;
                                 }
                             }
                         }
@@ -514,7 +488,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                                     foreach (var part in separateBox.BoxPartsParameterVMCollection)
                                     {
                                         this.RemovePartsParameter(part);
-                                        part.IsScheduledChanged -= PParameter_IsScheduledChanged;
+                                        part.PropertyChanged -= NewPartsParameter_PropertyChanged;
                                     }
 
                                 }
@@ -535,13 +509,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                                 
                                 foreach (var Opart in oldItem.BoxPartsParameterVMCollection)
                                 {
-                                    Opart.IsScheduledChanged -= PParameter_IsScheduledChanged;
+                                    Opart.PropertyChanged -= NewPartsParameter_PropertyChanged;
                                     this.RemovePartsParameter(Opart);
                                 }
 
                                 foreach (var Npart in newItem.BoxPartsParameterVMCollection)
                                 {
-                                    Npart.IsScheduledChanged -= PParameter_IsScheduledChanged;
+                                    Npart.PropertyChanged -= NewPartsParameter_PropertyChanged;
                                     this.AddPartsParameter(Npart);
                                 }
                             }
@@ -612,7 +586,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         private void AddPartsParameter(PartsParameterViewModel partsParameter)
         {
-            partsParameter.IsScheduledChanged += PParameter_IsScheduledChanged;
+            partsParameter.PropertyChanged += NewPartsParameter_PropertyChanged;
 
             if (partsParameter.IsScheduled)
                 m_scheduledPartsParameterCollection.Add(partsParameter);
@@ -622,7 +596,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
         private void RemovePartsParameter(PartsParameterViewModel partsParameter)
         {
-            partsParameter.IsScheduledChanged -= PParameter_IsScheduledChanged;
+            partsParameter.PropertyChanged -= NewPartsParameter_PropertyChanged;
 
             if (partsParameter.IsScheduled)
                 m_scheduledPartsParameterCollection.Remove(partsParameter);
@@ -636,9 +610,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             var scheduledIndex = ScheduledPartsParameterCollection.IndexOf(oldPartsParameter);
             var unscheduledIndex = UnscheduledPartsParameterCollection.IndexOf(oldPartsParameter);
 
-            newPartsParameter.IsScheduledChanged += PParameter_IsScheduledChanged;
+            newPartsParameter.PropertyChanged += NewPartsParameter_PropertyChanged;
 
-            oldPartsParameter.IsScheduledChanged -= PParameter_IsScheduledChanged;
+            oldPartsParameter.PropertyChanged -= NewPartsParameter_PropertyChanged;
 
             if (oldPartsParameter.IsScheduled == newPartsParameter.IsScheduled)
             {
@@ -660,9 +634,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-
-
-        private void PParameter_IsScheduledChanged(object? sender, bool e)
+        private void NewPartsParameter_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if(sender is PartsParameterViewModel Part)
             {
