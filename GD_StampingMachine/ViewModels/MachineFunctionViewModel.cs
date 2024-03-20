@@ -403,7 +403,7 @@ namespace GD_StampingMachine.ViewModels
                                             {
                                                 try
                                                 {
-                                                    while (true)
+                                                    while (DateTime.Now < openMax)
                                                     {
                                                         if (SleepSettingCts.Token.IsCancellationRequested)
                                                         {
@@ -415,10 +415,6 @@ namespace GD_StampingMachine.ViewModels
                                                             cts.Token.ThrowIfCancellationRequested();
                                                         }
 
-                                                        if (DateTime.Now > openMax)
-                                                        {
-                                                            break;
-                                                        }
                                                         await Task.Delay(1000);
                                                     }
                                                 }
@@ -426,7 +422,7 @@ namespace GD_StampingMachine.ViewModels
                                                 {
 
                                                 }
-                                            }, cts.Token);
+                                            });
                                             //機台停止
 
                                             var originMode = StampMachineData.OperationMode;

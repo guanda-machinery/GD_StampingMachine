@@ -1013,7 +1013,7 @@ namespace GD_StampingMachine.ViewModels
                     try
                     {
                         var movableCollection = this.StampingBoxPartsVM.SelectedSeparateBoxVM?.BoxPartsParameterVMCollection.Where(x =>
-                        (!x.IsFinish && !x.IsSended && !x.IsTransported));
+                        (!x.IsFinish && !x.IsSended && !x.IsTransported)).ToList();
                         if(movableCollection == null)
                             return;
 

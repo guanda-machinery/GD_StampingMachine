@@ -178,7 +178,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 準備加工的排版專案
         /// </summary>
-        public ProjectDistributeViewModel ProjectDistributeVM { get => _projectDistributeVM; set { _projectDistributeVM = value; OnPropertyChanged(); } }
+        public ProjectDistributeViewModel? ProjectDistributeVM { get => _projectDistributeVM; set { _projectDistributeVM = value; OnPropertyChanged(); } }
 
 
     }

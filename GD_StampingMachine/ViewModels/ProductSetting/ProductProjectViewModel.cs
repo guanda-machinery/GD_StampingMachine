@@ -135,8 +135,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             try
             {
 
-
-
                 _addNumberSettingSavedCollection = NumberSettingSavedCollection
                    .Where(x => x.SheetStampingTypeForm == this.SheetStampingTypeForm)
                    .ToObservableCollection().DeepCloneByJson();
@@ -160,9 +158,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
                 }
-
-
                 OnPropertyChanged(nameof(AddNumberSettingSavedCollection));
+
+
                 if (EditPartsParameterVM_Cloned != null)
                 {
                     _editNumberSettingSavedCollection = NumberSettingSavedCollection
