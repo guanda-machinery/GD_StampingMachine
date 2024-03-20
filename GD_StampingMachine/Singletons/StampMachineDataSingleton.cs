@@ -786,7 +786,7 @@ namespace GD_StampingMachine.Singletons
                             Random random = new Random();
                             var randomDouble = random.NextDouble() * 100;
                             
-                            await Application.Current.Dispatcher.InvokeAsync(async () =>
+                            await Application.Current.Dispatcher.InvokeAsync(() =>
                             {
                                 PlateBaseObservableCollection[i] = (new PlateMonitorViewModel()
                                 {
@@ -1063,7 +1063,7 @@ namespace GD_StampingMachine.Singletons
                                                     {
                                                         if (PlateBaseObservableCollection.Count != collection.Count)
                                                         {
-                                                            await Application.Current.Dispatcher.InvokeAsync(async () =>
+                                                            await Application.Current.Dispatcher.InvokeAsync(() =>
                                                             {
                                                                 PlateBaseObservableCollection = new ObservableCollection<PlateMonitorViewModel>(collection);
                                                             });

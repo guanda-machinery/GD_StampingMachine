@@ -145,6 +145,8 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _finishPartsParameterCommand??=new AsyncRelayCommand<object>(async obj =>
             {
+                await Task.CompletedTask;
+
                 var b = BoxPartsParameterSelectedItems;
         
                 if (obj is IList<GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel> partsParameterList)
@@ -274,7 +276,7 @@ namespace GD_StampingMachine.ViewModels
                                      try
                                      {
                                          _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("WaitConnection"));
-                                         await Application.Current.Dispatcher.InvokeAsync(async () =>
+                                         await Application.Current.Dispatcher.InvokeAsync(() =>
                                          {
                                              ConnectManager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                                          });

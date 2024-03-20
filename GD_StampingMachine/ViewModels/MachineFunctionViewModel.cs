@@ -499,12 +499,11 @@ namespace GD_StampingMachine.ViewModels
                                                 try
                                                 {
                                                     //機台有進行休眠流程且沒有被打斷
-                                                    var IsSleeped = await machineSleepTask;
-                                                    if (IsSleeped)
+                                                    if (await machineSleepTask)
                                                     {
                                                         if (await StampMachineData.SetHydraulicPumpMotorAsync(true))
                                                         {
-                                                            //馬達啟動超時
+                                                            //馬達啟動超時(15秒)
                                                             var MotorOutTimeCts = new CancellationTokenSource(15000);
                                                             try
                                                             {

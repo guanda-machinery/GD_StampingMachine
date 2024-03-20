@@ -31,7 +31,7 @@ namespace GD_CommonLibrary.Method
             });
         }
 
-        MessageBoxWindow newWindow;
+        MessageBoxWindow? newWindow;
 
         /// <summary>
         /// 可被外部關閉的彈出式視窗

@@ -54,7 +54,7 @@ namespace GD_StampingMachine.ViewModels
             await new StampingMachineJsonHelper().WriteUseStampingFontAsync(StampingTypeList);
         }
 
-        private ObservableCollection<StampingTypeViewModel> _stampingTypeVMObservableCollection;
+        private ObservableCollection<StampingTypeViewModel>? _stampingTypeVMObservableCollection;
         /// <summary>
         /// 軟體設定的轉盤
         /// </summary>
@@ -73,7 +73,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ObservableCollection<StampingTypeViewModel> _unusedStampingTypeVMObservableCollection;
+        private ObservableCollection<StampingTypeViewModel>? _unusedStampingTypeVMObservableCollection;
         public ObservableCollection<StampingTypeViewModel> UnusedStampingTypeVMObservableCollection
         {
             get
@@ -109,12 +109,15 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 被新建出來還沒放上去的字模/被換下來的字模
         /// </summary>
-        public StampingTypeViewModel UnusedStampingFontSelected { get; set; }
+        public StampingTypeViewModel? UnusedStampingFontSelected { get; set; }
 
-        public RelayCommand StampingFontReplaceCommand
+
+        private AsyncRelayCommand? _stampingFontReplaceCommand;
+        public AsyncRelayCommand StampingFontReplaceCommand
         {
-            get => new RelayCommand(() =>
+            get => _stampingFontReplaceCommand??= new AsyncRelayCommand(async() =>
             {
+                await Task.CompletedTask;
                 if (StampingFontSelected != null && UnusedStampingFontSelected != null)
                 {
                     StampingTypeModelExchanged();
@@ -144,17 +147,13 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ObservableCollection<StampingTypeViewModel> _newUnusedStampingFont;
+        private ObservableCollection<StampingTypeViewModel>? _newUnusedStampingFont;
         [JsonIgnore]
         public ObservableCollection<StampingTypeViewModel> NewUnusedStampingFont
         {
             get
             {
-                if (_newUnusedStampingFont == null)
-                {
-                    _newUnusedStampingFont = new ObservableCollection<StampingTypeViewModel>();
-                }
-
+                _newUnusedStampingFont ??= new();
                 if (_newUnusedStampingFont.Count == 0)
                 {
                     _newUnusedStampingFont.Add(new StampingTypeViewModel(new GD_Model.StampingTypeModel
@@ -165,11 +164,6 @@ namespace GD_StampingMachine.ViewModels
                         IsNewAddStamping = true,
                     }));
                 };
-                /*if (_newUnusedStampingFont.Count > 1)
-                {
-                    _newUnusedStampingFont.remove
-                }*/
-
                 return _newUnusedStampingFont;
             }
             set
@@ -250,12 +244,12 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        CancellationTokenSource cancellationToken = new CancellationTokenSource();
-        Task RotatingTask;
+        CancellationTokenSource cancellationToken = new();
+        Task? RotatingTask;
 
         private StampingTypeViewModel? _stampingTypeModel_ReadyStamping;
         [JsonIgnore]
-        public StampingTypeViewModel StampingTypeModel_ReadyStamping
+        public StampingTypeViewModel? StampingTypeModel_ReadyStamping
         {
             get=> _stampingTypeModel_ReadyStamping;
             set
@@ -267,7 +261,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     if (RotatingTask != null)
                         await RotatingTask.ConfigureAwait(false);
-                    cancellationToken.Cancel();
+                    cancellationToken?.Cancel();
                     cancellationToken = new CancellationTokenSource();
                     RotatingTask = await Task.Run(async () =>
                     {
@@ -382,7 +376,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private AsyncRelayCommand<SelectionChangedEventArgs> _stamping_SelectionChangedCommand;
+        private AsyncRelayCommand<SelectionChangedEventArgs>? _stamping_SelectionChangedCommand;
         [JsonIgnore]
         public AsyncRelayCommand<SelectionChangedEventArgs> Stamping_SelectionChangedCommand
         {
@@ -552,7 +546,7 @@ namespace GD_StampingMachine.ViewModels
             }, () => !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
         }
 
-        public AsyncRelayCommand _stampingFontCollectionData_SoftwareToMachine_Command;
+        public AsyncRelayCommand? _stampingFontCollectionData_SoftwareToMachine_Command;
         public AsyncRelayCommand StampingFontCollectionData_SoftwareToMachine_Command
         {
             get => _stampingFontCollectionData_SoftwareToMachine_Command ??= new(async () =>

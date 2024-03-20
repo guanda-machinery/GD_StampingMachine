@@ -305,7 +305,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
         
-        public event EventHandler<bool> ProductProjectIsFinishChanged;
+        public event EventHandler<bool>? ProductProjectIsFinishChanged;
 
 
         //private RelayCommand<object> _projectEditCommand;
@@ -329,6 +329,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 ProductProjectIsFinish = true;
             });
         }
+
+
+
         /// <summary>
         /// 完成取消
         /// </summary>
@@ -479,7 +482,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        private AsyncRelayCommand<object> _productDeleteCommand;
+        private AsyncRelayCommand<object>? _productDeleteCommand;
         [JsonIgnore]
         public AsyncRelayCommand<object> ProductDeleteCommand
         {
@@ -615,7 +618,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public class SimpleErpClass
         {
             [Index(0)]
-            public string Plate { get; set; }
+            public string? Plate { get; set; }
             [Index(1)]
             public int Count { get; set; }
         }
@@ -743,7 +746,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                 SettingBaseViewModel SettingBaseVM;
                                 if (_erp.QrCode)
                                 {
-                                    SettingBaseVM = ImportProjectQRSettingBaseVM.DeepCloneByJson();
+                                    SettingBaseVM = ImportProjectQRSettingBaseVM?.DeepCloneByJson();
                                     // SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
 
                                     //QRcode展開
@@ -910,7 +913,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        private PartsParameterViewModelObservableCollection _unBoxPartsParameterVMObservableCollection;
+        private PartsParameterViewModelObservableCollection? _unBoxPartsParameterVMObservableCollection;
         /// <summary>
         /// 還沒放進箱子內的資料
         /// </summary>
