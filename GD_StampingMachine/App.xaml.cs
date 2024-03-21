@@ -40,40 +40,42 @@ namespace GD_StampingMachine
                 Title = "GD_StampingMachine",
                 Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading"),
                 Progress = 0,
-                IsIndeterminate = false,
+                IsIndeterminate = true,
                 Subtitle = "Alpha 24.1.29",
                 Copyright = "Copyright © 2024 GUANDA",
             };
+
+            DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
+            // manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window); 
+            manager.Show(null, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window,-1);
+       
 
             StampingMachineWindow MachineWindow = new()
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
             };
-
             MachineWindow.DataContext ??= new StampingMachineWindowViewModel()
             {
                 Opacity = 0,
                 IsEnabled = false,
             };
+
+
             var stampingMachineWindowVM = (StampingMachineWindowViewModel)MachineWindow.DataContext;
             MachineWindow.Show();
 
             MachineWindow.WindowState = GD_StampingMachine.Properties.Settings.Default.WindowState;
 
-            DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
-           // manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window); 
-            manager.Show(null, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window);
+
 
             _ = Task.Run(async () =>
             {
                 try
                 {
                     stampingMachineWindowVM.Opacity = 0.1;
-                    ManagerVM.IsIndeterminate = true;
-
                     ManagerVM.IsIndeterminate = false;
 
-                    for (int i = 0; i <= 100; i=i+5)
+                    for (int i = 0; i <= 100; i++)
                     {
                         ManagerVM.Progress = i / 1.0;
                         stampingMachineWindowVM.Opacity += i / 100.0;

@@ -1467,52 +1467,48 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _clearFinishItemCommand ??= new AsyncRelayCommand(async () =>
             {
-                await Task.Run(async () =>
+                PauseStateChangedEvent = true;
+                try
                 {
-                    PauseStateChangedEvent = true;
-                    try
+                    if (SelectedProjectDistributeVM != null && SelectedProjectDistributeVM?.StampingBoxPartsVM.SelectedSeparateBoxVM != null)
                     {
-                        if (SelectedProjectDistributeVM != null && SelectedProjectDistributeVM?.StampingBoxPartsVM.SelectedSeparateBoxVM != null)
+                        var selectedBoxIndex = SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
+                        string Outputting = "";
+                        var clearBoxConfirmNotify = (string)Application.Current.TryFindResource("Text_ClearBoxConfirm");
+                        if (clearBoxConfirmNotify != null)
                         {
-                            var selectedBoxIndex = SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
-                            string Outputstring = "";
-                            var clearBoxConfirmNotify = (string)Application.Current.TryFindResource("Text_ClearBoxConfirm");
-                            if (clearBoxConfirmNotify != null)
-                            {
-                                Outputstring = string.Format(clearBoxConfirmNotify, selectedBoxIndex);
-                            }
-                            var result = await MessageBoxResultShow.ShowYesNoAsync(null, null, Outputstring, GD_MessageBoxNotifyResult.NotifyBl);
-                            if (result is MessageBoxResult.Yes)
-                            {
-                                ShowIsTransported = false;
+                            Outputting = string.Format(clearBoxConfirmNotify, selectedBoxIndex);
+                        }
+                        var result = await MessageBoxResultShow.ShowYesNoAsync(null, null, Outputting, GD_MessageBoxNotifyResult.NotifyBl);
+                        if (result is MessageBoxResult.Yes)
+                        {
+                            ShowIsTransported = false;
 
-                                var unTransportedCollection = this.SelectedProjectDistributeVM?.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection.Where(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
-                                if (unTransportedCollection != null)
+                            var unTransportedCollection = this.SelectedProjectDistributeVM?.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection.Where(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported).ToList();
+                            if (unTransportedCollection != null)
+                            {
+                                foreach (var part in unTransportedCollection)
                                 {
-                                    foreach (var part in unTransportedCollection)
-                                    {
-                                        part.IsTransported = true;
-                                    }
+                                    part.IsTransported = true;
                                 }
-
-                                ShowIsTransported = true;
-
-                                _ = SelectedProjectDistributeVM?.SaveProductProjectVMCollectionAsync();
                             }
-                        }
-                        else
-                        {
 
+                            _ = SelectedProjectDistributeVM?.SaveProductProjectVMCollectionAsync();
                         }
                     }
-                    catch
+                    else
                     {
 
                     }
-                    PauseStateChangedEvent = false;
-                    RefreshBoxPartsParameterVMRowFilter();
-                });
-            },()=> !ClearFinishItemCommand.IsRunning);
+                }
+                catch
+                {
+
+                }
+                PauseStateChangedEvent = false;
+                RefreshBoxPartsParameterVMRowFilter();
+
+            }, () => !ClearFinishItemCommand.IsRunning);
         }
 
 
