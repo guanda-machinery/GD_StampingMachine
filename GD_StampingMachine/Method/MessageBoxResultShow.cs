@@ -54,7 +54,7 @@ namespace GD_CommonLibrary.Method
 
         public MessageBoxResult ShowMessageBox()
         {
-            MessageBoxResult messageBoxReturn = newWindow.FloatShow();
+            MessageBoxResult messageBoxReturn = newWindow!.FloatShow();
             return messageBoxReturn;
         }
 

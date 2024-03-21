@@ -21,8 +21,8 @@ namespace GD_StampingMachine.ViewModels
     public class MachineFunctionViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachineFunction");
-        public ParameterSettingViewModel ParameterSettingVM { get => Singletons.StampingMachineSingleton.Instance.ParameterSettingVM; }
-        public StampingFontChangedViewModel StampingFontChangedVM { get => Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM; }
+        public ParameterSettingViewModel? ParameterSettingVM { get => Singletons.StampingMachineSingleton.Instance.ParameterSettingVM; }
+        public StampingFontChangedViewModel? StampingFontChangedVM { get => Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM; }
 
         /// <summary>
         /// 已選擇的加工專案

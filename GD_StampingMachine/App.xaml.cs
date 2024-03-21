@@ -26,7 +26,7 @@ namespace GD_StampingMachine
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             base.OnStartup(e);
-            var mutex = new System.Threading.Mutex(true, System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName, out bool ret);
+            var mutex = new System.Threading.Mutex(true, System.Diagnostics.Process.GetCurrentProcess().MainModule?.ModuleName, out bool ret);
             if (!ret)
             {
                 MessageBoxResultShow.Show(null,(string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK, GD_Enum.GD_MessageBoxNotifyResult.NotifyYe);

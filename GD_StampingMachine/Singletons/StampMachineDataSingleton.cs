@@ -801,7 +801,7 @@ namespace GD_StampingMachine.Singletons
                             await Task.Delay(100);
                         }
                     }
-                    catch(Exception ex)
+                    catch(Exception)
                     {
                         Debugger.Break();
                     }
@@ -1076,7 +1076,7 @@ namespace GD_StampingMachine.Singletons
                                                                 if (PlateBaseObservableCollection.TryGetValue(index, out var machineSetting)
                                                                 && collection.TryGetValue(index, out var plateMonitorVM))
                                                                 {
-                                                                    if (machineSetting.SettingBaseVM.PlateNumber != plateMonitorVM.SettingBaseVM.PlateNumber
+                                                                    if (machineSetting.SettingBaseVM?.PlateNumber != plateMonitorVM.SettingBaseVM?.PlateNumber
                                                                     || machineSetting.StampingStatus != plateMonitorVM.StampingStatus
                                                                     || machineSetting.DataMatrixIsFinish != plateMonitorVM.DataMatrixIsFinish
                                                                     || machineSetting.EngravingIsFinish != plateMonitorVM.EngravingIsFinish
@@ -1129,7 +1129,7 @@ namespace GD_StampingMachine.Singletons
                                                                     }
                                                                     catch (Exception ex)
                                                                     {
-                                                                        LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, ex, true);
+                                                                        _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, ex, true);
                                                                     }
                                                                 });
                                                             }
@@ -1688,7 +1688,7 @@ namespace GD_StampingMachine.Singletons
                     IsScanning = false;
                 }, token);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
 
             }
@@ -3392,7 +3392,7 @@ namespace GD_StampingMachine.Singletons
 
 
 
-        private (int oldValue, int newValue) _lastIronPlateID = (0, 0);
+       // private (int oldValue, int newValue) _lastIronPlateID = (0, 0);
         /// <summary>
         /// 最後一片的id
         /// </summary>
@@ -5078,7 +5078,7 @@ Y軸馬達位置移動命令
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        public async Task<(bool, object)> GetLubricationSettingTimeAsync()
+        public async Task<(bool, object?)> GetLubricationSettingTimeAsync()
         {
             return await this.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dLubTime}");
         }
@@ -5087,7 +5087,7 @@ Y軸馬達位置移動命令
         /// 潤滑開設定時間
         /// </summary>
         /// <returns></returns>
-        public async Task<(bool, object)> GetLubricationSettingOnTimeAsync()
+        public async Task<(bool, object?)> GetLubricationSettingOnTimeAsync()
         {
             return await this.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dOnTime}");
         }
@@ -5095,7 +5095,7 @@ Y軸馬達位置移動命令
         /// 潤滑關設定時間
         /// </summary>
         /// <returns></returns>     
-        public async Task<(bool, object)> GetLubricationSettingOffTimeAsync()
+        public async Task<(bool, object?)> GetLubricationSettingOffTimeAsync()
         {
             return await this.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dOffTime}");
         }
@@ -5104,14 +5104,14 @@ Y軸馬達位置移動命令
         /// <summary>
         /// 潤滑實際時間
         /// </summary>
-        public async Task<(bool, object)> GetLubricationActualTimeAsync()
+        public async Task<(bool, int)> GetLubricationActualTimeAsync()
         {
             return await this.ReadNodeAsync<int>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dLubTime}");
         }
         /// <summary>
         /// 潤滑開實際時間
         /// </summary>
-        public async Task<(bool, object)> GetLubricationActualOnTimeAsync()
+        public async Task<(bool, object?)> GetLubricationActualOnTimeAsync()
         {
             return await this.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOnTime}");
         }
@@ -5119,7 +5119,7 @@ Y軸馬達位置移動命令
         /// <summary>
         /// 潤滑關實際時間
         /// </summary>
-        public async Task<(bool, object)> GetLubricationActualOffTimeAsync()
+        public async Task<(bool, object?)> GetLubricationActualOffTimeAsync()
         {
             return await this.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOffTime}");
         }
@@ -5130,7 +5130,7 @@ Y軸馬達位置移動命令
         /// 取得錯誤訊息
         /// </summary>
         /// <returns></returns>
-        public async Task<(bool, string)> GetAlarmMessageAsync()
+        public async Task<(bool, string?)> GetAlarmMessageAsync()
         {
             return await this.ReadNodeAsync<string>($"{StampingOpcUANode.OpcMonitor1.sv_OpcLastAlarmText}");
         }

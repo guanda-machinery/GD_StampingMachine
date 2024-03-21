@@ -109,7 +109,7 @@ namespace GD_StampingMachine.Singletons
                         }
                         semaphoreSlim.Release();
                     }
-                    catch (OperationCanceledException ocex)
+                    catch (OperationCanceledException)
                     {
 
                     }

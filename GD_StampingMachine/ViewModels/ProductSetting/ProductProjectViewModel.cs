@@ -135,11 +135,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             try
             {
 
-                _addNumberSettingSavedCollection = NumberSettingSavedCollection
+                AddNumberSettingSavedCollection = NumberSettingSavedCollection
                    .Where(x => x.SheetStampingTypeForm == this.SheetStampingTypeForm)
                    .ToObservableCollection().DeepCloneByJson();
 
-                for (int i = 0; i < _addNumberSettingSavedCollection.Count; i++)
+                for (int i = 0; i < AddNumberSettingSavedCollection.Count; i++)
                 {
                     var obj = _addNumberSettingSavedCollection[i];
 
@@ -401,12 +401,17 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        private ObservableCollection<SettingBaseViewModel> _addNumberSettingSavedCollection=new();
+        private ObservableCollection<SettingBaseViewModel>? _addNumberSettingSavedCollection;
         [JsonIgnore]
         public ObservableCollection<SettingBaseViewModel> AddNumberSettingSavedCollection
         {
-            get => _addNumberSettingSavedCollection;
+            get => _addNumberSettingSavedCollection??=new();
+            set
+            {
+                _addNumberSettingSavedCollection = value;OnPropertyChanged();
+            }
         }
+
 
 
 
@@ -533,11 +538,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => new AsyncCommand(async () =>
             {
                 await Task.Delay(50);
-                var Findex = PartsParameterVMObservableCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
-                if (Findex != -1)
+                //var Findex = PartsParameterVMObservableCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
+                // if (Findex != -1)
+               // if()
+                if (PartsParameterViewModelSelectItem != null && PartsParameterVMObservableCollection.Contains(PartsParameterViewModelSelectItem))
                 {
                     // EditPartsParameterVM_Cloned = new PartsParameterViewModel(PartsParameterVMObservableCollection[Findex].PartsParameter.DeepCloneByJson());
-                    EditPartsParameterVM_Cloned = PartsParameterVMObservableCollection[Findex].DeepCloneByJson();
+                    //EditPartsParameterVM_Cloned = PartsParameterVMObservableCollection[Findex].DeepCloneByJson();
+                    EditPartsParameterVM_Cloned = PartsParameterViewModelSelectItem.DeepCloneByJson();
                 }
             });
         }
@@ -743,7 +751,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             foreach (var _erp in ErpFile)
                             {
                                 //開始轉換檔案
-                                SettingBaseViewModel SettingBaseVM;
+                                SettingBaseViewModel? SettingBaseVM;
                                 if (_erp.QrCode)
                                 {
                                     SettingBaseVM = ImportProjectQRSettingBaseVM?.DeepCloneByJson();

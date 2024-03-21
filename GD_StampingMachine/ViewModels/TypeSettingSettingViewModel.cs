@@ -45,8 +45,8 @@ namespace GD_StampingMachine.ViewModels
         /// 建立用的model
         /// </summary>
         public ProjectDistributeModel NewProjectDistribute { get; set; } = new();
-        public ProductSettingViewModel ProductSettingVM { get => Singletons.StampingMachineSingleton.Instance.ProductSettingVM; }
-        public ParameterSettingViewModel ParameterSettingVM { get => Singletons.StampingMachineSingleton.Instance.ParameterSettingVM; }
+        public ProductSettingViewModel? ProductSettingVM { get => Singletons.StampingMachineSingleton.Instance.ProductSettingVM; }
+        public ParameterSettingViewModel? ParameterSettingVM { get => Singletons.StampingMachineSingleton.Instance.ParameterSettingVM; }
 
 
 
@@ -75,7 +75,7 @@ namespace GD_StampingMachine.ViewModels
 
                     ProjectDistributeViewModel NewProjectDistributeVM = new(
                         NewProjectDistribute,
-                        ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection,
+                        ParameterSettingVM?.SeparateSettingVM.SeparateBoxVMObservableCollection,
                         ProductSettingVM.ProductProjectVMCollection);
 
                     ProjectDistributeVMObservableCollection.Add(NewProjectDistributeVM);

@@ -488,7 +488,7 @@ namespace GD_StampingMachine.ViewModels
                     await MessageBoxResultShow.ShowOKAsync(null, ViewModelName, ex.Message, GD_MessageBoxNotifyResult.NotifyRd);
                 }
             }
-            , e => !_stamping_SelectionChangedCommand.IsRunning);
+            , e => !Stamping_SelectionChangedCommand.IsRunning);
         }
 
 
@@ -682,7 +682,7 @@ namespace GD_StampingMachine.ViewModels
         private StampingTypeViewModel? _leftStampingTypeModel;
 
         [JsonIgnore]
-        public StampingTypeViewModel BottomStampingTypeModel
+        public StampingTypeViewModel? BottomStampingTypeModel
         {
             get => _bottomStampingTypeModel;
             set
@@ -692,7 +692,7 @@ namespace GD_StampingMachine.ViewModels
             }
         }
         [JsonIgnore]
-        public StampingTypeViewModel RightStampingTypeModel
+        public StampingTypeViewModel? RightStampingTypeModel
         {
             get => _rightStampingTypeModel;
             set
@@ -702,7 +702,7 @@ namespace GD_StampingMachine.ViewModels
             }
         }
         [JsonIgnore]
-        public StampingTypeViewModel TopStampingTypeModel
+        public StampingTypeViewModel? TopStampingTypeModel
         {
             get => _topStampingTypeModel;
             set
@@ -712,9 +712,10 @@ namespace GD_StampingMachine.ViewModels
             }
         }
         [JsonIgnore]
-        public StampingTypeViewModel LeftStampingTypeModel
+        public StampingTypeViewModel? LeftStampingTypeModel
         {
-            get => _leftStampingTypeModel; set
+            get => _leftStampingTypeModel; 
+            set
             {
                 _leftStampingTypeModel = value;
                 OnPropertyChanged(nameof(LeftStampingTypeModel));
