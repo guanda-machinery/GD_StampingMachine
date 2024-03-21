@@ -24,25 +24,23 @@
     <SolidColorBrush x:Key="BrightSecondGridControlBackground" Color="#e8e8e8"/>
     
 
-    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#282828"/>
-    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#4b4b4b"/>
-    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FAFAFA"/>
-    <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#2c2c2c"/>
-    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#f0f0f0"/>
+    <SolidColorBrush x:Key="MaterialDesign.Brush.Primary.Light" Color="#282828"/>
+    <SolidColorBrush x:Key="MaterialDesign.Brush.Primary.Light.Foreground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="MaterialDesign.Brush.Primary" Color="#4b4b4b"/>
+    <SolidColorBrush x:Key="MaterialDesign.Brush.Primary.Foreground" Color="#FAFAFA"/>
+    <SolidColorBrush x:Key="MaterialDesign.Brush.Primary.Dark" Color="#2c2c2c"/>
+    <SolidColorBrush x:Key="MaterialDesign.Brush.Primary.Dark.Foreground" Color="#f0f0f0"/>
 
     <SolidColorBrush x:Key="PrimaryButtonBrush" Color="#6f6f6f"/>
     <SolidColorBrush x:Key="PrimaryGridControlBackground" Color="#383838"/>
     <SolidColorBrush x:Key="SecondGridControlBackground" Color="#5d5d5d"/>
 
-
-
-    <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#1565c0"/>
-    <SolidColorBrush x:Key="SecondaryHueLightForegroundBrush" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#5e92f3"/>
-    <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="Black"/>
-    <SolidColorBrush x:Key="SecondaryHueDarkBrush" Color="#003c8f"/>
-    <SolidColorBrush x:Key="SecondaryHueDarkForegroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="MaterialDesign.Brush.Secondary.Light" Color="#1565c0"/>
+    <SolidColorBrush x:Key="MaterialDesign.Brush.Secondary.Light.Foreground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="MaterialDesign.Brush.Secondary" Color="#5e92f3"/>
+    <SolidColorBrush x:Key="MaterialDesign.Brush.Secondary.Foreground" Color="Black"/>
+    <SolidColorBrush x:Key="MaterialDesign.Brush.Secondary.Dark" Color="#003c8f"/>
+    <SolidColorBrush x:Key="MaterialDesign.Brush.Secondary.Dark.Foreground" Color="#FFFFFF"/>
     <!--ACCENT--> 
     <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#0081cc"/>
     <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="Black"/>

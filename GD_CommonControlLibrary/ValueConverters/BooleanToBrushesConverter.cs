@@ -17,7 +17,7 @@ namespace GD_CommonControlLibrary
                 return System.Windows.Media.Brushes.Red;
             }
 
-            var Brush = Application.Current.TryFindResource("PrimaryHueDarkForegroundBrush");
+            var Brush = Application.Current.TryFindResource("MaterialDesign.Brush.Primary.Dark.Foreground");
             if (Brush is SolidColorBrush SolidColor)
             {
                 return SolidColor;

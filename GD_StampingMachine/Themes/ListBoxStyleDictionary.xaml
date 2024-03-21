@@ -26,8 +26,8 @@
                         BorderThickness="{TemplateBinding BorderThickness}">
                         <Border.Style>
                             <Style TargetType="Border">
-                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
+                                <Setter Property="Background" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
                                                             AncestorType={x:Type ListBoxItem}},
@@ -107,7 +107,7 @@
 
 
     <Style TargetType="ListBoxItem" x:Key="SeparateBoxVMListBoxItem" >
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueLightForegroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource MaterialDesign.Brush.Primary.Light.Foreground}"/>
         <Setter Property="IsEnabled" Value="{Binding BoxIsEnabled}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
@@ -146,7 +146,7 @@
                                                 BorderThickness="0,0,0,1" HorizontalAlignment="Center">
                             <Border.Style>
                                 <Style TargetType="Border">
-                                    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding BoxIsFull}" Value="True">
                                             <Setter Property="BorderBrush" Value="#FFF3430B"/>

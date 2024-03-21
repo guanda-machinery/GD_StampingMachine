@@ -42,7 +42,7 @@
         <StackPanel Orientation="Vertical" Grid.Row="2" VerticalAlignment="Top">
             <TextBlock x:Name="PART_SubTitle" Text="{Binding Subtitle}" Style="{DynamicResource ResourceKey={dxt:FluentSplashScreenThemeKey ResourceKey=SubTitleTextBoxStyle}}"/>
             <ProgressBar IsIndeterminate="{Binding IsIndeterminate}" Value="{Binding Progress}" Grid.Row="2" 
-                      Foreground="{StaticResource SecondaryHueLightBrush}"
+                      Foreground="{StaticResource MaterialDesign.Brush.Secondary.Light}"
                      VerticalAlignment="Bottom"
                      Maximum="100"
                      Height="25"

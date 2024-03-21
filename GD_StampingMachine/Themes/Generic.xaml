@@ -132,7 +132,7 @@
                             <Border Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource ContentBorder}" BorderThickness="0,0,0,1"  Background="Transparent">
 
                                 <TextBlock Text="{TemplateBinding ProjectName}" FontWeight="Black"  FontSize="12" Margin="5,2" Padding="0,0,0,0" 
-                                                                       Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center"/>
+                                                                       Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}" VerticalAlignment="Center"/>
                             </Border>
 
                             <ContentPresenter  Margin="5"  Grid.Column="1" Grid.Row="1"
@@ -140,7 +140,7 @@
 
                             <Border Grid.Column="2" Grid.Row="1" Style="{StaticResource ContentBorder}" BorderThickness="1,0,0,0" Background="Transparent">
                                 <TextBlock Text="{TemplateBinding PlateDiagramIndex}"  FontWeight="Bold" FontSize="20"
-                                                                       Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                       Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
 
 

@@ -521,7 +521,7 @@
                 </StackPanel>
 
                     <Border Grid.Row="1" Margin="0,5" Height="32" >
-                        <Rectangle Width="auto" Height="2" Fill="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                        <Rectangle Width="auto" Height="2" Fill="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
                     </Border>
                     <ToggleButton Margin="0,5"
                         Name="AddFontToggleButton" Grid.Row="2"
@@ -539,8 +539,7 @@
                     <GD_Popup:DraggablePopup  Name="AddFontDraggablePopup" AllowsTransparency="True" 
                                         Placement="Relative" PlacementRectangle="-100,-180,0,0" PlacementTarget="{Binding ElementName=AddFontToggleButton}"  >
                         <materialDesign:ColorZone  CornerRadius="10" 
-                                              materialDesign:ShadowAssist.Darken="True" 
-                                              materialDesign:ShadowAssist.ShadowEdges="All">
+                                              materialDesign:ShadowAssist.Darken="True" >
                             <materialDesign:ColorZone.Style>
                                 <Style TargetType="materialDesign:ColorZone">
                                     <Setter Property="Background" Value="#424242"/>

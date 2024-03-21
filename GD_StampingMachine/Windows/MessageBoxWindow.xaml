@@ -17,8 +17,8 @@
         Title="MessageBoxWindow">
     <Grid MouseDown="Grid_MouseLeftButtonDown">
         <Border BorderThickness="2" 
-                BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}"
-            Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10"/>
+                BorderBrush="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
+            Background="{DynamicResource MaterialDesign.Brush.Primary.Dark}" CornerRadius="10"/>
         <Grid>
         <Grid  x:Name="MainGrid" Margin="16,20,24,20"   >
             <Grid.ColumnDefinitions>
@@ -45,7 +45,7 @@
             <Grid Grid.Row="0" Grid.Column="1"  >
                 <TextBlock Name="ContentTextBlock" VerticalAlignment="Center"  
                     Text="TestString" Style="{StaticResource Body1TextBlock}" FontSize="20" Margin="5,2,40,0"
-                           Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                           Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
                            />
             </Grid>
                 <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="10,10,10,0">
@@ -126,7 +126,7 @@
                             Value="0" />
                         <Setter Property="BorderBrush"
                             Value="Transparent" />
-                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
                         <Setter Property="Background" Value="Transparent"/>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">

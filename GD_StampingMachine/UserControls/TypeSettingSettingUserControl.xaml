@@ -230,7 +230,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                    <TextBlock Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
                     Text="{Binding ProjectDistributeName}" 
                     Name="ProjectDistributeNameTextBlock" HorizontalAlignment="Left" Padding="0,3,0,0"
                                Margin="10,0" FontSize="30"/>

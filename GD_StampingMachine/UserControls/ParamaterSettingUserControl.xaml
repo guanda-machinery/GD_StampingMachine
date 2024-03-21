@@ -53,7 +53,7 @@
 
         <Border   
             HorizontalAlignment="Center" Padding="0,0,0,8"
-            BorderThickness="0,0,0,1" BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}">
+            BorderThickness="0,0,0,1" BorderBrush="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}">
             <ItemsControl 
                 dd:DragDrop.IsDragSource ="True"
                 dd:DragDrop.IsDropTarget ="False"
@@ -974,7 +974,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                 </StackPanel>
                                 <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
                                                                           
-                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                      Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                                                           DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
                                                                           MainSliderValue="{Binding FeedingVelocity , Mode=TwoWay}" 
                                                                           MainSliderValueChanged="{Binding FeedingVelocityChangedCommand}"/>
@@ -996,7 +996,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                     <TextBlock Text="："/>
                                 </StackPanel>
                                 <GD_UserControls:TriggerSliderUserControl Grid.Column="1"         
-                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                      Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                                                           DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
                                                                           MainSliderValue="{Binding EngravingFeeding , Mode=TwoWay}" 
                                                                           MainSliderValueChanged="{Binding EngravingFeedingVelocityChangedCommand}" Margin="0,0,0,10" />
@@ -1007,7 +1007,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                 </StackPanel>
                                 <GD_UserControls:TriggerSliderUserControl IsEnabled="False" 
                                                                           
-                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                      Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                     Grid.Column="1" MainSliderValue="{Binding FontDepth , Mode=TwoWay}" Grid.Row="1" Margin="0,10"/>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="2" Margin="0,10">
@@ -1015,7 +1015,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                     <TextBlock Text="："/>
                                 </StackPanel>
                                 <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
-                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                      Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                                                           DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
                                                                           MainSliderValue="{Binding RotateVelocity , Mode=TwoWay}" 
                                                                           MainSliderValueChanged="{Binding RotateVelocityChangedCommand}"
@@ -1041,7 +1041,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                 </StackPanel>
                                 <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
                                                                  
-                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                      Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                                                           MainSliderValue="{Binding ZAxisPressure, Mode=TwoWay}" Margin="0,0,0,10" />
 
 
@@ -1318,7 +1318,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                         </Style>
 
                                         <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
                                             <Setter Property="FontWeight" Value="Bold"/>
                                             <Setter Property="FontSize" Value="20"/>
                                         </Style>
@@ -1375,8 +1375,8 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                             </ListBox.ItemsPanel>
                                             <ListBox.ItemContainerStyle>
                                                 <Style TargetType="ListBoxItem">
-                                                    <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}"/>
-                                                    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                    <Setter Property="Background" Value="{DynamicResource MaterialDesign.Brush.Primary}"/>
+                                                    <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
                                                     <Setter Property="BorderThickness" Value="2"/>
                                                     <Setter Property="Border.CornerRadius" Value="10"/>
                                                     <Setter Property="Margin" Value="0,4"/>
@@ -1435,26 +1435,26 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                         </Grid.ColumnDefinitions>
 
                                                                                         <TextBlock FontWeight="Normal"
-                                                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                                Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
                                                  Text="{Binding RestTime, StringFormat='HH:mm'}"
                                                 FontSize="50"/>
                                                                                         <TextBlock  Grid.Column="1"  FontWeight="Normal" 
-                                                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                                Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
                                                  Text="-"
                                                 FontSize="50"/>
 
 
                                                                                         <TextBlock  Grid.Column="2"  FontWeight="Normal"
-                                                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                                Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
                                                  Text="{Binding OpenTime, StringFormat='HH:mm'}"
                                                 FontSize="50"/>
                                                                                     </Grid>
                                                                                     <StackPanel Orientation="Horizontal">
                                                                                         <materialDesign:PackIcon VerticalAlignment="Center" Margin="0,0,0,0"
-                                                                                                                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                                                                                        Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
                                                                                                                         Kind="ClockOutline" Width="16" Height="16"/>
                                                                                         <TextBlock Margin="5,0" 
-                                                                                                                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                                                                                                        Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}">
                                                                                             <TextBlock.Text>
                                                                                                 <MultiBinding Converter="{GD_CommonControl:DateTimeDiffToDateTimeMultiConverter}" >
                                                                                                     <Binding Path="RestTime"/>
@@ -1465,7 +1465,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                     </StackPanel>
                                                                                     <TextBlock Visibility="Collapsed"
                                                                                                         Text="{Binding DayOfWeekWorkVMObservableCollection, Converter={gd_stampingmachine:DayOfWeekWorkVMObservableCollectionConverter}}"  
-                                                                                               Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                                               Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
                                                                                 </StackPanel>
 
                                                                                 <Grid VerticalAlignment="Center">
@@ -1494,7 +1494,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                                                         ConverterCulture={Binding Source=GD_Singletons:CultureViewModel.Instance,Path=SelectedCulture-->
                                                                                                     <Grid Grid.Row="1" Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}">
                                                                                                         <TextBlock  HorizontalAlignment="Center"
-                                                                                                                                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                                                                                                                        Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}">
                                                                                                             <TextBlock.Text>
                                                                                                                 <MultiBinding Converter="{GD_CommonControl:DayOfWeekMultiValueConverter}" 
                                                                                                                                                           Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
@@ -1585,10 +1585,10 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                     </Setter>
                                                     <Style.Triggers>
                                                         <Trigger Property="IsSelected" Value="True">
-                                                            <Setter Property="Background" Value="{DynamicResource  PrimaryHueMidBrush}"/>
+                                                            <Setter Property="Background" Value="{DynamicResource  MaterialDesign.Brush.Primary}"/>
                                                         </Trigger>
                                                         <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                                            <Setter Property="Background" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark}"/>
                                                         </Trigger>
 
                                                     </Style.Triggers>
@@ -1609,7 +1609,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                     <Grid>
                                         <Border   
                                         BorderThickness="0"
-                                        Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10" HorizontalAlignment="Stretch" />
+                                        Background="{DynamicResource MaterialDesign.Brush.Primary.Dark}" CornerRadius="10" HorizontalAlignment="Stretch" />
                                         <StackPanel Orientation="Vertical">
                                             <Grid Margin="10,5" >
                                                 <Button Style="{StaticResource SiegCustomButton_Primary}"
@@ -1678,7 +1678,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                             Kind="TimerStart" Foreground="{StaticResource SummerSkyBlue}" VerticalAlignment="Center"/>
                                                         <TextBlock Padding="0,4,0,0"
                                             Text="{DynamicResource Text_RestTime}" FontSize="18" 
-                                                   VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                                   VerticalAlignment="Center" Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}" />
                                                     </StackPanel>
 
 
@@ -1690,8 +1690,8 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                         Grid.Row="1"   MinWidth="120"  Style="{StaticResource MaterialDesignTimePicker}" Padding="0,3,0,0"
                                    materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
                                    WithSeconds="False"  SelectedTimeFormat="Long" Is24Hours="True"                                                                
-                                                               BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}"
-                                materialDesign:TextFieldAssist.UnderlineBrush="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                               BorderBrush="{DynamicResource MaterialDesign.Brush.Primary.Foreground}"
+                                materialDesign:TextFieldAssist.UnderlineBrush="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
                                    SelectedTime="{Binding RestTime}">
                                                     </materialDesign:TimePicker>
 
@@ -1708,7 +1708,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                         <materialDesign:PackIcon Width="25" Height="25" Margin="5,0"
                                             Kind="TimerStop" Foreground="{StaticResource SummerSkyBlue}" VerticalAlignment="Center"/>
                                                         <TextBlock Padding="0,4,0,0" 
-                                            Text="{DynamicResource Text_OpenTime}" FontSize="18" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                            Text="{DynamicResource Text_OpenTime}" FontSize="18" VerticalAlignment="Center" Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}" />
                                                     </StackPanel>
                                                     <!-- <TextBox Width="auto"
                         Grid.Row="1" HorizontalAlignment="Center" FontSize="18" 
@@ -1717,8 +1717,8 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                     <materialDesign:TimePicker Grid.Row="1"   MinWidth="120" Style="{StaticResource MaterialDesignTimePicker}"  Padding="0,3,0,0"
                                    materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
                                    WithSeconds="False"  SelectedTimeFormat="Long" Is24Hours="True"        
-                                                               BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}"
-                                materialDesign:TextFieldAssist.UnderlineBrush="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                               BorderBrush="{DynamicResource MaterialDesign.Brush.Primary.Foreground}"
+                                materialDesign:TextFieldAssist.UnderlineBrush="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
                                    SelectedTime="{Binding OpenTime}">
                                                     </materialDesign:TimePicker>
 
@@ -1879,7 +1879,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
 
                                                                                         <Canvas   Name="PART_SliderContainer">
                                                                                             <Ellipse Fill="Transparent"  Width="300" Height="300" Canvas.Left="0" Canvas.Top="0"  Opacity="1"
-                                                                 Stroke="{DynamicResource PrimaryHueMidBrush}" StrokeThickness="40"/>
+                                                                 Stroke="{DynamicResource MaterialDesign.Brush.Primary}" StrokeThickness="40"/>
                                                                                             <Canvas Name="PART_Arc"  Cursor="Hand"
                                                                 Canvas.Top="150" Canvas.Left="150">
                                                                                                 <Path Stroke="DimGray" StrokeThickness="30" Margin="0"  StrokeStartLineCap="Round" StrokeEndLineCap="Round">
@@ -2059,7 +2059,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                     <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center">
                                                         <materialDesign:PackIcon VerticalAlignment="Center" Margin="0,0,0,0"
-                                                                                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                                                                Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
                                                                                                 Kind="ClockOutline" Width="18" Height="18"/>
                                                         <TextBlock Padding="0,2,0,0">
                                                             <TextBlock.Text>
@@ -2100,11 +2100,11 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                                                             <Setter Property="Height" Value="40"/>
                                                                             <Setter Property="Padding" Value="0,2,0,0"/>
                                                                             <Setter Property="Margin" Value="3,0"/>
-                                                                            <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                                                            <Setter Property="Background" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark}"/>
                                                                             <Setter Property="BorderThickness" Value="2"/>
-                                                                            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                            <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
 
-                                                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
                                                                             <Setter Property="FontSize" Value="20"/>
                                                                             <Setter Property="Template">
                                                                                 <Setter.Value>
@@ -2200,7 +2200,7 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                                     <TextBlock Text="{DynamicResource Text_Repeat}" Margin="10,0"></TextBlock>
                                                     <TextBlock  Grid.Column="1" HorizontalAlignment="Right"  Margin="10,0"
                                                 Text="{Binding DayOfWeekWorkVMObservableCollection, Converter={gd_stampingmachine:DayOfWeekWorkVMObservableCollectionConverter}}"  
-                                                                       Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                       Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
                                                 </Grid>
                                             </ToggleButton>
                                             <GD_Popup:DraggablePopup 
@@ -2326,12 +2326,12 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                         </Grid.Resources>
                                         <ToggleButton  Grid.Column="0" HorizontalAlignment="Stretch" MinWidth="250" 
                                             Name="IsSingleSettingToggleButton" Style="{StaticResource GD_ToggleButton_Gray}" Margin="0,0,2,0"
-                                            Content="{DynamicResource Text_SingleSetting}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+                                            Content="{DynamicResource Text_SingleSetting}" Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light.Foreground}"
                                                      IsChecked="{Binding SettingType , Converter={GD_CommonControl:ObjectIsEqualToBooleanConverter},ConverterParameter={x:Static GD_Enum:SettingTypeEnum.SingleSetting}}"
                                                       />
                                         <ToggleButton Grid.Column="1" HorizontalAlignment="Stretch" MinWidth="250" 
                                             Name="IsUnifiedSettingToggleButton" Style="{StaticResource GD_ToggleButton_Gray}" Margin="2,0,0,0"
-                                            Content="{DynamicResource Text_UnifiedSetting}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+                                            Content="{DynamicResource Text_UnifiedSetting}" Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light.Foreground}"
                                                      IsChecked="{Binding SettingType , Converter={GD_CommonControl:ObjectIsEqualToBooleanConverter},ConverterParameter={x:Static GD_Enum:SettingTypeEnum.UnifiedSetting}}"
                                                      />
                                     </Grid>
@@ -2347,7 +2347,7 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                         Width="250"  Maximum="500"  
                                     Grid.Row="0" Grid.Column="1"  
                                         FontWeight="Bold"
-                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                      Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                         MainSliderValueChanged="{Binding SingleSetting_SeparateBoxValueChanged}"
                                     MainSliderValue="{Binding SingleSetting_SeparateBoxValue, Mode=TwoWay}"/>
                                 </Grid>
@@ -2355,7 +2355,7 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                 <CheckBox Margin="0.5,10" VerticalAlignment="Center"
                                                                 Style="{StaticResource MaterialDesignUserForegroundCheckBox}" HorizontalAlignment="Left" IsChecked="True"
                                                                       Command="{Binding SetAllSeparateBoxIsEnabled}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" 
-                                          Content="{DynamicResource Text_Box_AllSetting}" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" FontSize="16" >
+                                          Content="{DynamicResource Text_Box_AllSetting}" Foreground="{DynamicResource MaterialDesign.Brush.Primary.Foreground}" FontSize="16" >
                                     
                                 </CheckBox>
                                 <ListBox Grid.Row="1" Grid.ColumnSpan="2"  SelectionMode="Multiple" 
@@ -2374,19 +2374,19 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                                             </Grid.ColumnDefinitions>
                                                             <CheckBox Margin="0,5" VerticalAlignment="Center"
                                                                 Style="{StaticResource MaterialDesignUserForegroundCheckBox}" HorizontalAlignment="Left" 
-                                                                     Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+                                                                     Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light.Foreground}"
                                                                       IsChecked="{Binding BoxIsEnabled}">
                                                             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,-3,0,0" >
-                                                                    <TextBlock Text="{DynamicResource Text_Box}" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" FontSize="16"/>
+                                                                    <TextBlock Text="{DynamicResource Text_Box}" Foreground="{DynamicResource MaterialDesign.Brush.Primary.Foreground}" FontSize="16"/>
                                                                 <TextBlock  Text="{Binding BoxIndex}" VerticalAlignment="Center" 
-                                                                            FontSize="16" Margin="2,0" TextAlignment="Right" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                                                                            FontSize="16" Margin="2,0" TextAlignment="Right" Foreground="{DynamicResource MaterialDesign.Brush.Primary.Foreground}"/>
                                                                 </StackPanel>
                                                             </CheckBox>
                                                             <Grid Grid.Column="1" IsEnabled="{Binding BoxIsEnabled}">
                                                                 <GD_UserControls:TriggerSliderUserControl  Maximum="500"
                                                                    
                                         FontWeight="Bold"                                        
-                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                      Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                                                 IsEnabled="{Binding ElementName=IsSingleSettingToggleButton, Path=IsChecked}"
                                                              MainSliderValue="{Binding BoxSliderValue , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" Width="250" />
                                                             </Grid>
@@ -2446,12 +2446,12 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                         <Style TargetType="{x:Type dxg:RowControl}" >
                                             <Setter Property="Cursor" Value="Hand"/>
                                             <Setter Property="Height" Value="40"/>
-                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
                                             <Setter Property="Background" Value="Transparent" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                                                     <Setter Property="Background" Value="DeepSkyBlue" />
-                                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}" />
+                                                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesign.Brush.Primary.Foreground}" />
                                                 </DataTrigger>
                                                 <Trigger Property="IsMouseOver" Value="True">
                                                     <Setter Property="Background" Value="DodgerBlue"/>

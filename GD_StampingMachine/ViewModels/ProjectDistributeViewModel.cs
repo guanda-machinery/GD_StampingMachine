@@ -11,7 +11,7 @@ using DevExpress.Xpf.CodeView;
 using DevExpress.Xpf.Layout.Core;
 using DevExpress.XtraRichEdit.Layout;
 using DevExpress.XtraRichEdit.Model.History;
-using EnvDTE;
+
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Singletons;

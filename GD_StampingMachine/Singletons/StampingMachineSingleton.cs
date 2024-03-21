@@ -305,12 +305,12 @@ namespace GD_StampingMachine.Singletons
                 _isBrightMode = value;
                 if (value)
                 {
-                    Application.Current.Resources["PrimaryHueLightBrush"] = Application.Current.TryFindResource("BrightHueLightBrush");
-                    Application.Current.Resources["PrimaryHueLightForegroundBrush"] = Application.Current.TryFindResource("BrightHueLightForegroundBrush");
-                    Application.Current.Resources["PrimaryHueMidBrush"] = Application.Current.TryFindResource("BrightHueMidBrush");
-                    Application.Current.Resources["PrimaryHueMidForegroundBrush"] = Application.Current.TryFindResource("BrightHueMidForegroundBrush");
-                    Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("BrightHueDarkBrush");
-                    Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("BrightHueDarkForegroundBrush");
+                    Application.Current.Resources["MaterialDesign.Brush.Primary.Light"] = Application.Current.TryFindResource("BrightHueLightBrush");
+                    Application.Current.Resources["MaterialDesign.Brush.Primary.Light.Foreground"] = Application.Current.TryFindResource("BrightHueLightForegroundBrush");
+                    Application.Current.Resources["MaterialDesign.Brush.Primary"] = Application.Current.TryFindResource("BrightHueMidBrush");
+                    Application.Current.Resources["MaterialDesign.Brush.Primary.Foreground"] = Application.Current.TryFindResource("BrightHueMidForegroundBrush");
+                    Application.Current.Resources["MaterialDesign.Brush.Primary.Dark"] = Application.Current.TryFindResource("BrightHueDarkBrush");
+                    Application.Current.Resources["MaterialDesign.Brush.Primary.Dark.Foreground"] = Application.Current.TryFindResource("BrightHueDarkForegroundBrush");
                     Application.Current.Resources["PrimaryButtonBrush"] = Application.Current.TryFindResource("BrightPrimaryButtonBrush");
               
                     Application.Current.Resources["PrimaryGridControlBackground"] = Application.Current.TryFindResource("BrightPrimaryGridControlBackground");
@@ -319,12 +319,12 @@ namespace GD_StampingMachine.Singletons
                 }
                 else
                 {
-                    Application.Current.Resources["PrimaryHueLightBrush"] = (SolidColorBrush)Application.Current.TryFindResource("DarkHueLightBrush");
-                    Application.Current.Resources["PrimaryHueLightForegroundBrush"] = Application.Current.TryFindResource("DarkHueLightForegroundBrush");
-                    Application.Current.Resources["PrimaryHueMidBrush"] = Application.Current.TryFindResource("DarkHueMidBrush");
-                    Application.Current.Resources["PrimaryHueMidForegroundBrush"] = Application.Current.TryFindResource("DarkHueMidForegroundBrush");
-                    Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("DarkHueDarkBrush");
-                    Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("DarkHueDarkForegroundBrush");
+                    Application.Current.Resources["MaterialDesign.Brush.Primary.Light"] = (SolidColorBrush)Application.Current.TryFindResource("DarkHueLightBrush");
+                    Application.Current.Resources["MaterialDesign.Brush.Primary.Light.Foreground"] = Application.Current.TryFindResource("DarkHueLightForegroundBrush");
+                    Application.Current.Resources["MaterialDesign.Brush.Primary"] = Application.Current.TryFindResource("DarkHueMidBrush");
+                    Application.Current.Resources["MaterialDesign.Brush.Primary.Foreground"] = Application.Current.TryFindResource("DarkHueMidForegroundBrush");
+                    Application.Current.Resources["MaterialDesign.Brush.Primary.Dark"] = Application.Current.TryFindResource("DarkHueDarkBrush");
+                    Application.Current.Resources["MaterialDesign.Brush.Primary.Dark.Foreground"] = Application.Current.TryFindResource("DarkHueDarkForegroundBrush");
                     Application.Current.Resources["PrimaryButtonBrush"] = Application.Current.TryFindResource("DarkPrimaryButtonBrush");
               
                     Application.Current.Resources["PrimaryGridControlBackground"] = Application.Current.TryFindResource("DarkPrimaryGridControlBackground");

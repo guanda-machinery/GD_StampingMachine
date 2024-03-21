@@ -66,10 +66,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="Microsoft.CodeAnalysis" Version="4.8.0" />
-    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.8.37222" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.8.14" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.8.14">
+    <PackageReference Include="DevExpress.CodeParser" Version="21.2.15" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="4.9.2" />
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.9.37000" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.9.28" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.9.28">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -156,30 +159,34 @@
 	  <PackageReference Include="DevExpress.Wpf.TypedStyles" Version="21.2.15" />
     <PackageReference Include="DynamicExpresso.Core" Version="2.16.1" />
     <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
-    <PackageReference Include="JetBrains.Annotations" Version="2023.2.0" />
-    <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
-    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
-    <PackageReference Include="MessagePack" Version="2.5.108" />
-    <PackageReference Include="MessagePack.Annotations" Version="2.5.108" />
-    <PackageReference Include="Microsoft.Build.Framework" Version="17.8.3" />
-    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.2" />
-    <PackageReference Include="Microsoft.NET.StringTools" Version="17.8.3" />
-    <PackageReference Include="Microsoft.ServiceHub.Resources" Version="4.4.2142" />
-    <PackageReference Include="Microsoft.VisualStudio.Composition" Version="17.7.26" />
-    <PackageReference Include="Microsoft.VisualStudio.Composition.Analyzers" Version="17.7.26" />
-    <PackageReference Include="Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime" Version="17.8.37221" />
-    <PackageReference Include="Microsoft.VisualStudio.Interop" Version="17.8.37221" />
+    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
+    <PackageReference Include="MaterialDesignColors" Version="3.0.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.0.0" />
+    <PackageReference Include="MessagePack" Version="2.5.140" />
+    <PackageReference Include="MessagePack.Annotations" Version="2.5.140" />
+    <PackageReference Include="Microsoft.Build.Framework" Version="17.9.5" />
+    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.StringTools" Version="17.9.5" />
+    <PackageReference Include="Microsoft.ServiceHub.Resources" Version="4.4.4171" />
+    <PackageReference Include="Microsoft.VisualStudio.Composition" Version="17.7.40" />
+    <PackageReference Include="Microsoft.VisualStudio.Composition.Analyzers" Version="17.7.40" />
+    <PackageReference Include="Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime" Version="17.9.37000" />
+    <PackageReference Include="Microsoft.VisualStudio.Interop" Version="17.9.37000" />
     <PackageReference Include="Microsoft.VisualStudio.RemoteControl" Version="16.3.52" />
-    <PackageReference Include="Microsoft.VisualStudio.RpcContracts" Version="17.8.9" />
+    <PackageReference Include="Microsoft.VisualStudio.RpcContracts" Version="17.9.7" />
     <PackageReference Include="Microsoft.VisualStudio.SDK.Analyzers" Version="16.10.10" />
-    <PackageReference Include="Microsoft.VisualStudio.Setup.Configuration.Interop" Version="3.8.2112" />
-    <PackageReference Include="Microsoft.VisualStudio.Telemetry" Version="17.8.143" />
-    <PackageReference Include="Microsoft.VisualStudio.Utilities" Version="17.8.37221" />
+    <PackageReference Include="Microsoft.VisualStudio.Setup.Configuration.Interop" Version="3.9.2164" />
+    <PackageReference Include="Microsoft.VisualStudio.Telemetry" Version="17.9.305" />
+    <PackageReference Include="Microsoft.VisualStudio.Utilities" Version="17.9.37000" />
     <PackageReference Include="Microsoft.VisualStudio.Utilities.Internal" Version="16.3.56" />
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
-    <PackageReference Include="Nerdbank.Streams" Version="2.10.69" />
-    <PackageReference Include="StreamJsonRpc" Version="2.17.8" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
+    <PackageReference Include="Nerdbank.Streams" Version="2.10.72" />
+    <PackageReference Include="StreamJsonRpc" Version="2.17.11" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Cultures\EnumResources.Designer.cs" />

@@ -37,7 +37,7 @@
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
         <StackPanel >
             <materialDesign:Card Background="Transparent" Padding="10,0"
-                            materialDesign:ShadowAssist.ShadowEdges="None" materialDesign:ElevationAssist.Elevation="Dp0" >
+                     materialDesign:ElevationAssist.Elevation="Dp0" >
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="5,0,20,0">
@@ -194,7 +194,7 @@
                                     IsOpen="{Binding ElementName=Custom_Component_TButton, Path=IsChecked, Mode=TwoWay}">
 
                                     <Grid>
-                                        <Border  Background="{DynamicResource PrimaryHueMidBrush}"  CornerRadius="10">
+                                        <Border  Background="{DynamicResource MaterialDesign.Brush.Primary}"  CornerRadius="10">
                                             <StackPanel>
                                                 <local:FunctionToggleUserControl Margin="0"
                                                      ContentPadding="5"
@@ -615,8 +615,8 @@
                            >
                     <WrapPanel.Resources>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource ParameterBaseStyleGroupBox}">
-                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
                             <Style.Triggers>
                                 <Trigger Property="IsEnabled" Value="False">
                                     <Setter Property="Opacity" Value="0.75"/>
@@ -1320,9 +1320,9 @@
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="Height" Value="40"/>
                                 <Setter Property="Width" Value="60"/>
-                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                        <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkBrush}"/>
-                                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
+                                        <Setter Property="Background" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark}"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
                                         <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem" >
@@ -1379,7 +1379,7 @@
                                 
                                 <Border Background="Transparent" CornerRadius="125" Margin="0" 
                                         BorderThickness="1"
-                                        BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                        BorderBrush="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
 
                                 <ListBox Name="SelectedProjectDistributeSeparateBoxCollection"
                                     Margin="5"                       

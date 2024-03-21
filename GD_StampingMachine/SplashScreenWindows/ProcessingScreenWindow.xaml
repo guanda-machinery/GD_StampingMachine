@@ -17,13 +17,13 @@
     <Grid MinWidth="500" Height="100">
         <Grid.Resources>
             <Style TargetType="TextBlock" BasedOn="{ StaticResource Body1TextBlock }">
-                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"/>
                 <Setter Property="Padding" Value="0,0,0,0"/>
             </Style>
         </Grid.Resources>
 
         <Border
-            Background="{DynamicResource PrimaryHueLightBrush}"
+            Background="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                 BorderBrush="#49FFFFFF"
                 CornerRadius="20"
                 BorderThickness="0">

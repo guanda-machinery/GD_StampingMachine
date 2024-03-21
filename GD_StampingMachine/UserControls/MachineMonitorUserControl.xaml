@@ -142,7 +142,7 @@
                         </Border>
                 </StackPanel>
 
-                <Border Grid.Row="1" Margin="10" Background="{DynamicResource PrimaryHueLightForegroundBrush}"/>
+                <Border Grid.Row="1" Margin="10" Background="{DynamicResource MaterialDesign.Brush.Primary.Light.Foreground}"/>
 
                     <Border Grid.Row="2" Background="White" Margin="0,0,0,0" />
                     <Viewbox Grid.ColumnSpan="3"    Grid.Row="2" MaxHeight="120">
@@ -323,7 +323,7 @@
                             </GD_Popup:DraggablePopup.Resources>
                             <Border Width="1000"  
                                                 CornerRadius="10"
-                                               Background="{DynamicResource PrimaryHueDarkBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                               Background="{DynamicResource MaterialDesign.Brush.Primary.Dark}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                 <GroupBox Header="{DynamicResource btnMachiningDataManage}" FontSize="30"  
                                           Style="{StaticResource MaterialDesignGroupBox}" Margin="5">
 

@@ -78,7 +78,7 @@
                                       IsChecked="{Binding ProductSettingVM.OpenProjectFileDarggableIsPopup}"
                         Style="{StaticResource MaterialDesignFlatMidBgButton}" VerticalAlignment="Center" Height="auto">
                             <!--                            Command="{Binding OpenProjectFileCommand}"-->
-                            <Border BorderBrush="{DynamicResource PrimaryHueLightForegroundBrush}"   HorizontalAlignment="Stretch"   Width="280"  MaxWidth="280" 
+                            <Border BorderBrush="{DynamicResource MaterialDesign.Brush.Primary.Light.Foreground}"   HorizontalAlignment="Stretch"   Width="280"  MaxWidth="280" 
                                     BorderThickness="0,0,0,1.5">
                                 <TextBlock 
                                     Text="{Binding  Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=SelectedProjectDistributeVM.ProjectDistributeName}"
@@ -95,7 +95,7 @@
                             PopupAnimation="Slide">
                             <Border BorderThickness="0"  
                                                 CornerRadius="10"
-                                               Background="{DynamicResource PrimaryHueLightBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                               Background="{DynamicResource MaterialDesign.Brush.Primary.Light}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                 <Border.Resources >
 
                                 </Border.Resources>
@@ -129,7 +129,7 @@
            
                     <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,0,0,0">
                         <Border Padding="15,5" CornerRadius="20"
-                            Background="{DynamicResource PrimaryHueMidBrush}" BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}" BorderThickness="2">
+                            Background="{DynamicResource MaterialDesign.Brush.Primary}" BorderBrush="{DynamicResource MaterialDesign.Brush.Primary.Foreground}" BorderThickness="2">
                             <StackPanel Orientation="Horizontal">
 
 
@@ -168,7 +168,7 @@
                             DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
                             >
                                     <Border  Visibility="{Binding ElementName=AlarmButton,Path=Visibility}"
-                                        MinHeight="50" MinWidth="300" Background="{DynamicResource PrimaryHueLightBrush}" CornerRadius="5"
+                                        MinHeight="50" MinWidth="300" Background="{DynamicResource MaterialDesign.Brush.Primary.Light}" CornerRadius="5"
 
                                              Padding="10,10">
                                         <GroupBox Header="{DynamicResource Text_MachineAlarm}" Padding="5">
@@ -225,7 +225,7 @@
                                     PlacementTarget="{Binding ElementName=StampingWarningButton}"
                                                           HorizontalAlignment="Center" >
                                     <Grid>
-                                        <Border  MaxHeight="500"  Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5" Padding="5,10">
+                                        <Border  MaxHeight="500"  Background="{DynamicResource MaterialDesign.Brush.Primary.Dark}" CornerRadius="5" Padding="5,10">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="300"/>
@@ -441,7 +441,7 @@
                         Visibility="{Binding ElementName=MainTabControl,Path=SelectedIndex ,ConverterParameter={StaticResource MinusOne} ,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter}}">
                             <StackPanel >
                                 <Grid  Width="600"  >
-                                    <materialDesign:Card   materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp6" >
+                                    <materialDesign:Card    materialDesign:ElevationAssist.Elevation="Dp6" >
                                         <Image Source="pack://application:,,,/image/擷取1.PNG" />
                                     </materialDesign:Card>
                                 </Grid>
@@ -1266,10 +1266,9 @@ RadiusX="0.5" RadiusY="0.5">
                                                 </DataTemplate>
                                             </dxe:ComboBoxEdit.ItemTemplate>
                                         </dxe:ComboBoxEdit>
-                                        <TabControl 
-              materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp5"
-                    materialDesign:ColorZoneAssist.Background="{DynamicResource PrimaryHueDarkBrush}"
-                    materialDesign:ColorZoneAssist.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                        <TabControl  materialDesign:ElevationAssist.Elevation="Dp5"
+                    materialDesign:ColorZoneAssist.Background="{DynamicResource MaterialDesign.Brush.Primary.Dark}"
+                    materialDesign:ColorZoneAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
                     materialDesign:ColorZoneAssist.Mode="Custom" TabStripPlacement="Top" 
                     Style="{StaticResource MaterialDesignFilledTabControl}" Background="Transparent" HorizontalContentAlignment="Left">
                                             <TabItem Style="{StaticResource MaterialDesignTabItem}" 
@@ -1752,12 +1751,12 @@ dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
                                                    Placement="Top"  PlacementTarget="{Binding ElementName=TBtn_Speed}" PopupAnimation="Slide" PlacementRectangle="-110,-10,0,0" >
                                     <Border Opacity="0.95"
                                     CornerRadius="10"   
-                                            Background="{DynamicResource PrimaryHueLightBrush}"
-                                            BorderBrush="{DynamicResource PrimaryHueLightForegroundBrush}" 
+                                            Background="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                            BorderBrush="{DynamicResource MaterialDesign.Brush.Primary.Light.Foreground}" 
                                             BorderThickness="1.5">
                                         <StackPanel Margin="5" Orientation="Vertical">
                                             <TextBlock  HorizontalAlignment="Center"
-                                            Text="{StaticResource btnDescription_Speed}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                            Text="{StaticResource btnDescription_Speed}" Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
                                                    FontSize="20" />
 
                                             <!--
@@ -1767,8 +1766,8 @@ dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
 
                                             <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
                                                                                       DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
-                                                                                  RepeatButtonForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                                                                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                                                                  RepeatButtonForeground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
+                                                                                Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark}"
                                                                                       FontWeight="Bold"         
                                                                                       MainSliderValue="{Binding Path=FeedingVelocity}" Width="300" Margin="10"
                                                                                       MainSliderValueChanged="{Binding GlobalSpeedChangedCommand}"
