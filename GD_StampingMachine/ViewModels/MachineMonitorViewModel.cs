@@ -484,7 +484,9 @@ namespace GD_StampingMachine.ViewModels
                                          await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_MachiningIsProcessing"));
 
                                          readyMachining.IsSended = true;
-                                         await SelectedProjectDistributeVM?.SaveProductProjectVMCollectionAsync();
+
+                                         if(SelectedProjectDistributeVM!=null)
+                                             await SelectedProjectDistributeVM.SaveProductProjectVMCollectionAsync();
 
                                          await Task.Delay(2000, token);
                                          await Task.Yield();
@@ -546,48 +548,49 @@ namespace GD_StampingMachine.ViewModels
                 {
                     var PartCollection = ProductSettingVM?.ProductProjectVMCollection.SelectMany(x => x.PartsParameterVMObservableCollection);
 
-                    if (PlateCollection.FirstOrDefault()?.ID != PreviousFirstIronPlateID)
+                    if (PartCollection != null)
                     {
-                        if (PreviousFirstIronPlateID != null)
+                        if (PlateCollection.FirstOrDefault()?.ID != PreviousFirstIronPlateID)
                         {
-                            var FirstPart = PartCollection.FirstOrDefault(x => x.ID == PreviousFirstIronPlateID); 
-                            if (FirstPart != null)
+                            if (PreviousFirstIronPlateID != null)
                             {
-                                FirstPart.FinishProgress = 100;
-                                FirstPart.IsFinish = true;
+                                var FirstPart = PartCollection.FirstOrDefault(x => x.ID == PreviousFirstIronPlateID);
+                                if (FirstPart != null)
+                                {
+                                    FirstPart.FinishProgress = 100;
+                                    FirstPart.IsFinish = true;
+                                }
+                            }
+                        }
+
+                        if (PlateCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID != PreviousMiddleIronPlateID)
+                        {
+                            if (PreviousMiddleIronPlateID != null)
+                            {
+                                var MiddlePart = PartCollection.LastOrDefault(x => x.ID == PreviousMiddleIronPlateID);
+                                if (MiddlePart != null)
+                                {
+                                    if (MiddlePart.FinishProgress < 66)
+                                        MiddlePart.FinishProgress = 66;
+                                    //MiddlePart.EngravingIsFinish = true;
+                                }
+                            }
+                        }
+
+                        if (PlateCollection.LastOrDefault()?.ID != PreviousLasttIronPlateID)
+                        {
+                            if (PreviousLasttIronPlateID != null)
+                            {
+                                var LastPart = PartCollection.LastOrDefault(x => x.ID == PreviousLasttIronPlateID);
+                                if (LastPart != null)
+                                {
+
+                                    LastPart.FinishProgress = 33;
+                                    LastPart.DataMatrixIsFinish = true;
+                                }
                             }
                         }
                     }
-
-                    if (PlateCollection.LastOrDefault(x=> x.EngravingIsFinish)?.ID != PreviousMiddleIronPlateID)
-                    {
-                        if (PreviousMiddleIronPlateID != null)
-                        {
-                            var MiddlePart = PartCollection.LastOrDefault(x => x.ID == PreviousMiddleIronPlateID);
-                            if (MiddlePart != null)
-                            {
-                                if(MiddlePart.FinishProgress<66)
-                                    MiddlePart.FinishProgress = 66;
-                                //MiddlePart.EngravingIsFinish = true;
-                            }
-                        }
-                    }
-
-                    if (PlateCollection.LastOrDefault()?.ID != PreviousLasttIronPlateID)
-                    {
-                        if (PreviousLasttIronPlateID != null)
-                        {
-                            var LastPart = PartCollection.LastOrDefault(x => x.ID == PreviousLasttIronPlateID);
-                            if (LastPart != null)
-                            {
-
-                                LastPart.FinishProgress = 33;
-                                LastPart.DataMatrixIsFinish = true;
-                            }
-                        }
-                    }
-
-
 
                     PreviousFirstIronPlateID = PlateCollection.FirstOrDefault()?.ID;
                     PreviousMiddleIronPlateID = PlateCollection.LastOrDefault(x=>x.EngravingIsFinish)?.ID;

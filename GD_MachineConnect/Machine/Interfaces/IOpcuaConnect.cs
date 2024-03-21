@@ -11,7 +11,7 @@ namespace GD_MachineConnect.Machine.Interfaces
     public interface IOpcuaConnect
     {
         bool IsConnected { get; }
-        Task<bool> ConnectAsync(string hostPath, string user = null, string password = null);
+        Task<bool> ConnectAsync(string hostPath, string? user = null, string? password = null);
 
         void Disconnect();
 

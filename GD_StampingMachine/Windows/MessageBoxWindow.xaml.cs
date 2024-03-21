@@ -31,7 +31,7 @@ namespace GD_StampingMachine.Windows
     
 
 
-        public MessageBoxWindow(Window? parent, string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Icon, bool lockWindow = true)
+        public MessageBoxWindow(Window? parent, string? MessageTitle, string? MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Icon, bool lockWindow = true)
         {
             InitializeComponent();
 
@@ -91,7 +91,7 @@ namespace GD_StampingMachine.Windows
                         }
                     };
 
-                    Overlay.Closed += delegate (object sender, EventArgs e)
+                    Overlay.Closed += delegate (object? sender, EventArgs e)
                     {
                         Overlay.Owner?.Focus();
                     };
@@ -186,7 +186,7 @@ namespace GD_StampingMachine.Windows
 
                 if (frameworkElement == null && Application.Current?.Windows.Count > 0)
                 {
-                    Window window2 = Application.Current?.Windows[0];
+                    Window window2 = Application.Current.Windows[0];
                     if (window2.Background != Brushes.Transparent)
                     {
                         frameworkElement = window2;
@@ -202,19 +202,17 @@ namespace GD_StampingMachine.Windows
         public MessageBoxResult Result { get; private set; }
 
         //readonly Window Parent = null;
-        readonly Window Overlay = null;
+        readonly Window? Overlay = null;
 
         public MessageBoxResult FloatShow()
         {
             //   this.Focus();
             this.Dispatcher.Invoke(new Action(() =>
             {
-                if (Overlay != null)
-                {
-                    Overlay.Show();
-                    this.Owner = Overlay;
-                }
-                else
+                Overlay?.Show();
+                this.Owner = Overlay;
+
+                if (Overlay == null)
                 {
                     this.Topmost = true;
                 }

@@ -75,8 +75,8 @@ namespace GD_StampingMachine.ViewModels
 
                     ProjectDistributeViewModel NewProjectDistributeVM = new(
                         NewProjectDistribute,
-                        ParameterSettingVM?.SeparateSettingVM.SeparateBoxVMObservableCollection,
-                        ProductSettingVM.ProductProjectVMCollection);
+                        ParameterSettingVM!.SeparateSettingVM.SeparateBoxVMObservableCollection,
+                        ProductSettingVM!.ProductProjectVMCollection);
 
                     ProjectDistributeVMObservableCollection.Add(NewProjectDistributeVM);
                     var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();

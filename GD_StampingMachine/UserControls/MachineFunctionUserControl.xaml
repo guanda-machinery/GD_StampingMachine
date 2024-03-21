@@ -1225,6 +1225,7 @@
                                     </StackPanel>
                             
                             </GroupBox>
+                        <!--
                             <GroupBox Visibility="Collapsed"
                                 Header="{StaticResource Text_SteelPunchedFontSetting}">
                                 <Grid>
@@ -1249,6 +1250,7 @@
 
                                 </Grid>
                             </GroupBox>
+                        -->
 
                         </Grid>
                 </GroupBox>

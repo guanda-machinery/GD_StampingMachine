@@ -45,7 +45,7 @@ namespace GD_StampingMachine.Singletons
         {
             await AddLogDataAsync(SourceName, ex.Message , IsAlarm);
         }
-        public async Task AddLogDataAsync(string SourceName, string LogString, bool IsAlarm = false)
+        public async Task AddLogDataAsync(string? SourceName, string LogString, bool IsAlarm = false)
         {
             try
             {

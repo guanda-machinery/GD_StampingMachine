@@ -19,7 +19,7 @@ namespace GD_CommonLibrary.Method
     public class MessageBoxResultShow
     {
 
-        public MessageBoxResultShow(Window? parent, string messageTitle, string messageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
+        public MessageBoxResultShow(Window? parent, string? messageTitle, string? messageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -92,7 +92,7 @@ namespace GD_CommonLibrary.Method
         }
 
 
-        public static MessageBoxResult Show(Window? Parent, string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
+        public static MessageBoxResult Show(Window? Parent, string? MessageTitle, string? MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
         {
             return new MessageBoxResultShow(Parent, MessageTitle, MessageString, MB_Button, MB_Image, lockWindow).ShowMessageBox();
         }

@@ -1018,13 +1018,16 @@ namespace GD_StampingMachine.Singletons
                                                 if (alarmTask.Item1)
                                                 {
                                                     var message = alarmTask.Item2;
-                                                    if (!AlarmMessageCollection.Contains(message))
+                                                    if (message != null)
                                                     {
-                                                        await Application.Current.Dispatcher.InvokeAsync(() =>
+                                                        if (!AlarmMessageCollection.Contains(message))
                                                         {
-                                                            AlarmMessageCollection.Add(message);
+                                                            await Application.Current.Dispatcher.InvokeAsync(() =>
+                                                            {
+                                                                AlarmMessageCollection.Add(message);
+                                                            });
                                                             _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, message, true);
-                                                        });
+                                                        }
                                                     }
                                                 }
                                                 await this.opcUaClient.SubscribeNodeDataChangeAsync<string>(StampingOpcUANode.OpcMonitor1.sv_OpcLastAlarmText,
@@ -4850,9 +4853,10 @@ Y軸馬達位置移動命令
             {
                 var codeInfoArray = ret.Item2;
                 //確認沒超出範圍
-                if (codeInfoArray.ToList().Count > index)
+                if(codeInfoArray!=null && codeInfoArray.Length > index)
                 {
-                    codeInfoArray[index] = font.ToInt();
+                    codeInfoArray.SetValue(font.ToInt(), index);
+                    //codeInfoArray[index] = font.ToInt();
                     return await SetRotatingTurntableInfoINTAsync(codeInfoArray);
                 }
             }

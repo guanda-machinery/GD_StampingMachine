@@ -31,7 +31,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public TimingSettingViewModel(TimingSettingModel timingSetting)
         {
             this.TimingSetting = timingSetting;
-            TimingControlVMCollection = new ObservableCollection<TimingControlViewModel>(timingSetting.TimingControlCollection?.Select(x => new TimingControlViewModel(x)));
+            TimingControlVMCollection = new ObservableCollection<TimingControlViewModel>(timingSetting.TimingControlCollection.Select(x => new TimingControlViewModel(x)));
             TimingControlVMCollectionCloned = TimingControlVMCollection.DeepCloneByJson();
         }
 
@@ -105,7 +105,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if (_timingControlVMCollection == null)
                 {
-                    _timingControlVMCollection = new ObservableCollection<TimingControlViewModel>(TimingSetting.TimingControlCollection?.Select(x => new TimingControlViewModel(x)));
+                    _timingControlVMCollection = new ObservableCollection<TimingControlViewModel>(TimingSetting.TimingControlCollection.Select(x => new TimingControlViewModel(x)));
                 }
                 else
                 {
@@ -335,7 +335,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, out TimingSettingModel NewTiming, true))
                 {
                     TimingSetting = NewTiming;
-                    TimingControlVMCollection = new ObservableCollection<TimingControlViewModel>(TimingSetting.TimingControlCollection?.Select(x => new TimingControlViewModel(x)));
+                    TimingControlVMCollection = new ObservableCollection<TimingControlViewModel>(TimingSetting.TimingControlCollection.Select(x => new TimingControlViewModel(x)));
                     TimingControlVMCollectionCloned = TimingControlVMCollection.DeepCloneByJson();
                     OnPropertyChanged(nameof(TimingControlVMCollection));
                     OnPropertyChanged(nameof(TimingControlVMCollectionCloned));
