@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GD_StampingMachine"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="800" 
+             d:DesignHeight="800" d:DesignWidth="1000" 
              
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
@@ -230,37 +230,39 @@
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
-                                            </Grid.Resources>                                      
-                                        <Border VerticalAlignment="Center" FlowDirection="LeftToRight"
-                                            BorderThickness="1" BorderBrush="Black" CornerRadius="2" Padding="0" 
-                                            HorizontalAlignment="Center">
-                                            <ToggleButton Padding="0" Margin="0" x:Name="MachiningFormTButton" Opacity="0.95" >
-                                                <ToggleButton.Style>
-                                                    <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_MainToggleButton}">
-                                                        <Setter Property="BorderThickness" Value="0"/>
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="ToggleButton">
-                                                                    <Grid>
-                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                                    </Grid>
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
+                                            </Grid.Resources>
 
-                                                    </Style>
-                                                </ToggleButton.Style>
-                                                <GD_SchematicDiagram:QRPlateRowDiagramControl   
-                                                        IsEnabled="False"    
-                                                                        DataContext="{Binding SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
-                                                    <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                            <Border VerticalAlignment="Center" HorizontalAlignment="Center" FlowDirection="LeftToRight"
+                                            BorderThickness="1" BorderBrush="Black" CornerRadius="2" Padding="0" 
+                                            >
+                                            <ToggleButton Padding="0" Margin="0" x:Name="MachiningFormTButton" Opacity="0.95" >
+                                                    <ToggleButton.LayoutTransform>
                                                         <TransformGroup>
                                                             <RotateTransform Angle="90"/>
                                                         </TransformGroup>
-                                                    </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                    </ToggleButton.LayoutTransform>
 
-                                                </GD_SchematicDiagram:QRPlateRowDiagramControl>
-                                            </ToggleButton>
+                                                    <ToggleButton.Style>
+                                                        <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_MainToggleButton}">
+                                                            <Setter Property="BorderThickness" Value="0"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="ToggleButton">
+                                                                        <Grid>
+                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        </Grid>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+
+                                                        </Style>
+                                                    </ToggleButton.Style>
+                                                    <GD_SchematicDiagram:QRPlateRowDiagramControl   
+                                                        IsEnabled="False"    
+                                                                        DataContext="{Binding SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
+                                                    </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                           
+                                                </ToggleButton>
                                         </Border>
                                         <GD_Popup:DraggablePopup StaysOpen="False"
                                                                         PopupAnimation="Fade"   FlowDirection="LeftToRight"  

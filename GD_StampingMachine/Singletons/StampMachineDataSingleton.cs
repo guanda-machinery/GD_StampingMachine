@@ -801,7 +801,7 @@ namespace GD_StampingMachine.Singletons
                             await Task.Delay(100);
                         }
                     }
-                    catch(Exception)
+                    catch(Exception ex)
                     {
                         Debugger.Break();
                     }

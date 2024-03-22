@@ -7,6 +7,7 @@ using GD_CommonLibrary.Method;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
+using MahApps.Metro.Controls;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -103,17 +104,29 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public ICommand? _deleteProductCommand;
         public ICommand DeleteProductCommand
         {
-            get => _deleteProductCommand ??= new RelayCommand<object>(obj =>
+            get => _deleteProductCommand ??= new AsyncRelayCommand<object>(async obj =>
             {
-                if(obj is ProductProjectViewModel productProjectVM)
+                await Task.Run(async () =>
                 {
-                    if (ProductProjectVMCollection.Contains(productProjectVM))
+                    try
+                    {
+                        await Task.Delay(1);
+                        if (obj is ProductProjectViewModel productProjectVM)
+                        {
+                            if (ProductProjectVMCollection.Contains(productProjectVM))
+                            {
+                               await Application.Current.Dispatcher.InvokeAsync(() =>
+                                {
+                                    ProductProjectVMCollection.Remove(productProjectVM);
+                                });
+                            }
+                        }
+                    }
+                    catch
                     {
 
-                        ProductProjectVMCollection.Remove(productProjectVM);
                     }
-                }
-
+                });
               //  ProductProjectVMCollection.Remove();
             });
         }
@@ -260,11 +273,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             ProductProjectVMCollection.Add(new ProductProjectViewModel(ReadProductProject));
                             await SaveProductListSettingAsync();
                         }
-
-
-
-
-
                     }
                 }
                 catch (Exception ex)

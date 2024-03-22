@@ -652,11 +652,14 @@ namespace GD_StampingMachine.ViewModels
                 }
 
                 var notExistedParts = AddParts.Except(StampingBoxPartsVM.SeparateBoxVMObservableCollection.SelectMany(x=>x.BoxPartsParameterVMCollection));
-                foreach(var part in notExistedParts)
+                var notExistedPartsGroup = notExistedParts.GroupBy(x => x.BoxIndex);
+                foreach (var part in notExistedPartsGroup)
                 {
-                    var sBox = StampingBoxPartsVM.SeparateBoxVMObservableCollection.FirstOrDefault(x => x.BoxIndex == part.BoxIndex);
+                    var sBox = StampingBoxPartsVM.SeparateBoxVMObservableCollection.FirstOrDefault(x => x.BoxIndex == part.Key);
                     if (sBox != null)
-                        sBox.BoxPartsParameterVMCollection.Add(part);
+                    {
+                        sBox.BoxPartsParameterVMCollection.AddRange(part.ToList());
+                    }
                 }
 
             }

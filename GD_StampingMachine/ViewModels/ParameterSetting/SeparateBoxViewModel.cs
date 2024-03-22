@@ -146,13 +146,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 collection.CollectionChanged -= BoxPartsParameterVMCollection_CollectionChanged;
                 collection.CollectionChanged += BoxPartsParameterVMCollection_CollectionChanged;
-                foreach (var item in collection)
+
+                Parallel.ForEach(collection, item =>
                 {
                     item.PropertyChanged -= Item_PropertyChanged;
                     item.PropertyChanged += Item_PropertyChanged;
                     item.StateChanged -= Item_StateChanged;
                     item.StateChanged += Item_StateChanged;
-                }
+                });
             }
         }
 
