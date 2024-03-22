@@ -16,6 +16,7 @@ using GD_StampingMachine.GD_Model.ProductionSetting;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.ParameterSetting;
+using MahApps.Metro.Controls;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -856,10 +857,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                     await Application.Current.Dispatcher.InvokeAsync(async () =>
                     {
-                        var tmp = PartsParameterVMObservableCollection.ToList();
-                        tmp.AddRange(importPartsParameterVMList);
-                        PartsParameterVMObservableCollection = new(tmp);
-
+                        PartsParameterVMObservableCollection.AddRange(importPartsParameterVMList);
                         await SaveProductProjectAsync();
                     });
 
@@ -953,16 +951,25 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 case NotifyCollectionChangedAction.Add:
                     {
-                        if (e.NewItems is ICollection newCollection)
+                        if (e.NewItems is IList newCollection)
                         {
-                            foreach (var item in newCollection)
+                            var addCollection = newCollection.Cast<PartsParameterViewModel>().Except(UnBoxPartsParameterVMObservableCollection);
+                            UnBoxPartsParameterVMObservableCollection.AddRange(addCollection);
+
+                            /*foreach (var item in newCollection)
                             {
+
                                 if (item is PartsParameterViewModel parameter)
                                 {
                                     if (!UnBoxPartsParameterVMObservableCollection.Contains(parameter))
-                                        UnBoxPartsParameterVMObservableCollection.Add(parameter);
+                                    {
+                                        Application.Current.Invoke(() =>
+                                        {
+                                            UnBoxPartsParameterVMObservableCollection.Add(parameter);
+                                        });
+                                    }
                                 }
-                            }
+                            }*/
                         }
                     }
                     break;
@@ -975,7 +982,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                 if (item is PartsParameterViewModel parameter)
                                 {
                                     if (UnBoxPartsParameterVMObservableCollection.Contains(parameter))
-                                        UnBoxPartsParameterVMObservableCollection.Remove(parameter);
+                                    {
+                                        Application.Current.Invoke(() =>
+                                        {
+                                            UnBoxPartsParameterVMObservableCollection.Remove(parameter);
+                                        });
+                                    }
+
                                 }
                             }
                         }
@@ -1024,10 +1037,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         ProductProjectEditTime = DateTime.Now;
                     }
 
-                    /*var tmp  = PartsParameterVMObservableCollection.ToList();
+                    /*   = PartsParameterVMObservableCollection.ToList();
                     tmp.*/
-                    _partsParameterVMObservableCollection?.AddRange(collection);
-                    OnPropertyChanged(nameof(PartsParameterVMObservableCollection));
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        PartsParameterVMObservableCollection.AddRange(collection);
+                        OnPropertyChanged(nameof(PartsParameterVMObservableCollection));
+                    });
 
                 });
                 await SaveProductProjectAsync();

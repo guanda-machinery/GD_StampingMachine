@@ -1532,7 +1532,7 @@
                                         <Grid>
 
                                                 <GD_SchematicDiagram:QRPlateRowDiagramControl   
-                            DataContext="{Binding Row.SettingBaseVM, IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
+                            DataContext="{Binding Row.SettingBaseVM, IsAsync=True, Delay=100}" RedMeasurementLineVisibility="Collapsed" >
                                                 </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                     
                                         </Grid>

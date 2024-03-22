@@ -16,6 +16,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using static Opc.Ua.NodeState;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -437,12 +438,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     /// </summary>
     public class PartsParameterViewModelObservableCollection : ObservableCollection<PartsParameterViewModel>
     {
+
         public PartsParameterViewModelObservableCollection() : base()
         {
 
 
 
         }
+
+
 
         public PartsParameterViewModelObservableCollection(List<PartsParameterViewModel> list) : base(list)
         {
@@ -467,6 +471,17 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
             CalcNotifyCollectionChange();
         }
+
+        public void AddRange(IEnumerable<PartsParameterViewModel> items)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                (this.Items as List<PartsParameterViewModel>)?.AddRange(items);
+                var NotifyE = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items as List<PartsParameterViewModel>);
+                this.OnCollectionChanged(NotifyE);
+            });
+        }
+
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)

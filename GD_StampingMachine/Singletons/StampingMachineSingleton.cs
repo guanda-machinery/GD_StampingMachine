@@ -214,8 +214,9 @@ namespace GD_StampingMachine.Singletons
                         //將製品清單拆分成兩份
                         TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute, separateBoxExtVMCollection, ProductSettingVM.ProductProjectVMCollection)); 
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        Debug.WriteLine(ex.Message);
                         Debugger.Break();
                     }
                 }
