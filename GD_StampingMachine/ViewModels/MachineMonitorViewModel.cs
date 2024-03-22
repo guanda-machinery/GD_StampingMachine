@@ -1314,7 +1314,7 @@ namespace GD_StampingMachine.ViewModels
                                         }
 
 
-                                        var tmp = SelectedProjectDistributeVM!.StampingBoxPartsVM.SeparateBoxVMObservableCollection.UnscheduledPartsParameterCollection.ToList();
+                                        var tmp = SelectedProjectDistributeVM!.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection.ToList();
                                         tmp.AddRange(workableData);
                                         SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection = new(tmp);
                                     }
@@ -1405,6 +1405,8 @@ namespace GD_StampingMachine.ViewModels
                              var tmp = SelectedProjectDistributeVM!.StampingBoxPartsVM.SeparateBoxVMObservableCollection.UnscheduledPartsParameterCollection.ToList();
                              tmp.AddRange(cancelableData);
                              SelectedProjectDistributeVM!.StampingBoxPartsVM.SeparateBoxVMObservableCollection.UnscheduledPartsParameterCollection = new(tmp);
+
+
 
                              if (!cancelableData.Any())
                              {
