@@ -100,10 +100,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        public ICommand? _deleteProducCommand;
-        public ICommand DeleteProducCommand
+        public ICommand? _deleteProductCommand;
+        public ICommand DeleteProductCommand
         {
-            get => _deleteProducCommand ??= new RelayCommand<object>(obj =>
+            get => _deleteProductCommand ??= new RelayCommand<object>(obj =>
             {
                 if(obj is ProductProjectViewModel productProjectVM)
                 {

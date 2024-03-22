@@ -533,7 +533,7 @@
                                     Grid.Column="0" Margin="10,0"
                                     Background="Transparent"  Height="300" 
                                     Style="{StaticResource ProjectGridControl}"
-                                                         CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
+                                                         CustomRowFilterCommand="{Binding ArrangeWorkRowFilterCommand}"
                                     AutoGenerateColumns="None" 
                                  ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection, IsAsync=True}"
                                      >

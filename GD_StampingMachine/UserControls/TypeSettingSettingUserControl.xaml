@@ -237,7 +237,8 @@
                     <StackPanel Grid.Column="1"
                     Margin="5,0"
                     Orientation="Horizontal" >
-                        <Button Command="{Binding ProjectGridControlInsertToBoxCommand}"
+                        <Button IsEnabled="{Binding ReadyToTypeSettingProductProjectVMSelected, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
+                            Command="{Binding ProjectGridControlInsertToBoxCommand}"
                             Padding="5" Margin="5" >
                             <StackPanel Orientation="Horizontal">
                                 <Image VerticalAlignment="Center" Margin="2,0">
@@ -392,7 +393,7 @@
                                                     <dxg:GridColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Text="{Binding Row.PartsParameterVMObservableCollection.NotAssignedProductProjectCount}" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding Row.UnBoxPartsParameterVMObservableCollection.Count}" VerticalAlignment="Center"/>
                                                                 <TextBlock Text="/" VerticalAlignment="Center"/>
                                                                 <TextBlock Text="{Binding Row.PartsParameterVMObservableCollection.Count}" VerticalAlignment="Center"/>
                                                             </StackPanel>
@@ -409,7 +410,7 @@
                                                     </dxg:GridColumn.HeaderStyle>
                                                     <dxg:GridColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <Button  
+                                                            <Button  IsEnabled="{Binding Row.FileIsNotExisted, Converter={dx:BoolInverseConverter}}"
                                                                 Height="30" Width="auto" Padding="10,0" 
                                                                         Content="{StaticResource btnAdd}" 
                                                                     Command="{Binding RelativeSource={RelativeSource AncestorType=dxg:GridControl, Mode=FindAncestor}, 
@@ -542,7 +543,7 @@
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Row.PartsParameterVMObservableCollection.NotAssignedProductProjectCount}" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Row.UnBoxPartsParameterVMObservableCollection.Count}" VerticalAlignment="Center"/>
                                                 <TextBlock Text="/" VerticalAlignment="Center"/>
                                                 <TextBlock Text="{Binding Row.PartsParameterVMObservableCollection.Count}" VerticalAlignment="Center"/>
                                             </StackPanel>
@@ -781,8 +782,12 @@
 
                                 </ListBox>
                             </ScrollViewer>
-                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="5,0,5,5">
-                                <Button  Padding="5,5" Command="{Binding AllBoxItemReturnToProjectCommand}" Margin="5">
+                            <StackPanel 
+                                Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="5,0,5,5">
+                                <Button  Padding="5,5" 
+                                           IsEnabled="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM.BoxPartsParameterVMCollection.Count, 
+                                    Converter={GD_CommonControl:ObjectIsEqualToBooleanConverter Invert=True}, ConverterParameter={StaticResource IntZero}}"
+                                         Command="{Binding AllBoxItemReturnToProjectCommand}" Margin="5">
                                     <StackPanel Orientation="Horizontal">
                                         <Image VerticalAlignment="Center" Margin="2,0">
                                             <Image.Style>
@@ -806,19 +811,19 @@
                                         <TextBlock Text="{DynamicResource btnBoxToProject}" VerticalAlignment="Center" Padding="0,3,0,0"/>
                                     </StackPanel>
                                 </Button>
-                                <ToggleButton Style="{StaticResource GD_ToggleButton_Gray}"
+                                <ToggleButton
+                                    Style="{StaticResource GD_ToggleButton_Gray}"
                         IsChecked="{Binding ShowIsTransported}" FontWeight="Normal"
                                      Content="{DynamicResource btnShowFinishItem}"
                                   Padding="5,3,5,0" Margin="5,5,5,5"/>
                             </StackPanel>
 
-                            
                             <dxg:GridControl Grid.Row="1" 
             Grid.Column="1"
             IsEnabled="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
             Margin="10,0"
-                       
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
+                       
             Background="Transparent"  MaxHeight="5000"
             Style="{StaticResource ProjectGridControl}"
             ItemsSource="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM.BoxPartsParameterVMCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 

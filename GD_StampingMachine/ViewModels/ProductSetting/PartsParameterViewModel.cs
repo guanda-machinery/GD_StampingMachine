@@ -42,6 +42,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         //private PartsParameterModel? _partsParameter;
         public readonly PartsParameterModel PartsParameter;
 
+
+        public event EventHandler? StateChanged;
+
+
         /// <summary>
         /// 加工進程
         /// </summary>
@@ -52,6 +56,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 PartsParameter.Processing = value;
                 OnPropertyChanged();
+                StateChanged?.Invoke(this, new EventArgs());
             }
         }
 
@@ -116,6 +121,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.DataMatrixIsFinish = value;
                     OnPropertyChanged();
+                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -131,6 +137,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.EngravingIsFinish = value;
                     OnPropertyChanged();
+                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -146,6 +153,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.ShearingIsFinish = value;
                     OnPropertyChanged();
+                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -161,6 +169,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.IsFinish = value;
                     OnPropertyChanged();
+                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -174,6 +183,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.IsTransported = value;
                     OnPropertyChanged();
+                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -195,6 +205,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.SendMachineCommand.IsSended = value;
                     OnPropertyChanged();
+                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -218,6 +229,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
+
+
         private bool? _isScheduled;
         public bool IsScheduled
         {
@@ -227,7 +240,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 if (_isScheduled != value)
                 {
                     _isScheduled = value;
-                    OnPropertyChanged(nameof(IsScheduled));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -486,9 +499,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         protected override void InsertItem(int index, PartsParameterViewModel item)
         {
             item.PropertyChanged += Item_PropertyChanged;
-
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                base.InsertItem(index, item);
+            });
             CalcNotifyCollectionChange();
-            base.InsertItem(index, item);
         }
 
         private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -502,6 +517,17 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             FinishProgress = this.Any() ? this.Average(p => p.FinishProgress) : 0;
             UnFinishedCount = this.Any() ? this.Count(p => !p.IsFinish) : 0;
             NotAssignedProductProjectCount = this.Any() ? this.Count(p => string.IsNullOrEmpty(p.DistributeName) && !p.IsFinish) : 0;
+        }
+
+        protected override void RemoveItem(int index)
+        {
+            this[index].PropertyChanged -= Item_PropertyChanged;
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                base.RemoveItem(index);
+            });
+            CalcNotifyCollectionChange();
         }
 
 
