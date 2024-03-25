@@ -724,6 +724,22 @@
                                                         </DataTemplate>
                                                     </dxg:GridColumn.CellTemplate>
                                                 </dxg:GridColumn>
+                                            
+                                            
+                                            <dxg:GridColumn   Visible="{Binding ElementName=TestToggle,Path=IsChecked}"
+                                                    HorizontalHeaderContentAlignment="Left"  Header="EngravingIsFinish"   FieldName="EngravingIsFinish"
+                                                                   AllowEditing="true"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <ToggleButton IsChecked="{Binding Row.EngravingIsFinish}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </dxg:GridColumn.CellTemplate>
+                                            </dxg:GridColumn>
+
+
                                             <dxg:GridColumn   Visible="{Binding ElementName=TestToggle,Path=IsChecked}"
                                                     HorizontalHeaderContentAlignment="Left"  Header="IsTransported"   FieldName="IsTransported"
                                                                    AllowEditing="true"
@@ -736,9 +752,15 @@
                                                         </DataTemplate>
                                                     </dxg:GridColumn.CellTemplate>
                                                 </dxg:GridColumn>
-                                            </dxg:GridControl>
 
 
+                                            
+
+
+
+                                        </dxg:GridControl>
+
+                                        
                                         <Button Grid.Row="3"  HorizontalAlignment="Right" Margin="10,5" Padding="5,3,5,0"
                                                 Content="{DynamicResource btnExit}"
                                                 Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}"  />

@@ -440,47 +440,48 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     if (TimingControl.DayOfWeekWorkCollection == null)
                     {
-                        TimingControl.DayOfWeekWorkCollection =new List<DayOfWeekWorkModel>(); for (int i = 0; i < 7; i++)
+                        TimingControl.DayOfWeekWorkCollection =new List<DayOfWeekWorkModel>();
+                        for (int i = 0; i < 7; i++)
                         {
                             TimingControl.DayOfWeekWorkCollection.Add(new DayOfWeekWorkModel((DayOfWeek)i, false));
                         }
                     }
-
-                    _dayOfWeekWorkVMObservableCollection = TimingControl.DayOfWeekWorkCollection.Select(x => new DayOfWeekWorkViewModel(x)).ToObservableCollection();
+                    _dayOfWeekWorkVMObservableCollection =new( TimingControl.DayOfWeekWorkCollection.Select(x => new DayOfWeekWorkViewModel(x)));
                     foreach (var obj in _dayOfWeekWorkVMObservableCollection)
                     {
-                        obj.IsWorkChanged += (sender, e) =>
-                        {
-                            OnPropertyChanged(nameof(DayOfWeekWorkVMObservableCollection));
-                        };
+                        obj.IsWorkChanged -= Obj_IsWorkChanged;
+                        obj.IsWorkChanged += Obj_IsWorkChanged;
                     }
                 }
-
-
                 return _dayOfWeekWorkVMObservableCollection;
             }
             set
             {
+                if (_dayOfWeekWorkVMObservableCollection != null)
+                {
+                    foreach (var obj in _dayOfWeekWorkVMObservableCollection)
+                    {
+                        obj.IsWorkChanged -= Obj_IsWorkChanged;
+                    }
+                }
+
                 _dayOfWeekWorkVMObservableCollection = value;
                 if (value != null)
                 {
                     TimingControl.DayOfWeekWorkCollection = value.Select(x => x.DayOfWeekWork).ToList();
-
-                    foreach (var obj in value)
+                    foreach (var obj in _dayOfWeekWorkVMObservableCollection)
                     {
-                        obj.IsWorkChanged += (sender, e) =>
-                        {
-                            OnPropertyChanged(nameof(DayOfWeekWorkVMObservableCollection));
-                        };
+                        obj.IsWorkChanged += Obj_IsWorkChanged;
                     }
-
-
                 }
                 OnPropertyChanged();
             }
         }
 
-
+        private void Obj_IsWorkChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<bool> e)
+        {
+            OnPropertyChanged(nameof(DayOfWeekWorkVMObservableCollection));
+        }
 
         private bool _isEdit;
         /// <summary>

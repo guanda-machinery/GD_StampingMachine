@@ -2307,7 +2307,7 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                 VerticalAlignment="Top">
                         <StackPanel  Margin="10,0"  Orientation="Horizontal" >
                             <Button  Padding="5,3,5,0" Content="{DynamicResource btnLoadSetting}" Margin="10,0" Command="{Binding LoadSettingCommand}" />
-                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnRecoverSetting}"  Margin="10,0" Command="{Binding RecoverSettingCommand}" Visibility="Collapsed"/>
+                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnRecoverSetting}"  Margin="10,0" Command="{Binding RecoverSettingCommand}"/>
                             <Button  Padding="5,3,5,0" Content="{DynamicResource btnSaveSetting}"  Margin="10,0" Command="{Binding SaveSettingCommand}"/>
                         </StackPanel>
 
@@ -2382,8 +2382,8 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                                                             FontSize="16" Margin="2,0" TextAlignment="Right" Foreground="{DynamicResource MaterialDesign.Brush.Primary.Foreground}"/>
                                                                 </StackPanel>
                                                             </CheckBox>
-                                                            <Grid Grid.Column="1" IsEnabled="{Binding BoxIsEnabled}">
-                                                                <GD_UserControls:TriggerSliderUserControl  Maximum="500"
+                                                                <Grid Grid.Column="1" IsEnabled="{Binding BoxIsEnabled}">
+                                                                    <GD_UserControls:TriggerSliderUserControl  Maximum="500"
                                                                    
                                         FontWeight="Bold"                                        
                                       Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"

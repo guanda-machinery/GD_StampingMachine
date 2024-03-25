@@ -761,7 +761,7 @@ namespace GD_StampingMachine.Singletons
 
             //啟動時預設值
 
-            for (int i = 0; i < MachineConst.PlateCount; i++)
+            /*for (int i = 0; i < MachineConst.PlateCount; i++)
             {
                 PlateBaseObservableCollection.Add(new PlateMonitorViewModel()
                 {
@@ -772,10 +772,10 @@ namespace GD_StampingMachine.Singletons
                         QrCodeContent = i.ToString(),
                     }
                 });
-            }
+            }*/
 
 
-            
+
             _ = Task.Run(async () =>
             {
                 try
@@ -796,14 +796,17 @@ namespace GD_StampingMachine.Singletons
                                 {
                                     PlateBaseObservableCollection[i] = (new PlateMonitorViewModel()
                                     {
-                                        ID= i+j,
+                                        ID = i + j,
+                                        DataMatrixIsFinish = i < 24 ? true : false,
+                                        EngravingIsFinish = i < 9 ? true : false,
+                                        ShearingIsFinish= i < 0 ? true : false,
                                         SettingBaseVM = new QRSettingViewModel()
                                         {
                                             PlateNumber = "DEMO-" + randomDouble,
                                             QR_Special_Text = string.Empty,
                                             QrCodeContent = i.ToString(),
                                         }
-                                    });
+                                    }); ;
                                 });
                                 await Task.Delay(100);
                             }
@@ -1099,7 +1102,7 @@ namespace GD_StampingMachine.Singletons
                                                                 && collection.TryGetValue(index, out var plateMonitorVM))
                                                                 {
                                                                     if (machineSetting.ID != plateMonitorVM.ID
-                                                                    ||machineSetting.SettingBaseVM?.PlateNumber != plateMonitorVM.SettingBaseVM?.PlateNumber
+                                                                    || machineSetting.SettingBaseVM?.PlateNumber != plateMonitorVM.SettingBaseVM?.PlateNumber
                                                                     || machineSetting.StampingStatus != plateMonitorVM.StampingStatus
                                                                     || machineSetting.DataMatrixIsFinish != plateMonitorVM.DataMatrixIsFinish
                                                                     || machineSetting.EngravingIsFinish != plateMonitorVM.EngravingIsFinish
@@ -1122,15 +1125,17 @@ namespace GD_StampingMachine.Singletons
                                                                     }
                                                                 }
                                                             }
+
                                                         }
                                                     }
                                                 }
                                                 //訂閱所有鐵牌的id
+                                                
                                                 for (int i = 0; i < MachineConst.PlateCount; i++)
                                                 {
                                                     int index = i;
                                                     string nodeID = $"{StampingOpcUANode.system.sv_IronPlateData}[{index + MachineConst.PlateFirstNumber}]";
-                                                    await this.opcUaClient.SubscribeNodeDataChangeAsync<int>(nodeID,
+                                                    await this.opcUaClient.SubscribeNodeDataChangeAsync<int>(nodeID+ ".iIronPlateID",
                                                         (sender, e) =>
                                                         {
                                                             try
@@ -1668,7 +1673,7 @@ namespace GD_StampingMachine.Singletons
                                 {
                                     try 
                                     {
-                                        while (true)
+                                        while (false)
                                         {
                                             var (PlateResult, ironPlateCollection) = await GetIronPlateDataCollectionAsync();
                                             if (PlateResult)
@@ -1720,8 +1725,7 @@ namespace GD_StampingMachine.Singletons
                                                     }
                                                 }
                                             }
-
-                                            await Task.WhenAny(Task.Delay(10000) ,Task.Delay(-1, token), Task.Delay(-1, reconnectCts.Token));
+                                            await Task.WhenAny(Task.Delay(15000) ,Task.Delay(-1, token), Task.Delay(-1, reconnectCts.Token));
                                         }
                                     }
                                     catch
@@ -3264,7 +3268,26 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ObservableCollection<PlateMonitorViewModel> PlateBaseObservableCollection
         {
-            get => _plateBaseObservableCollection ??= new();
+            get
+            {
+                if (_plateBaseObservableCollection == null)
+                {
+                    _plateBaseObservableCollection = new();
+                    for (int i = 0; i < MachineConst.PlateCount; i++)
+                    {
+                        PlateBaseObservableCollection.Add(new PlateMonitorViewModel()
+                        {
+                            SettingBaseVM = new QRSettingViewModel()
+                            {
+                                PlateNumber = string.Empty,
+                                QR_Special_Text = string.Empty,
+                                QrCodeContent = string.Empty,
+                            }
+                        });
+                    }
+                }
+                return _plateBaseObservableCollection;
+            }
             set
             {
                 _plateBaseObservableCollection = value;OnPropertyChanged();

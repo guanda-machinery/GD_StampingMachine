@@ -11,6 +11,10 @@
 
     
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TriggerSliderUserControl}}" >
+        <Grid.Resources>
+            <local:InfinityToMaximumMultiConverter x:Key="InfinityToMaximumMultiConverter"/>
+        </Grid.Resources>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
@@ -24,15 +28,22 @@
                        Height="auto"  Padding="0"  Width="{Binding RelativeSource={RelativeSource Self} ,Path=ActualHeight}">
             <materialDesign:PackIcon Kind="MinusThick" />
         </RepeatButton>
-        <Slider Grid.Column="1"  VerticalAlignment="Center" x:Name="MainSlider" MinWidth="50"  Height="auto" FontSize="12"  
+        <Slider Grid.Column="1"  VerticalAlignment="Center"  MinWidth="50"  Height="auto" FontSize="12"  x:Name="MainSlider"
                 Margin="5,0" Style="{StaticResource CustomSlider}"   
-                Value="{Binding MainSliderValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 Background="{DynamicResource MaterialDesign.Brush.Primary.Foreground}"
                 Minimum="{Binding Minimum}"
                 Maximum="{Binding Maximum}"
                 TickFrequency="{Binding TickFrequency}" 
                 IsMoveToPointEnabled="True"   LargeChange="5" SmallChange="1"
                 >
+            <Slider.Value>
+                <MultiBinding Converter="{StaticResource InfinityToMaximumMultiConverter}">
+                    <Binding Path="Minimum" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"/>
+                    <Binding Path="MainSliderValue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                    <Binding Path="Maximum" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"/>
+                </MultiBinding>
+            </Slider.Value>
+
             <Slider.Foreground>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                     <GradientStop Color="White" Offset="0" />
@@ -49,11 +60,12 @@
             </i:Interaction.Triggers>
 
         </Slider>
+
         <TextBlock FontSize="12" 
                    Foreground="{Binding Foreground}" 
                    FontWeight="{Binding FontWeight}"
-                   
-            Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=MainSlider, Path=Value}"></TextBlock>
+            Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding MainSliderValue}"></TextBlock>
+
         <RepeatButton Margin="5,0" Click="RepeatButton_Plus_Click" Style="{StaticResource SiegCustomRepeatButton}"  
                       BorderBrush="{Binding RepeatButtonForeground}" Foreground="{Binding RepeatButtonForeground}"
                       Grid.Column="2" Padding="0"    Height="auto"  Width="{Binding RelativeSource={RelativeSource Self} ,Path=ActualHeight}">

@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -133,7 +134,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 _boxPartsParameterVMCollection = value;
                 SubscriberBoxPartsParameterChange(_boxPartsParameterVMCollection);
-                UpdateSeparateBoxValue();
+                _ =UpdateSeparateBoxValueAsync();
                 OnPropertyChanged();
             }
         }
@@ -151,18 +152,36 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     item.PropertyChanged -= Item_PropertyChanged;
                     item.PropertyChanged += Item_PropertyChanged;
-                    item.StateChanged -= Item_StateChanged;
-                    item.StateChanged += Item_StateChanged;
+
+                    item.IsFinishChanged -= Item_IsFinishChanged;
+                    item.IsFinishChanged += Item_IsFinishChanged;
+
+                    item.IsTransportedChanged -= Item_IsTransportedChanged;
+                    item.IsTransportedChanged += Item_IsTransportedChanged;
                 });
             }
         }
 
 
-        public event EventHandler? PartsParameterStateChanged;
-        private void Item_StateChanged(object? sender, EventArgs e)
+       // public event EventHandler? PartsParameterStateChanged;
+        /*private void Item_StateChanged(object? sender, EventArgs e)
         {
             PartsParameterStateChanged?.Invoke(this, new EventArgs());
+        }*/
+
+        public event EventHandler? PartsParameterIsFinishChanged;
+        private void Item_IsFinishChanged(object? sender, bool e)
+        {
+            PartsParameterIsFinishChanged?.Invoke(this, new EventArgs());
         }
+
+        public event EventHandler? PartsParameterIsTransportedChanged;
+        private void Item_IsTransportedChanged(object? sender, bool e)
+        {
+            PartsParameterIsTransportedChanged?.Invoke(this, new EventArgs());
+        }
+
+
 
         private void BoxPartsParameterVMCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -222,12 +241,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     break;
             }
 
-            UpdateSeparateBoxValue();
+            _ = UpdateSeparateBoxValueAsync();
         }
 
         private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            UpdateSeparateBoxValue();
+            _ = UpdateSeparateBoxValueAsync();
         }
 
 
@@ -238,18 +257,25 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// <summary>
         /// 更新箱子內的數值
         /// </summary>
-        private void UpdateSeparateBoxValue()
+        private async Task UpdateSeparateBoxValueAsync()
         {
-            //已排定
-            this.BoxPieceValue = BoxPartsParameterVMCollection.Count;
-            //加工完成但尚未被移除的
-            this.UnTransportedFinishedBoxPieceValue = BoxPartsParameterVMCollection.Count(x => x.IsFinish && !x.IsTransported);
-            //已經被分配加工且尚未被移除
-            this.UnTransportedBoxPieceValue = BoxPartsParameterVMCollection.Count(x => x.WorkIndex >= 0 && !x.IsTransported);
-            //只有已完成
-            this.FinishedBoxPieceValue = BoxPartsParameterVMCollection.Count(x => x.IsFinish);
-            this.UnFinishedBoxPieceValue = BoxPartsParameterVMCollection.Count(x => !x.IsFinish);
+            await Task.Run(() =>
+            {
 
+                    //已排定
+                    //this.BoxPieceValue = BoxPartsParameterVMCollection.Count;
+                    OnPropertyChanged(nameof(this.BoxPieceValue));
+                //= BoxPartsParameterVMCollection.Count;
+                //加工完成但尚未被移除的
+                OnPropertyChanged(nameof(this.UnTransportedFinishedBoxPieceValue));
+                //已經被分配加工且尚未被移除
+            //  this.UnTransportedBoxPieceValue = BoxPartsParameterVMCollection.Count(x => x.WorkIndex >= 0 && !x.IsTransported);
+                OnPropertyChanged(nameof(this.UnTransportedBoxPieceValue));
+                //只有已完成
+               // this.FinishedBoxPieceValue = 
+                OnPropertyChanged(nameof(this.FinishedBoxPieceValue));
+                OnPropertyChanged(nameof(this.UnFinishedBoxPieceValue));
+            });
         }
 
 
@@ -279,83 +305,57 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        private double _boxPieceValue;
+        //private double _boxPieceValue;
         /// <summary>
         /// 箱子內分配到加工的值
         /// </summary>
         [JsonIgnore]
         public double BoxPieceValue
         {
-            get => _boxPieceValue;
-            set
-            {
-                _boxPieceValue = value;
-                OnPropertyChanged();
-            }
+            get => BoxPartsParameterVMCollection.Count;
         }
 
-        private double _unTransportedFinishedBoxPieceValue;
+       // private double _unTransportedFinishedBoxPieceValue;
         /// <summary>
         /// 箱子內已加工但尚未被移除的鐵牌
         /// </summary>
         [JsonIgnore]
         public double UnTransportedFinishedBoxPieceValue
         {
-            get => _unTransportedFinishedBoxPieceValue;
-            set
-            {
-                _unTransportedFinishedBoxPieceValue = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(BoxIsFull));
-            }
+            get => BoxPartsParameterVMCollection.Count(x => x.IsFinish && !x.IsTransported);
         }
 
-        private double _unTransportedBoxPieceValue;
+        //private double _unTransportedBoxPieceValue;
         /// <summary>
         /// 箱子內已被分配的鐵片
         /// </summary>
         [JsonIgnore]
         public double UnTransportedBoxPieceValue
         {
-            get => _unTransportedBoxPieceValue;
-            set
-            {
-                _unTransportedBoxPieceValue = value;
-                OnPropertyChanged();
-            }
+            get => BoxPartsParameterVMCollection.Count(x => x.WorkIndex >= 0 && !x.IsTransported);
         }
 
 
 
-        private double _finishedBoxPieceValue;
+        //private double _finishedBoxPieceValue;
         /// <summary>
         /// 箱子內已加工的鐵牌
         /// </summary>
         [JsonIgnore]
         public double FinishedBoxPieceValue
         {
-            get => _finishedBoxPieceValue;
-            set
-            {
-                _finishedBoxPieceValue = value;
-                OnPropertyChanged();
-            }
+            get => BoxPartsParameterVMCollection.Count(x => x.IsFinish);
         }
 
 
-        private double _unFinishedBoxPieceValue;
+       //private double _unFinishedBoxPieceValue;
         /// <summary>
         /// 箱子內未加工的鐵牌
         /// </summary>
         [JsonIgnore]
         public double UnFinishedBoxPieceValue
         {
-            get => _unFinishedBoxPieceValue;
-            set
-            {
-                _unFinishedBoxPieceValue = value;
-                OnPropertyChanged();
-            }
+            get => BoxPartsParameterVMCollection.Count(x => !x.IsFinish);
         }
 
 

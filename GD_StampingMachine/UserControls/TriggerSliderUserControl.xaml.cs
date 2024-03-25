@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -17,11 +20,44 @@ namespace GD_StampingMachine.UserControls
 
         private void RepeatButton_Minus_Click(object sender, RoutedEventArgs e)
         {
-            MainSlider.Value -= TickFrequency;
+            if (double.IsNegativeInfinity(MainSliderValue))
+            {
+
+            }
+            else if (double.IsPositiveInfinity(MainSliderValue))
+            {
+                MainSliderValue = Maximum;
+            }
+            else if (MainSliderValue < Minimum)
+            {
+                MainSliderValue = Minimum;
+            }
+            else
+            {
+                MainSliderValue -= TickFrequency;
+            }
         }
         private void RepeatButton_Plus_Click(object sender, RoutedEventArgs e)
         {
-            MainSlider.Value += TickFrequency;
+            MainSliderValue += TickFrequency;
+            if (double.IsNegativeInfinity(MainSliderValue))
+            {
+                MainSliderValue = Minimum;
+            }
+            else if (double.IsPositiveInfinity(MainSliderValue))
+            {
+
+            }
+            else if (MainSliderValue > Maximum)
+            {
+                MainSliderValue = Maximum;
+            }
+            else
+            {
+                MainSliderValue += TickFrequency;
+            }
+
+
         }
 
         public double MainSliderValue
@@ -99,5 +135,40 @@ namespace GD_StampingMachine.UserControls
  new PropertyMetadata());
 
 
+    }
+
+
+    public enum SliderValueEnum { Minimum, Value, Maximum }
+
+
+    public class InfinityToMaximumMultiConverter : IMultiValueConverter
+    {
+        private double sliderMin;
+        private double sliderValue;
+        private double sliderMax;
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            sliderMin = (double)values[0];
+            sliderValue = (double)values[1];
+            sliderMax = (double)values[2];
+
+            switch (sliderValue)
+            {
+                case double.NegativeInfinity:
+                    return sliderMin;
+
+                case double.PositiveInfinity:
+                    return sliderMax;
+                default: 
+                    return sliderValue;
+            }
+        }
+
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return new object[] { sliderMin, value, sliderMax };
+        }
     }
 }

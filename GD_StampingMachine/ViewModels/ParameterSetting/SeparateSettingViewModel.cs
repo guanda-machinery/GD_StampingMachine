@@ -102,6 +102,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
+        /// <summary>
+        /// 單一設定
+        /// </summary>
         public double SingleSetting_SeparateBoxValue
         {
             get => SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
@@ -189,12 +192,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                SingleSetting_SeparateBoxValue = 200;
-                 
-                foreach(var separateBox in SeparateBoxVMObservableCollectionClone)
+                //SingleSetting_SeparateBoxValue = 200;
+                SingleSetting_SeparateBoxValue = double.PositiveInfinity;
+                foreach (var separateBox in SeparateBoxVMObservableCollectionClone)
                 {
                     separateBox.BoxIsEnabled = true;
-                    separateBox.BoxSliderValue = 200;
+                    //separateBox.BoxSliderValue = 200;
+                    separateBox.BoxSliderValue = double.PositiveInfinity;
                 }
 
                 SeparateBoxVMObservableCollection = SeparateBoxVMObservableCollectionClone.DeepCloneByJson();

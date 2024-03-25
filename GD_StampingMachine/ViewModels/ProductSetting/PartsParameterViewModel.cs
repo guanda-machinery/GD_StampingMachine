@@ -44,7 +44,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public readonly PartsParameterModel PartsParameter;
 
 
-        public event EventHandler? StateChanged;
+        public event EventHandler<bool>? IsFinishChanged;
+
+        public event EventHandler<bool>? IsTransportedChanged;
+
 
 
         /// <summary>
@@ -57,7 +60,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 PartsParameter.Processing = value;
                 OnPropertyChanged();
-                StateChanged?.Invoke(this, new EventArgs());
             }
         }
 
@@ -122,7 +124,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.DataMatrixIsFinish = value;
                     OnPropertyChanged();
-                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -138,7 +139,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.EngravingIsFinish = value;
                     OnPropertyChanged();
-                    StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -154,7 +154,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.ShearingIsFinish = value;
                     OnPropertyChanged();
-                    StateChanged?.Invoke(this, new EventArgs());
+                    //StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -170,11 +170,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.IsFinish = value;
                     OnPropertyChanged();
-                    StateChanged?.Invoke(this, new EventArgs());
+                    IsFinishChanged?.Invoke(this,value);
                 }
             }
         }
 
+        /// <summary>
+        /// 被搬走
+        /// </summary>
         public bool IsTransported
         {
             get => PartsParameter.IsTransported;
@@ -184,7 +187,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.IsTransported = value;
                     OnPropertyChanged();
-                    StateChanged?.Invoke(this, new EventArgs());
+                    IsTransportedChanged?.Invoke(this, value);
                 }
             }
         }
@@ -206,7 +209,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.SendMachineCommand.IsSended = value;
                     OnPropertyChanged();
-                    StateChanged?.Invoke(this, new EventArgs());
+                    //StateChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -233,6 +236,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
         private bool? _isScheduled;
+        /// <summary>
+        /// 被排程
+        /// </summary>
         public bool IsScheduled
         {
             get => _isScheduled ??= WorkIndex!=-1;

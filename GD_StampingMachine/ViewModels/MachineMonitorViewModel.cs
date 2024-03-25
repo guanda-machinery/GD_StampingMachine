@@ -72,8 +72,11 @@ namespace GD_StampingMachine.ViewModels
                 {
                     foreach (var stampingBox in _selectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection)
                     {
-                        stampingBox.PartsParameterStateChanged -= StampingBox_PartsParameterStateChanged;
-                        stampingBox.PartsParameterStateChanged += StampingBox_PartsParameterStateChanged; ;
+                        stampingBox.PartsParameterIsFinishChanged -= StampingBox_PartsParameterStateChanged; ;
+                        stampingBox.PartsParameterIsFinishChanged += StampingBox_PartsParameterStateChanged; ;
+
+                        stampingBox.PartsParameterIsTransportedChanged -= StampingBox_PartsParameterStateChanged;
+                        stampingBox.PartsParameterIsTransportedChanged += StampingBox_PartsParameterStateChanged;
                     }
                 }
                 return _selectedProjectDistributeVM;
@@ -84,14 +87,16 @@ namespace GD_StampingMachine.ViewModels
                 {
                     foreach (var stampingBox in _selectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection)
                     {
-                        stampingBox.PartsParameterStateChanged -= StampingBox_PartsParameterStateChanged;
+                        stampingBox.PartsParameterIsFinishChanged -= StampingBox_PartsParameterStateChanged;
+                        stampingBox.PartsParameterIsTransportedChanged -= StampingBox_PartsParameterStateChanged;
                     }
                 }
                 if (value != null)
                 {
                     foreach (var stampingBox in value.StampingBoxPartsVM.SeparateBoxVMObservableCollection)
                     {
-                        stampingBox.PartsParameterStateChanged += StampingBox_PartsParameterStateChanged;
+                        stampingBox.PartsParameterIsFinishChanged += StampingBox_PartsParameterStateChanged;
+                        stampingBox.PartsParameterIsTransportedChanged += StampingBox_PartsParameterStateChanged;
                     }
                 }
                 _selectedProjectDistributeVM = value; 
@@ -105,7 +110,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
         private PartsParameterViewModel? _boxPartsParameterCurrentItem;
-        public PartsParameterViewModel BoxPartsParameterCurrentItem
+        public PartsParameterViewModel? BoxPartsParameterCurrentItem
         {
             get => _boxPartsParameterCurrentItem; set { _boxPartsParameterCurrentItem = value;OnPropertyChanged(); }
         }
@@ -124,7 +129,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _reSendPartsParameterCommand??=new AsyncRelayCommand<object>(async obj =>
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     if (obj is IList<GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel> partsParameterList)
                     {
@@ -139,6 +144,7 @@ namespace GD_StampingMachine.ViewModels
                                 partsParameter.IsFinish = false;
                                 partsParameter.FinishProgress = 0;
                             }
+                            await Task.Delay(1);
                         }
                     }
                 });
@@ -150,14 +156,14 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _finishPartsParameterCommand??=new AsyncRelayCommand<object>(async obj =>
             {
-                await Task.CompletedTask;
-
-                var b = BoxPartsParameterSelectedItems;
-        
-                if (obj is IList<GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel> partsParameterList)
+                await Task.Run(async () =>
                 {
-                    foreach (var partsParameter in partsParameterList)
+                    // var b = BoxPartsParameterSelectedItems;
+
+                    if (obj is IList<GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel> partsParameterList)
                     {
+                        foreach (var partsParameter in partsParameterList)
+                        {
                             partsParameter.IsSended = true;
                             partsParameter.DataMatrixIsFinish = true;
                             partsParameter.EngravingIsFinish = true;
@@ -165,10 +171,10 @@ namespace GD_StampingMachine.ViewModels
                             partsParameter.IsFinish = true;
                             partsParameter.IsTransported = false;
                             partsParameter.FinishProgress = 100;
-                        
+                            await Task.Delay(1);
+                        }
                     }
-
-                }
+                });
             });
         }
 
@@ -249,10 +255,9 @@ namespace GD_StampingMachine.ViewModels
             {
                 try
                 {
-                    PreviousFirstIronPlateID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault()?.ID;
-                    PreviousMiddleIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
-                    PreviousLasttIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
-
+                    //PreviousFirstIronPlateID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault()?.ID;
+                    //PreviousMiddleIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
+                    //PreviousLasttIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
 
                     //開始依序傳送資料
                     await Task.Run(async () =>
@@ -545,30 +550,31 @@ namespace GD_StampingMachine.ViewModels
         private int? PreviousMiddleIronPlateID;
         private int? PreviousLasttIronPlateID;
 
-
-
         private void PlateBaseObservableCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             try
             {
-                if (sender is ICollection<PlateMonitorViewModel> PlateCollection)
+                 if (sender is ICollection<PlateMonitorViewModel> PlateCollection)
+                //if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
                 {
+
                     var PartCollection = ProductSettingVM?.ProductProjectVMCollection.SelectMany(x => x.PartsParameterVMObservableCollection).ToList();
 
                     if (PartCollection != null)
                     {
-                        if (PlateCollection.FirstOrDefault()?.ID != PreviousFirstIronPlateID)
-                        {
-                            if (PreviousFirstIronPlateID != null)
+                            if (PlateCollection.FirstOrDefault()?.ID != PreviousFirstIronPlateID)
                             {
-                                var FirstPart = PartCollection.FirstOrDefault(x => x.ID == PreviousFirstIronPlateID);
-                                if (FirstPart != null)
+                                if (PreviousFirstIronPlateID != null)
                                 {
-                                    FirstPart.FinishProgress = 100;
-                                    FirstPart.IsFinish = true;
+                                    var FirstPart = PartCollection.FirstOrDefault(x => x.ID == PreviousFirstIronPlateID);
+                                    if (FirstPart != null)
+                                    {
+                                        FirstPart.FinishProgress = 100;
+                                        FirstPart.IsFinish = true;
+                                    }
                                 }
-                            }
-                            PreviousFirstIronPlateID = PlateCollection.FirstOrDefault()?.ID;
+                                PreviousFirstIronPlateID = PlateCollection.FirstOrDefault()?.ID;
+                            
                         }
 
                         if (PlateCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID != PreviousMiddleIronPlateID)
@@ -584,7 +590,7 @@ namespace GD_StampingMachine.ViewModels
                             }
                             PreviousMiddleIronPlateID = PlateCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
                         }
-
+                        
                         if (PlateCollection.LastOrDefault()?.ID != PreviousLasttIronPlateID)
                         {
                             if (PreviousLasttIronPlateID != null)
@@ -600,8 +606,8 @@ namespace GD_StampingMachine.ViewModels
                             PreviousLasttIronPlateID = PlateCollection.LastOrDefault()?.ID;
                         }
                     }
-
                 }
+
             }
             catch (Exception)
             {
@@ -617,7 +623,7 @@ namespace GD_StampingMachine.ViewModels
                 if (e.NewValue)
                 {
                     //取得id
-                    var eRotateStation = StampMachineData.EngravingRotateStation;
+                    //var eRotateStation = StampMachineData.EngravingRotateStation;
                     _ = Task.Run(async () =>
                     {
                         try
@@ -683,9 +689,9 @@ namespace GD_StampingMachine.ViewModels
                 manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                 try
                 {
-                    PreviousFirstIronPlateID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault()?.ID;
-                    PreviousMiddleIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
-                    PreviousLasttIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
+                    //PreviousFirstIronPlateID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault()?.ID;
+                    //PreviousMiddleIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
+                    //PreviousLasttIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
 
                     StampMachineData.PlateBaseObservableCollection.CollectionChanged += PlateBaseObservableCollection_CollectionChanged;
 
