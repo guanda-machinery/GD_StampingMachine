@@ -12,6 +12,7 @@ using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels;
 using GD_StampingMachine.ViewModels.MachineMonitor;
 using GD_StampingMachine.ViewModels.ParameterSetting;
+using MahApps.Metro.Controls;
 using Microsoft.VisualStudio.PlatformUI;
 using Opc.Ua;
 using Opc.Ua.Bindings;
@@ -779,21 +780,23 @@ namespace GD_StampingMachine.Singletons
             {
                 try
                 {
-
+                    int j = 0;
                     while (Debugger.IsAttached && !IsConnected)
                     {
                         try
                         {
+                            Random random = new Random();
+                       
 
                             for (int i = 0; i < MachineConst.PlateCount; i++)
                             {
-                                Random random = new Random();
                                 var randomDouble = random.NextDouble() * 100;
 
                                 await Application.Current.Dispatcher.InvokeAsync(() =>
                                 {
                                     PlateBaseObservableCollection[i] = (new PlateMonitorViewModel()
                                     {
+                                        ID= i+j,
                                         SettingBaseVM = new QRSettingViewModel()
                                         {
                                             PlateNumber = "DEMO-" + randomDouble,
@@ -804,6 +807,10 @@ namespace GD_StampingMachine.Singletons
                                 });
                                 await Task.Delay(100);
                             }
+
+                            j++;
+                            if (j > 25)
+                                j = 0;
                         }
                         catch (OperationCanceledException)
                         {
@@ -1091,7 +1098,8 @@ namespace GD_StampingMachine.Singletons
                                                                 if (PlateBaseObservableCollection.TryGetValue(index, out var machineSetting)
                                                                 && collection.TryGetValue(index, out var plateMonitorVM))
                                                                 {
-                                                                    if (machineSetting.SettingBaseVM?.PlateNumber != plateMonitorVM.SettingBaseVM?.PlateNumber
+                                                                    if (machineSetting.ID != plateMonitorVM.ID
+                                                                    ||machineSetting.SettingBaseVM?.PlateNumber != plateMonitorVM.SettingBaseVM?.PlateNumber
                                                                     || machineSetting.StampingStatus != plateMonitorVM.StampingStatus
                                                                     || machineSetting.DataMatrixIsFinish != plateMonitorVM.DataMatrixIsFinish
                                                                     || machineSetting.EngravingIsFinish != plateMonitorVM.EngravingIsFinish
@@ -1111,7 +1119,6 @@ namespace GD_StampingMachine.Singletons
                                                                             }
                                                                             await Task.Yield();
                                                                         });
-                                                                        await Task.Delay(100);
                                                                     }
                                                                 }
                                                             }
@@ -1138,7 +1145,10 @@ namespace GD_StampingMachine.Singletons
                                                                             var ret = await GetIronPlateAsync(nodeID);
                                                                             if (ret.Item1)
                                                                             {
-                                                                                PlateBaseObservableCollection[index] = new PlateMonitorViewModel(ret.Item2);
+                                                                                await Application.Current.Dispatcher.InvokeAsync(() =>
+                                                                                {
+                                                                                    PlateBaseObservableCollection[index] = new PlateMonitorViewModel(ret.Item2);
+                                                                                });
                                                                             }
                                                                         }
                                                                     }
@@ -1654,10 +1664,78 @@ namespace GD_StampingMachine.Singletons
                                     };
                                 }
 
+                                var IronPlateDataCollectionTask = Task.Run(async () =>
+                                {
+                                    try 
+                                    {
+                                        while (true)
+                                        {
+                                            var (PlateResult, ironPlateCollection) = await GetIronPlateDataCollectionAsync();
+                                            if (PlateResult)
+                                            {
+                                                var plateMonitorVMCollection = ironPlateCollection.Select(x => (new PlateMonitorViewModel(x)));
+
+                                                var collection = plateMonitorVMCollection?.Take(MachineConst.PlateCount)?.ToList();
+                                                if (collection != null)
+                                                {
+                                                    if (PlateBaseObservableCollection.Count != collection.Count)
+                                                    {
+                                                        await Application.Current.Dispatcher.InvokeAsync(() =>
+                                                        {
+                                                            PlateBaseObservableCollection = new ObservableCollection<PlateMonitorViewModel>(collection);
+                                                        });
+                                                    }
+                                                    else
+                                                    {
+                                                        for (int i = 0; i < collection.Count; i++)
+                                                        {
+                                                            int index = i;//防止閉包問題
+                                                            if (PlateBaseObservableCollection.TryGetValue(index, out var machineSetting)
+                                                            && collection.TryGetValue(index, out var plateMonitorVM))
+                                                            {
+                                                                if (machineSetting.ID != plateMonitorVM.ID
+                                                                || machineSetting.SettingBaseVM?.PlateNumber != plateMonitorVM.SettingBaseVM?.PlateNumber
+                                                                || machineSetting.StampingStatus != plateMonitorVM.StampingStatus
+                                                                || machineSetting.DataMatrixIsFinish != plateMonitorVM.DataMatrixIsFinish
+                                                                || machineSetting.EngravingIsFinish != plateMonitorVM.EngravingIsFinish
+                                                                || machineSetting.ShearingIsFinish != plateMonitorVM.ShearingIsFinish)
+                                                                {
+                                                                    //  var invoke =
+                                                                    await Application.Current.Dispatcher.InvokeAsync(async () =>
+                                                                    {
+                                                                        try
+                                                                        {
+                                                                            if (PlateBaseObservableCollection != null)
+                                                                                PlateBaseObservableCollection[index] = plateMonitorVM;
+                                                                        }
+                                                                        catch
+                                                                        {
+
+                                                                        }
+                                                                        await Task.Yield();
+                                                                    });
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            await Task.WhenAny(Task.Delay(10000) ,Task.Delay(-1, token), Task.Delay(-1, reconnectCts.Token));
+                                        }
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                });
+
                                 await Task.Yield();
                                 await Task.WhenAny(Task.Delay(-1, token), Task.Delay(-1, reconnectCts.Token));
 
-                                if(token.IsCancellationRequested)
+                                await IronPlateDataCollectionTask;
+
+                                if (token.IsCancellationRequested)
                                     token.ThrowIfCancellationRequested();
 
                                 if (reconnectCts.Token.IsCancellationRequested)

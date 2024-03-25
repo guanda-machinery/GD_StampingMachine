@@ -579,9 +579,20 @@
                                                     </dxg:GridColumn.EditSettings>
                                                 </dxg:GridColumn>
 
+                                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="Uid"  FieldName="ID"  Visible="{Binding TestedIsChecked}"
+                                                         SortOrder="Ascending"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <TextBox Text="{Binding Row.ID ,UpdateSourceTrigger=PropertyChanged}"/>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </dxg:GridColumn.CellTemplate>
+                                            </dxg:GridColumn>
 
 
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Box}"  FieldName="BoxIndex"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Box}"  FieldName="BoxIndex"  Width="auto" AllowMoving="false"  IsSmart="True">
                                                     <dxg:GridColumn.EditSettings>
                                                         <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                                     </dxg:GridColumn.EditSettings>

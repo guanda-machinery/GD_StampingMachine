@@ -253,6 +253,7 @@ namespace GD_StampingMachine.ViewModels
                     PreviousMiddleIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
                     PreviousLasttIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
 
+
                     //開始依序傳送資料
                     await Task.Run(async () =>
                      {
@@ -552,7 +553,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (sender is ICollection<PlateMonitorViewModel> PlateCollection)
                 {
-                    var PartCollection = ProductSettingVM?.ProductProjectVMCollection.SelectMany(x => x.PartsParameterVMObservableCollection);
+                    var PartCollection = ProductSettingVM?.ProductProjectVMCollection.SelectMany(x => x.PartsParameterVMObservableCollection).ToList();
 
                     if (PartCollection != null)
                     {
@@ -567,6 +568,7 @@ namespace GD_StampingMachine.ViewModels
                                     FirstPart.IsFinish = true;
                                 }
                             }
+                            PreviousFirstIronPlateID = PlateCollection.FirstOrDefault()?.ID;
                         }
 
                         if (PlateCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID != PreviousMiddleIronPlateID)
@@ -578,9 +580,9 @@ namespace GD_StampingMachine.ViewModels
                                 {
                                     if (MiddlePart.FinishProgress < 66)
                                         MiddlePart.FinishProgress = 66;
-                                    //MiddlePart.EngravingIsFinish = true;
                                 }
                             }
+                            PreviousMiddleIronPlateID = PlateCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
                         }
 
                         if (PlateCollection.LastOrDefault()?.ID != PreviousLasttIronPlateID)
@@ -595,12 +597,10 @@ namespace GD_StampingMachine.ViewModels
                                     LastPart.DataMatrixIsFinish = true;
                                 }
                             }
+                            PreviousLasttIronPlateID = PlateCollection.LastOrDefault()?.ID;
                         }
                     }
 
-                    PreviousFirstIronPlateID = PlateCollection.FirstOrDefault()?.ID;
-                    PreviousMiddleIronPlateID = PlateCollection.LastOrDefault(x=>x.EngravingIsFinish)?.ID;
-                    PreviousLasttIronPlateID = PlateCollection.LastOrDefault()?.ID;
                 }
             }
             catch (Exception)
@@ -1036,30 +1036,33 @@ namespace GD_StampingMachine.ViewModels
                                 await Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.SaveStampingTypeVMObservableCollectionAsync();
                             }
                             // 鐵片
-                            var engravingID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault()?.ID;
-                            
+                            var engravingID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault(x=>!x.EngravingIsFinish)?.ID;
                             //找出正在被敲的那片id
-                            var project = StampingMachineSingleton.Instance.TypeSettingSettingVM?.ProjectDistributeVMObservableCollection
-                                .SelectMany(x => x.ProductProjectVMCollection)
-                                .FirstOrDefault(x => x.PartsParameterVMObservableCollection.Any(y => y.ID == engravingID));
-
-                            if (project != null)
+                            if (engravingID != null)
                             {
-                                var engravingPartParameter = project.PartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == engravingID);
-                                if (engravingPartParameter != null)
+                                var project = StampingMachineSingleton.Instance.TypeSettingSettingVM?.ProjectDistributeVMObservableCollection
+                                    .SelectMany(x => x.ProductProjectVMCollection)
+                                    .FirstOrDefault(x => x.PartsParameterVMObservableCollection.Any(y => y.ID == engravingID));
+                                if (project != null)
                                 {
-                                    if (engravingPartParameter.FinishProgress < 33)
-                                        engravingPartParameter.FinishProgress = 33;
-
-                                    if (engravingPartParameter.FinishProgress < 66)
+                                    var engravingPartParameter = project.PartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == engravingID);
+                                    if (engravingPartParameter != null)
                                     {
-                                        var numberLength = engravingPartParameter.SettingBaseVM.PlateNumber.Replace(" ", string.Empty).Length;
-                                        //敲一次就跳一次完成度 不會超過66
-                                        engravingPartParameter.FinishProgress += ((float)33.3 / numberLength);
-                                        await project.SaveProductProjectAsync();
+                                        if (engravingPartParameter.FinishProgress < 33)
+                                            engravingPartParameter.FinishProgress = 33;
+
+                                        if (engravingPartParameter.FinishProgress < 66)
+                                        {
+                                            var numberLength = engravingPartParameter.SettingBaseVM.PlateNumber.Replace(" ", string.Empty).Length;
+                                            //敲一次就跳一次完成度 不會超過66
+                                            engravingPartParameter.FinishProgress += ((float)33.3 / numberLength);
+                                            await project.SaveProductProjectAsync();
+                                        }
                                     }
                                 }
                             }
+
+
                         }
                         catch
                         {
