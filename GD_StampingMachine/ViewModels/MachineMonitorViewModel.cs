@@ -1430,14 +1430,20 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
+
+        private bool StopRefreshBoxPartsParameterVMRowFilter = false;
+
         public void RefreshBoxPartsParameterVMRowFilter()
         {
-            _ = Application.Current.Dispatcher.InvokeAsync(async () =>
+            if (!StopRefreshBoxPartsParameterVMRowFilter)
             {
-                await Task.CompletedTask;
-                OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
-                OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand)); 
-            }); ;
+                _ = Application.Current.Dispatcher.InvokeAsync(async () =>
+                {
+                    await Task.CompletedTask;
+                    OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
+                    OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
+                }); ;
+            }
         }
 
 
@@ -1512,6 +1518,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     try
                     {
+
                         if (SelectedProjectDistributeVM != null && SelectedProjectDistributeVM?.StampingBoxPartsVM.SelectedSeparateBoxVM != null)
                         {
                             var selectedBoxIndex = SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
@@ -1529,10 +1536,12 @@ namespace GD_StampingMachine.ViewModels
                                 var unTransportedCollection = this.SelectedProjectDistributeVM?.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection.Where(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported).ToList();
                                 if (unTransportedCollection != null)
                                 {
+                                    StopRefreshBoxPartsParameterVMRowFilter = true;
                                     foreach (var part in unTransportedCollection)
                                     {
                                         part.IsTransported = true;
                                     }
+                                    StopRefreshBoxPartsParameterVMRowFilter = false;
                                 }
 
                                 _ = SelectedProjectDistributeVM?.SaveProductProjectVMCollectionAsync();
@@ -1547,7 +1556,11 @@ namespace GD_StampingMachine.ViewModels
                     {
 
                     }
-                    RefreshBoxPartsParameterVMRowFilter();
+                    finally
+                    {
+                        StopRefreshBoxPartsParameterVMRowFilter = false;
+                        RefreshBoxPartsParameterVMRowFilter();
+                    }
                 });
 
             }, () => !ClearFinishItemCommand.IsRunning);

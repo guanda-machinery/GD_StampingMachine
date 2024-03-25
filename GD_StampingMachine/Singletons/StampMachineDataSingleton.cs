@@ -777,37 +777,49 @@ namespace GD_StampingMachine.Singletons
             
             _ = Task.Run(async () =>
             {
-            while (Debugger.IsAttached && !IsConnected)
-            {
                 try
                 {
-                        for (int i = 0; i < MachineConst.PlateCount; i++)
-                        {
-                            Random random = new Random();
-                            var randomDouble = random.NextDouble() * 100;
-                            
-                            await Application.Current.Dispatcher.InvokeAsync(() =>
-                            {
-                                PlateBaseObservableCollection[i] = (new PlateMonitorViewModel()
-                                {
-                                    SettingBaseVM = new QRSettingViewModel()
-                                    {
-                                        PlateNumber = "DEMO-" + randomDouble,
-                                        QR_Special_Text = string.Empty,
-                                        QrCodeContent = i.ToString(),
-                                    }
-                                });
-                            });
-                            await Task.Delay(100);
-                        }
-                    }
-                    catch(Exception ex)
-                    {
-                        Debugger.Break();
-                    }
-                    await Task.Delay(1000);
-                }
 
+                    while (Debugger.IsAttached && !IsConnected)
+                    {
+                        try
+                        {
+
+                            for (int i = 0; i < MachineConst.PlateCount; i++)
+                            {
+                                Random random = new Random();
+                                var randomDouble = random.NextDouble() * 100;
+
+                                await Application.Current.Dispatcher.InvokeAsync(() =>
+                                {
+                                    PlateBaseObservableCollection[i] = (new PlateMonitorViewModel()
+                                    {
+                                        SettingBaseVM = new QRSettingViewModel()
+                                        {
+                                            PlateNumber = "DEMO-" + randomDouble,
+                                            QR_Special_Text = string.Empty,
+                                            QrCodeContent = i.ToString(),
+                                        }
+                                    });
+                                });
+                                await Task.Delay(100);
+                            }
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            throw;
+                        }
+                        catch (Exception ex)
+                        {
+                            Debugger.Break();
+                        }
+                        await Task.Delay(1000);
+                    }
+                }
+                catch
+                {
+
+                }
             });
 
 
