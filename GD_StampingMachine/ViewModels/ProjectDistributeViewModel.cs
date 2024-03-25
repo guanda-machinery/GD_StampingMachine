@@ -154,13 +154,13 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public bool IsInDistributePage { get => _IsInDistributePage; set { _IsInDistributePage = value; OnPropertyChanged(); } }
 
-        private bool _addTypeSettingProjectDarggableIsPopUp;
-        public bool AddTypeSettingProjectDarggableIsPopUp
+        private bool _addTypeSettingProjectDraggableIsPopUp;
+        public bool AddTypeSettingProjectDraggableIsPopUp
         {
-            get => _addTypeSettingProjectDarggableIsPopUp;
+            get => _addTypeSettingProjectDraggableIsPopUp;
             set
             {
-                _addTypeSettingProjectDarggableIsPopUp = value;
+                _addTypeSettingProjectDraggableIsPopUp = value;
                 OnPropertyChanged();
             }
         }

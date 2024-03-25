@@ -316,7 +316,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new(() =>
             {
-                EditProjectDarggableIsPopup = true;
+                EditProjectDraggableIsPopup = true;
             });
         }
 
@@ -1135,19 +1135,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        private bool _addParameterDarggableIsPopup;
+        private bool _addParameterDraggableIsPopup;
         /// <summary>
         /// 加入新零件
         /// </summary>
-        public bool AddParameterDarggableIsPopup
+        public bool AddParameterDraggableIsPopup
         {
             get
             {
-                return _addParameterDarggableIsPopup;
+                return _addParameterDraggableIsPopup;
             }
             set
             {
-                _addParameterDarggableIsPopup = value;
+                _addParameterDraggableIsPopup = value;
                 OnPropertyChanged();
             }
         }
@@ -1156,44 +1156,44 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private bool _importParameterDarggableIsPopup;
-        public bool ImportParameterDarggableIsPopup
+        private bool _importParameterDraggableIsPopup;
+        public bool ImportParameterDraggableIsPopup
         {
             get
             {
-                return _importParameterDarggableIsPopup;
+                return _importParameterDraggableIsPopup;
             }
             set
             {
-                _importParameterDarggableIsPopup = value;
+                _importParameterDraggableIsPopup = value;
                 OnPropertyChanged();
             }
         }
-        private bool _exportParameterDarggableIsPopup;
-        public bool ExportParameterDarggableIsPopup
+        private bool _exportParameterDraggableIsPopup;
+        public bool ExportParameterDraggableIsPopup
         {
             get
             {
-                return _exportParameterDarggableIsPopup;
+                return _exportParameterDraggableIsPopup;
             }
             set
             {
-                _exportParameterDarggableIsPopup = value;
+                _exportParameterDraggableIsPopup = value;
                 OnPropertyChanged();
             }
         }
 
 
-        private bool _editProjectDarggableIsPopup;
-        public bool EditProjectDarggableIsPopup
+        private bool _editProjectDraggableIsPopup;
+        public bool EditProjectDraggableIsPopup
         {
             get
             {
-                return _editProjectDarggableIsPopup;
+                return _editProjectDraggableIsPopup;
             }
             set
             {
-                _editProjectDarggableIsPopup = value;
+                _editProjectDraggableIsPopup = value;
                 OnPropertyChanged();
             }
         }

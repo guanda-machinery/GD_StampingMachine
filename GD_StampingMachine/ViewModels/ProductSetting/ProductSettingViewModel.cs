@@ -29,30 +29,30 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public override string ViewModelName => (string)Application.Current.TryFindResource("Name_ProductSettingViewModel");
 
-        private bool _addProjectDarggableIsPopup;
-        public bool AddProjectDarggableIsPopup
+        private bool _addProjectDraggableIsPopup;
+        public bool AddProjectDraggableIsPopup
         {
             get
             {
-                return _addProjectDarggableIsPopup;
+                return _addProjectDraggableIsPopup;
             }
             set
             {
-                _addProjectDarggableIsPopup = value;
+                _addProjectDraggableIsPopup = value;
                 OnPropertyChanged();
             }
         }
 
-        private bool _openProjectFileDarggableIsPopup;
-        public bool OpenProjectFileDarggableIsPopup
+        private bool _openProjectFileDraggableIsPopup;
+        public bool OpenProjectFileDraggableIsPopup
         {
             get
             {
-                return _openProjectFileDarggableIsPopup;
+                return _openProjectFileDraggableIsPopup;
             }
             set
             {
-                _openProjectFileDarggableIsPopup = value;
+                _openProjectFileDraggableIsPopup = value;
                 OnPropertyChanged();
             }
         }

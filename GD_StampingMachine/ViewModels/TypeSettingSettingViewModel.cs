@@ -145,8 +145,8 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private bool _addProjectDistributeDarggableIsPopup;
-        public bool AddProjectDistributeDarggableIsPopup { get => _addProjectDistributeDarggableIsPopup; set { _addProjectDistributeDarggableIsPopup = value; OnPropertyChanged(); } }
+        private bool _addProjectDistributeDraggableIsPopup;
+        public bool AddProjectDistributeDraggableIsPopup { get => _addProjectDistributeDraggableIsPopup; set { _addProjectDistributeDraggableIsPopup = value; OnPropertyChanged(); } }
 
 
 

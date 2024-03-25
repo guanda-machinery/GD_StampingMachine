@@ -35,13 +35,13 @@
         <materialDesign:DialogHost.IsOpen>
             <MultiBinding Converter="{GD_CommonControl:DialogHostMultiBooleanToBooleanConverter}" >
                 <MultiBinding.Bindings>
-                    <Binding Path="ProductSettingVM.AddProjectDarggableIsPopup"/>
-                    <Binding Path="ProductSettingVM.SelectProductProjectVM.EditProjectDarggableIsPopup"/>
-                    <Binding Path="ProductSettingVM.SelectProductProjectVM.AddParameterDarggableIsPopup"/>
-                    <Binding Path="ProductSettingVM.SelectProductProjectVM.PartsParameterViewModelSelectItem.EditPartDarggableIsPopup"/>
-                    <Binding Path="TypeSettingSettingVM.AddProjectDistributeDarggableIsPopup"/>
-                    <Binding Path="TypeSettingSettingVM.ProjectDistributeVM.AddTypeSettingProjectDarggableIsPopUp"/>
-                    <Binding Path="ProductSettingVM.OpenProjectFileDarggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.AddProjectDraggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.SelectProductProjectVM.EditProjectDraggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.SelectProductProjectVM.AddParameterDraggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.SelectProductProjectVM.PartsParameterViewModelSelectItem.EditPartDraggableIsPopup"/>
+                    <Binding Path="TypeSettingSettingVM.AddProjectDistributeDraggableIsPopup"/>
+                    <Binding Path="TypeSettingSettingVM.ProjectDistributeVM.AddTypeSettingProjectDraggableIsPopUp"/>
+                    <Binding Path="ProductSettingVM.OpenProjectFileDraggableIsPopup"/>
                     <Binding Path="ParameterSettingVM.TimingSettingVM.TimeSettingPopupIsOpen"/>
                     
                     <!-- <Binding ElementName="TBtn_Speed" Path="IsChecked"/>-->
@@ -75,7 +75,7 @@
                         <TextBlock Text="{DynamicResource Text_TypeSettingProject}" VerticalAlignment="Center" Margin="5,0,0,0"/>
                         <TextBlock Text="：" VerticalAlignment="Center" Margin="0,0"/>
                         <ToggleButton Name="OpenProjectFileToggleButton" Background="Transparent" BorderThickness="0" Padding="0" Margin="5,0"
-                                      IsChecked="{Binding ProductSettingVM.OpenProjectFileDarggableIsPopup}"
+                                      IsChecked="{Binding ProductSettingVM.OpenProjectFileDraggableIsPopup}"
                         Style="{StaticResource MaterialDesignFlatMidBgButton}" VerticalAlignment="Center" Height="auto">
                             <!--                            Command="{Binding OpenProjectFileCommand}"-->
                             <Border BorderBrush="{DynamicResource MaterialDesign.Brush.Primary.Light.Foreground}"   HorizontalAlignment="Stretch"   Width="280"  MaxWidth="280" 
@@ -89,7 +89,7 @@
                         <GD_Popup:DraggablePopup Width="{Binding ElementName=OpenProjectFileToggleButton, Path=ActualWidth}"
                             Name="OpenProjectFileDraggablePopup"
                             AllowsTransparency="True"
-                            IsOpen="{Binding ProductSettingVM.OpenProjectFileDarggableIsPopup}"
+                            IsOpen="{Binding ProductSettingVM.OpenProjectFileDraggableIsPopup}"
                             Placement="Bottom"
                             PlacementTarget="{Binding ElementName=OpenProjectFileToggleButton}"
                             PopupAnimation="Slide">

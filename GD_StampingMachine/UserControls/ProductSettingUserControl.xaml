@@ -89,7 +89,7 @@
                         x:Name="AddProjectToggleButton"
                                           Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
                                           CommandParameter="{StaticResource TrueValue}"
-                                           CommandTarget="{Binding ElementName=AddProjectDarggablePopup}"
+                                           CommandTarget="{Binding ElementName=AddProjectDraggablePopup}"
                                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                       materialDesign:ButtonAssist.CornerRadius="5"
                                                       Content="{DynamicResource Text_AddNewProject}" >
@@ -100,7 +100,7 @@
                                          PlacementRectangle="-260,50,0,0"
                                          Placement="Bottom" 
                                          PlacementTarget="{Binding ElementName=AddProjectToggleButton}"
-                                             x:Name="AddProjectDarggablePopup" IsOpen="{Binding AddProjectDarggableIsPopup}">
+                                             x:Name="AddProjectDraggablePopup" IsOpen="{Binding AddProjectDraggableIsPopup}">
                     <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
@@ -244,11 +244,11 @@
                 </GD_Popup:DraggablePopup>
 
                 <!--編輯-->
-                <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="EditProjectDarggablePopup"  
+                <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="EditProjectDraggablePopup"  
                                           PlacementRectangle="-260,50,0,0"
                                          Placement="Bottom" 
                                          PlacementTarget="{Binding ElementName=AddProjectToggleButton}"
-                                         IsOpen="{Binding SelectProductProjectVM.EditProjectDarggableIsPopup}">
+                                         IsOpen="{Binding SelectProductProjectVM.EditProjectDraggableIsPopup}">
                     <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
@@ -778,7 +778,7 @@
                             <Button  Name="AddParameterToggleButton"
                                            Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
                                           CommandParameter="{StaticResource TrueValue}"
-                                           CommandTarget="{Binding ElementName=AddParameterDarggablePopup}"
+                                           CommandTarget="{Binding ElementName=AddParameterDraggablePopup}"
                                                   Width="auto"
                                                       Height="auto" Padding="20,2,20,0" 
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -793,7 +793,7 @@
                                 Name="ImportParameterToggleButton"
                                           Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
                                           CommandParameter="{StaticResource TrueValue}"
-                                           CommandTarget="{Binding ElementName=ImportParameterDarggablePopup}"
+                                           CommandTarget="{Binding ElementName=ImportParameterDraggablePopup}"
                                                   Width="auto"
                                                       Height="auto" Padding="20,2,20,0"  Margin="10,0"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -806,7 +806,7 @@
                             PlacementTarget="{Binding ElementName=AddParameterToggleButton}" Placement="Relative"
                             PlacementRectangle="-90,50,0,0" 
                             AllowsTransparency="True" Margin="16"   
-                            x:Name="EditParameterDarggablePopup" IsOpen="{Binding PartsParameterViewModelSelectItem.EditPartDarggableIsPopup}">
+                            x:Name="EditParameterDraggablePopup" IsOpen="{Binding PartsParameterViewModelSelectItem.EditPartDraggableIsPopup}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Opened">
                                     <i:InvokeCommandAction  Command="{Binding ChangePartsParameterVM_ClonedParameterCommand}" PassEventArgsToCommand="True" />
@@ -980,7 +980,7 @@
                             PlacementTarget="{Binding ElementName=AddParameterToggleButton}" Placement="Relative"
                             PlacementRectangle="-180,50,0,0"
                             AllowsTransparency="True" Margin="16" 
-                            x:Name="AddParameterDarggablePopup" IsOpen="{Binding AddParameterDarggableIsPopup}">
+                            x:Name="AddParameterDraggablePopup" IsOpen="{Binding AddParameterDraggableIsPopup}">
                             <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
@@ -1131,7 +1131,7 @@
                       
                                PlacementRectangle="-175,50,0,0"
                             AllowsTransparency="True" Margin="16"  
-                            AllowTopMost="False" x:Name="ImportParameterDarggablePopup" IsOpen="{Binding ImportParameterDarggableIsPopup}">
+                            AllowTopMost="False" x:Name="ImportParameterDraggablePopup" IsOpen="{Binding ImportParameterDraggableIsPopup}">
                             <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >

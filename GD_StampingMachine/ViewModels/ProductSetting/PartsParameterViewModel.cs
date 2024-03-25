@@ -388,18 +388,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        public bool _editPartDarggableIsPopup;
+        public bool _editPartDraggableIsPopup;
         /// <summary>
         /// 編輯視窗
         /// </summary>
-        public bool EditPartDarggableIsPopup
+        public bool EditPartDraggableIsPopup
         {
-            get => _editPartDarggableIsPopup;
+            get => _editPartDraggableIsPopup;
             set
             {
-                if (_editPartDarggableIsPopup != value)
+                if (_editPartDraggableIsPopup != value)
                 {
-                    _editPartDarggableIsPopup = value;
+                    _editPartDraggableIsPopup = value;
                     OnPropertyChanged();
                 }
             }
@@ -411,7 +411,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new(() =>
             {
-                EditPartDarggableIsPopup = true;
+                EditPartDraggableIsPopup = true;
             });
         }
 
