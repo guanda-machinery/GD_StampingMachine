@@ -813,7 +813,7 @@ namespace GD_StampingMachine.Singletons
                                     PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?>(oldCollection, PlateBaseObservableCollection));
 
                                 });
-                                await Task.Delay(100);
+                                await Task.Delay(1000);
                             }
 
                             j++;
@@ -3353,10 +3353,12 @@ namespace GD_StampingMachine.Singletons
             }
             set
             {
-                PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?>(_plateBaseObservableCollection, value));
+                var temp = _plateBaseObservableCollection;
                 _plateBaseObservableCollection = value;
                 OnPropertyChanged();
-                
+
+                PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs
+                    <ObservableCollection<PlateMonitorViewModel>?>(temp, value));
             }
         }
 

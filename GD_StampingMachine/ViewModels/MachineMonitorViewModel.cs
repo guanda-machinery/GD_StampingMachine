@@ -548,7 +548,7 @@ namespace GD_StampingMachine.ViewModels
 
         private int? PreviousFirstIronPlateID;
         private int? PreviousMiddleIronPlateID;
-        private int? PreviousLasttIronPlateID;
+        private int? PreviousLastIronPlateID;
 
         private void StampMachineData_PlateBaseObservableCollectionChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?> e)
         {
@@ -590,11 +590,11 @@ namespace GD_StampingMachine.ViewModels
                                 PreviousMiddleIronPlateID = PlateCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
                             }
 
-                            if (PlateCollection.LastOrDefault()?.ID != PreviousLasttIronPlateID)
+                            if (PlateCollection.LastOrDefault()?.ID != PreviousLastIronPlateID)
                             {
-                                if (PreviousLasttIronPlateID != null)
+                                if (PreviousLastIronPlateID != null)
                                 {
-                                    var LastPart = PartCollection.LastOrDefault(x => x.ID == PreviousLasttIronPlateID);
+                                    var LastPart = PartCollection.LastOrDefault(x => x.ID == PreviousLastIronPlateID);
                                     if (LastPart != null)
                                     {
 
@@ -602,7 +602,7 @@ namespace GD_StampingMachine.ViewModels
                                         LastPart.DataMatrixIsFinish = true;
                                     }
                                 }
-                                PreviousLasttIronPlateID = PlateCollection.LastOrDefault()?.ID;
+                                PreviousLastIronPlateID = PlateCollection.LastOrDefault()?.ID;
                             }
                         }
                     }
