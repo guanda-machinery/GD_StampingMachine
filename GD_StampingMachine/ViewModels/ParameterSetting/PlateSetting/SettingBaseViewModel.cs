@@ -471,34 +471,18 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private ObservableCollection<PlateFontViewModel>? _plateNumberList1;
         private ObservableCollection<PlateFontViewModel>? _plateNumberList2;
 
-
         public ObservableCollection<PlateFontViewModel> PlateNumberList1
         {
             get
             {
-                _plateNumberList1 ??= new(StampPlateSetting.StampableList1.Select(x => new PlateFontViewModel(x)));
-
-                _plateNumberList1.CollectionChanged -= _plateNumberList1_CollectionChanged;
-                _plateNumberList1.CollectionChanged += _plateNumberList1_CollectionChanged;
+                _plateNumberList1 ??= StampPlateSetting.StampableList1.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
                 return _plateNumberList1;
             }
             internal set
             {
-                if (_plateNumberList1 != null)
-                    _plateNumberList1.CollectionChanged -= _plateNumberList1_CollectionChanged;
                 _plateNumberList1 = value;
-                _plateNumberList1.CollectionChanged += _plateNumberList1_CollectionChanged;
-
                 StampPlateSetting.StampableList1 = value.Select(p => p.PlateFont).ToList();
                 OnPropertyChanged();
-            }
-        }
-
-        private void _plateNumberList1_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (sender is ICollection<PlateFontViewModel> PlateFontCollection)
-            {
-                StampPlateSetting.StampableList1 = PlateFontCollection.Select(p => p.PlateFont).ToList();
             }
         }
 
@@ -506,34 +490,17 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                _plateNumberList2 ??= new(StampPlateSetting.StampableList2.Select(x => new PlateFontViewModel(x)));
-
-                _plateNumberList2.CollectionChanged -= _plateNumberList2_CollectionChanged;
-                _plateNumberList2.CollectionChanged += _plateNumberList2_CollectionChanged;
+                _plateNumberList2 ??= StampPlateSetting.StampableList2.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
                 return _plateNumberList2;
             }
             internal set
             {
-                if (_plateNumberList2 != null)
-                    _plateNumberList2.CollectionChanged -= _plateNumberList2_CollectionChanged;
-
                 _plateNumberList2 = value;
-                _plateNumberList2.CollectionChanged += _plateNumberList2_CollectionChanged;
                 StampPlateSetting.StampableList2 = value.Select(p => p.PlateFont).ToList();
                 OnPropertyChanged();
             }
         }
 
-
-        private void _plateNumberList2_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (sender is ICollection<PlateFontViewModel> PlateFontCollection)
-            {
-                StampPlateSetting.StampableList2 = PlateFontCollection.Select(p => p.PlateFont).ToList();
-            }
-                // StampPlateSetting.StampableList1 = value.Select(p => p.PlateFont).ToList();
-                //throw new NotImplementedException();
-        }
     }
 
 

@@ -905,7 +905,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     _partsParameterVMObservableCollection = new(ProductProject.PartsParameterObservableCollection.Select(p=>new PartsParameterViewModel(p)));
                     _partsParameterVMObservableCollection.CollectionChanged -= PartsParameterVMObservableCollection_CollectionChanged;
                     _partsParameterVMObservableCollection.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged;
-                    UnBoxPartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>(_partsParameterVMObservableCollection.Where(p => p.BoxIndex == null));
+                    UnBoxPartsParameterVMObservableCollection = new PartsParameterViewModelObservableCollection (_partsParameterVMObservableCollection.Where(p => p.BoxIndex == null));
                 }
                 return _partsParameterVMObservableCollection;
             }
@@ -916,18 +916,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     _partsParameterVMObservableCollection.CollectionChanged -= PartsParameterVMObservableCollection_CollectionChanged;
                     _partsParameterVMObservableCollection.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged;
-                    UnBoxPartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>(value.Where(p => p.BoxIndex == null));
+                    UnBoxPartsParameterVMObservableCollection = new PartsParameterViewModelObservableCollection(value.Where(p => p.BoxIndex == null));
                 }
                 OnPropertyChanged();
             }
         }
 
 
-        private ObservableCollection<PartsParameterViewModel>? _unBoxPartsParameterVMObservableCollection;
+        private PartsParameterViewModelObservableCollection? _unBoxPartsParameterVMObservableCollection;
         /// <summary>
         /// 還沒放進箱子內的資料
         /// </summary>
-        public ObservableCollection<PartsParameterViewModel> UnBoxPartsParameterVMObservableCollection
+        public PartsParameterViewModelObservableCollection UnBoxPartsParameterVMObservableCollection
         {
             get => _unBoxPartsParameterVMObservableCollection ??= new(PartsParameterVMObservableCollection.Where(p => p.BoxIndex == null));
             set

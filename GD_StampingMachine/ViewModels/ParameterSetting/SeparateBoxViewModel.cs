@@ -15,6 +15,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -134,7 +135,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 _boxPartsParameterVMCollection = value;
                 SubscriberBoxPartsParameterChange(_boxPartsParameterVMCollection);
-                _ =UpdateSeparateBoxValueAsync();
+                _ = UpdateSeparateBoxValueAsync();
                 OnPropertyChanged();
             }
         }
@@ -150,14 +151,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
                 Parallel.ForEach(collection, item =>
                 {
-                    item.PropertyChanged -= Item_PropertyChanged;
-                    item.PropertyChanged += Item_PropertyChanged;
+                    item.IsFinishChangedAsync -= Item_IsFinishChanged;
+                    item.IsFinishChangedAsync += Item_IsFinishChanged;
 
-                    item.IsFinishChanged -= Item_IsFinishChanged;
-                    item.IsFinishChanged += Item_IsFinishChanged;
-
-                    item.IsTransportedChanged -= Item_IsTransportedChanged;
-                    item.IsTransportedChanged += Item_IsTransportedChanged;
+                    item.IsTransportedChangedAsync -= Item_IsTransportedChanged;
+                    item.IsTransportedChangedAsync += Item_IsTransportedChanged;
                 });
             }
         }
@@ -173,12 +171,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private void Item_IsFinishChanged(object? sender, bool e)
         {
             PartsParameterIsFinishChanged?.Invoke(this, new EventArgs());
+            _ = UpdateSeparateBoxValueAsync();
         }
 
         public event EventHandler? PartsParameterIsTransportedChanged;
         private void Item_IsTransportedChanged(object? sender, bool e)
         {
             PartsParameterIsTransportedChanged?.Invoke(this, new EventArgs());
+            _ = UpdateSeparateBoxValueAsync();
         }
 
 
@@ -196,9 +196,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         {
                             foreach (var part in newCollection)
                             {
-                                if (part is INotifyPropertyChanged item)
+                                //if (part is INotifyPropertyChanged item)
+                                if (part is PartsParameterViewModel item)
                                 {
-                                    item.PropertyChanged += Item_PropertyChanged;
+                                  //  item.PropertyChanged += Item_PropertyChanged;
+                                    item.IsFinishChangedAsync -= Item_IsFinishChanged; ;
+                                    item.IsTransportedChangedAsync -= Item_IsTransportedChanged; ;
+                                    item.IsFinishChangedAsync += Item_IsFinishChanged; ;
+                                    item.IsTransportedChangedAsync += Item_IsTransportedChanged; ;
                                 }
                             }
                         }
@@ -212,7 +217,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                             {
                                 if (part is PartsParameterViewModel item)
                                 {
-                                    item.PropertyChanged += Item_PropertyChanged;
+                                    // item.PropertyChanged += Item_PropertyChanged;
+                                    item.IsFinishChangedAsync -= Item_IsFinishChanged; ;
+                                    item.IsTransportedChangedAsync -= Item_IsTransportedChanged; ;
                                 }
                             }
                         }
@@ -226,8 +233,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                             .Zip(newCollection.OfType<PartsParameterViewModel>(), (oldItem, newItem) => (oldItem, newItem));
                             foreach (var (oldItem, newItem) in replacements)
                             {
-                                oldItem.PropertyChanged -= Item_PropertyChanged;
-                                newItem.PropertyChanged += Item_PropertyChanged;
+                                oldItem.IsFinishChangedAsync -= Item_IsFinishChanged;
+                                oldItem.IsTransportedChangedAsync -= Item_IsTransportedChanged;
+
+                                newItem.IsFinishChangedAsync += Item_IsFinishChanged; ;
+                                newItem.IsTransportedChangedAsync += Item_IsTransportedChanged; ;
+                                //oldItem.PropertyChanged -= Item_PropertyChanged;
+                                //newItem.PropertyChanged += Item_PropertyChanged;
 
                             }
                         }
@@ -240,39 +252,27 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 default:
                     break;
             }
-
             _ = UpdateSeparateBoxValueAsync();
         }
-
-        private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            _ = UpdateSeparateBoxValueAsync();
-        }
-
-
-
-
-
 
         /// <summary>
         /// 更新箱子內的數值
         /// </summary>
-        private async Task UpdateSeparateBoxValueAsync()
+        private  async Task UpdateSeparateBoxValueAsync()
         {
             await Task.Run(() =>
             {
-
-                    //已排定
-                    //this.BoxPieceValue = BoxPartsParameterVMCollection.Count;
-                    OnPropertyChanged(nameof(this.BoxPieceValue));
+                //已排定
+                //this.BoxPieceValue = BoxPartsParameterVMCollection.Count;
+                OnPropertyChanged(nameof(this.BoxPieceValue));
                 //= BoxPartsParameterVMCollection.Count;
                 //加工完成但尚未被移除的
                 OnPropertyChanged(nameof(this.UnTransportedFinishedBoxPieceValue));
                 //已經被分配加工且尚未被移除
-            //  this.UnTransportedBoxPieceValue = BoxPartsParameterVMCollection.Count(x => x.WorkIndex >= 0 && !x.IsTransported);
+                //  this.UnTransportedBoxPieceValue = BoxPartsParameterVMCollection.Count(x => x.WorkIndex >= 0 && !x.IsTransported);
                 OnPropertyChanged(nameof(this.UnTransportedBoxPieceValue));
                 //只有已完成
-               // this.FinishedBoxPieceValue = 
+                // this.FinishedBoxPieceValue = 
                 OnPropertyChanged(nameof(this.FinishedBoxPieceValue));
                 OnPropertyChanged(nameof(this.UnFinishedBoxPieceValue));
             });

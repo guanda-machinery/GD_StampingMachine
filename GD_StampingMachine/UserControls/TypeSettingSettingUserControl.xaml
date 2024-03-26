@@ -751,7 +751,7 @@
 
                                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >
                                                 <TextBlock Foreground="Black"
-                                        Text="{CalcB:Binding Row.FinishProgress/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
+                                        Text="{CalcB:Binding Row.FinishProgress/100,Mode=OneWay,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
                                             </StackPanel>
                                         </Grid>
                                     </DataTemplate>
@@ -822,11 +822,12 @@
             Grid.Column="1"
             IsEnabled="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
             Margin="10,0"
-            CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
                        
+            CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
             Background="Transparent"  MaxHeight="5000"
-            Style="{StaticResource ProjectGridControl}"
-            ItemsSource="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM.BoxPartsParameterVMCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            Style="{StaticResource ProjectGridControl}" 
+            ItemsSource="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM.BoxPartsParameterVMCollection,  
+                                IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
           >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SizeChanged">
@@ -976,7 +977,7 @@
 
                                                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >
                                                     <TextBlock Foreground="Black"
-                                        Text="{CalcB:Binding Row.FinishProgress/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
+                                        Text="{CalcB:Binding Row.FinishProgress/100,Mode=OneWay,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
                                                 </StackPanel>
                                             </Grid>
                                         </DataTemplate>

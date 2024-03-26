@@ -1109,7 +1109,7 @@ namespace GD_StampingMachine.Singletons
                                                                     || machineSetting.ShearingIsFinish != plateMonitorVM.ShearingIsFinish)
                                                                     {
                                                                         //  var invoke =
-                                                                        await Application.Current.Dispatcher.InvokeAsync(async () =>
+                                                                        Application.Current.Dispatcher.Invoke(() =>
                                                                         {
                                                                             try
                                                                             {
@@ -1120,7 +1120,6 @@ namespace GD_StampingMachine.Singletons
                                                                             {
 
                                                                             }
-                                                                            await Task.Yield();
                                                                         });
                                                                     }
                                                                 }
@@ -1668,7 +1667,7 @@ namespace GD_StampingMachine.Singletons
                                         }
                                     };
                                 }
-
+                                /*
                                 var IronPlateDataCollectionTask = Task.Run(async () =>
                                 {
                                     try 
@@ -1732,12 +1731,12 @@ namespace GD_StampingMachine.Singletons
                                     {
 
                                     }
-                                });
+                                });*/
 
                                 await Task.Yield();
                                 await Task.WhenAny(Task.Delay(-1, token), Task.Delay(-1, reconnectCts.Token));
 
-                                await IronPlateDataCollectionTask;
+                                //await IronPlateDataCollectionTask;
 
                                 if (token.IsCancellationRequested)
                                     token.ThrowIfCancellationRequested();

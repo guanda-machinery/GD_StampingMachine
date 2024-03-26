@@ -1330,7 +1330,7 @@ Path=PlateBaseObservableCollection[0]}" ProjectName="{Binding ProductProjectName
 
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >
                                         <TextBlock Foreground="Black"
-                                        Text="{CalcB:Binding Row.FinishProgress/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
+                                        Text="{CalcB:Binding Row.FinishProgress/100,Mode=OneWay,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
