@@ -794,6 +794,8 @@ namespace GD_StampingMachine.Singletons
 
                                 await Application.Current.Dispatcher.InvokeAsync(() =>
                                 {
+                                    var oldCollection = PlateBaseObservableCollection;
+
                                     PlateBaseObservableCollection[i] = (new PlateMonitorViewModel()
                                     {
                                         ID = i + j,
@@ -807,6 +809,9 @@ namespace GD_StampingMachine.Singletons
                                             QrCodeContent = i.ToString(),
                                         }
                                     }); ;
+                                    
+                                    PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?>(oldCollection, PlateBaseObservableCollection));
+
                                 });
                                 await Task.Delay(100);
                             }
@@ -1190,7 +1195,6 @@ namespace GD_StampingMachine.Singletons
                                                                             var tmpList = ret.Item2.Select(x => new PlateMonitorViewModel(x)).ToList();
 
                                                                             var oldCollection = PlateBaseObservableCollection;
-
                                                                             for (int i = 0; i < tmpList.Count; i++)
                                                                             {
                                                                                 await Application.Current.Dispatcher.InvokeAsync(() =>
@@ -1198,8 +1202,7 @@ namespace GD_StampingMachine.Singletons
                                                                                     PlateBaseObservableCollection[i] = tmpList[i];
                                                                                 });
                                                                             }
-                                                                            PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>>(oldCollection, PlateBaseObservableCollection));
-
+                                                                            PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?>(oldCollection, PlateBaseObservableCollection));
                                                                         }
                                                                     }
                                                                     catch (Exception ex)
@@ -3350,14 +3353,14 @@ namespace GD_StampingMachine.Singletons
             }
             set
             {
-                PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>>(_plateBaseObservableCollection, value));
+                PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?>(_plateBaseObservableCollection, value));
                 _plateBaseObservableCollection = value;
                 OnPropertyChanged();
                 
             }
         }
 
-        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>>>? PlateBaseObservableCollectionChanged;
+        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?>>? PlateBaseObservableCollectionChanged;
 
 
 

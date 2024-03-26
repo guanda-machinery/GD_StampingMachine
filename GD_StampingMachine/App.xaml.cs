@@ -98,7 +98,7 @@ namespace GD_StampingMachine
                     try
                     {
                         if (Settings.Default.ConnectOnStartUp)
-                            await Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
+                            _ = Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
                     }
                     catch
                     {

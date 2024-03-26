@@ -513,7 +513,7 @@ namespace GD_StampingMachine.ViewModels
                          }
                          finally
                          {
-                             StampMachineData.PlateBaseObservableCollection.CollectionChanged -= PlateBaseObservableCollection_CollectionChanged;
+                             StampMachineData.PlateBaseObservableCollectionChanged -= StampMachineData_PlateBaseObservableCollectionChanged;
                              StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged -= StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
                              StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged -= StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
 
@@ -545,100 +545,81 @@ namespace GD_StampingMachine.ViewModels
             }, () => !SendMachiningCommand.IsRunning && !CompleteMachiningDataCommand.IsRunning);
         }
 
-        private void StampMachineData_PlateBaseObservableCollectionChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>> e)
-        {
-            if(e.OldValue!=null)
-                e.OldValue.CollectionChanged -= PlateBaseObservableCollection_CollectionChanged;
-            if (e.NewValue != null)
-            {
-                e.NewValue.CollectionChanged += PlateBaseObservableCollection_CollectionChanged;
-            }
-        }
 
-        private int? PreviousFirstIronPlateID ;
+        private int? PreviousFirstIronPlateID;
         private int? PreviousMiddleIronPlateID;
         private int? PreviousLasttIronPlateID;
 
-        private readonly SemaphoreSlim semaphoreSlim = new(1, 1);
-        private void PlateBaseObservableCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void StampMachineData_PlateBaseObservableCollectionChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?> e)
         {
-            try
+            _ = Task.Run(async () =>
             {
-                _ = Task.Run(async () =>
+                try
                 {
-                    try
+                    if (e.NewValue is ObservableCollection<PlateMonitorViewModel> PlateCollection)
                     {
-                        await semaphoreSlim.WaitAsync(5000);
-                        if (sender is ICollection<PlateMonitorViewModel> PlateCollection)
-                        //if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
+                        var PartCollection = ProductSettingVM?.ProductProjectVMCollection.SelectMany(x => x.PartsParameterVMObservableCollection).ToList();
+                        if (PartCollection != null)
                         {
-                            var PartCollection = ProductSettingVM?.ProductProjectVMCollection.SelectMany(x => x.PartsParameterVMObservableCollection).ToList();
-                            if (PartCollection != null)
+                            if (PlateCollection.FirstOrDefault()?.ID != PreviousFirstIronPlateID)
                             {
-                                if (PlateCollection.FirstOrDefault()?.ID != PreviousFirstIronPlateID)
+                                if (PreviousFirstIronPlateID != null)
                                 {
-                                    if (PreviousFirstIronPlateID != null)
+                                    var FirstPart = PartCollection.FirstOrDefault(x => x.ID == PreviousFirstIronPlateID);
+                                    if (FirstPart != null)
                                     {
-                                        var FirstPart = PartCollection.FirstOrDefault(x => x.ID == PreviousFirstIronPlateID);
-                                        if (FirstPart != null)
-                                        {
-                                            FirstPart.FinishProgress = 100;
-                                            FirstPart.IsFinish = true;
-                                        }
+                                        FirstPart.FinishProgress = 100;
+                                        FirstPart.IsFinish = true;
                                     }
-                                    PreviousFirstIronPlateID = PlateCollection.FirstOrDefault()?.ID;
-
                                 }
+                                PreviousFirstIronPlateID = PlateCollection.FirstOrDefault()?.ID;
 
-                                if (PlateCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID != PreviousMiddleIronPlateID)
+                            }
+
+                            if (PlateCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID != PreviousMiddleIronPlateID)
+                            {
+                                if (PreviousMiddleIronPlateID != null)
                                 {
-                                    if (PreviousMiddleIronPlateID != null)
+                                    var MiddlePart = PartCollection.LastOrDefault(x => x.ID == PreviousMiddleIronPlateID);
+                                    if (MiddlePart != null)
                                     {
-                                        var MiddlePart = PartCollection.LastOrDefault(x => x.ID == PreviousMiddleIronPlateID);
-                                        if (MiddlePart != null)
-                                        {
-                                            if (MiddlePart.FinishProgress < 66)
-                                                MiddlePart.FinishProgress = 66;
-                                        }
+                                        if (MiddlePart.FinishProgress < 66)
+                                            MiddlePart.FinishProgress = 66;
                                     }
-                                    PreviousMiddleIronPlateID = PlateCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
                                 }
+                                PreviousMiddleIronPlateID = PlateCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
+                            }
 
-                                if (PlateCollection.LastOrDefault()?.ID != PreviousLasttIronPlateID)
+                            if (PlateCollection.LastOrDefault()?.ID != PreviousLasttIronPlateID)
+                            {
+                                if (PreviousLasttIronPlateID != null)
                                 {
-                                    if (PreviousLasttIronPlateID != null)
+                                    var LastPart = PartCollection.LastOrDefault(x => x.ID == PreviousLasttIronPlateID);
+                                    if (LastPart != null)
                                     {
-                                        var LastPart = PartCollection.LastOrDefault(x => x.ID == PreviousLasttIronPlateID);
-                                        if (LastPart != null)
-                                        {
 
-                                            LastPart.FinishProgress = 33;
-                                            LastPart.DataMatrixIsFinish = true;
-                                        }
+                                        LastPart.FinishProgress = 33;
+                                        LastPart.DataMatrixIsFinish = true;
                                     }
-                                    PreviousLasttIronPlateID = PlateCollection.LastOrDefault()?.ID;
                                 }
+                                PreviousLasttIronPlateID = PlateCollection.LastOrDefault()?.ID;
                             }
                         }
-                        semaphoreSlim.Release();
                     }
-                    catch (OperationCanceledException ocex)
-                    {
-                        _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ocex);
-                    }
-                    catch(Exception ex)
-                    {
-                        _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ex);
-                        Debugger.Break();
-                    }
-                });
-            }
-            catch (Exception)
-            {
-
-            }
-
+                }
+                catch (OperationCanceledException ocex)
+                {
+                    _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ocex);
+                }
+                catch (Exception ex)
+                {
+                    _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ex);
+                    Debugger.Break();
+                }
+            });
         }
+
+
 
         private void StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<bool> e)
         {
@@ -721,7 +702,8 @@ namespace GD_StampingMachine.ViewModels
                             //PreviousMiddleIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
                             //PreviousLasttIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
 
-                            StampMachineData.PlateBaseObservableCollection.CollectionChanged += PlateBaseObservableCollection_CollectionChanged;
+
+                            StampMachineData.PlateBaseObservableCollectionChanged += StampMachineData_PlateBaseObservableCollectionChanged;
 
                             StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged += StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
                             StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged += StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
@@ -864,7 +846,8 @@ namespace GD_StampingMachine.ViewModels
                         }
                         finally
                         {
-                            StampMachineData.PlateBaseObservableCollection.CollectionChanged -= PlateBaseObservableCollection_CollectionChanged;
+
+                            StampMachineData.PlateBaseObservableCollectionChanged -= StampMachineData_PlateBaseObservableCollectionChanged;
 
                             StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged -= StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
                             StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged -= StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;

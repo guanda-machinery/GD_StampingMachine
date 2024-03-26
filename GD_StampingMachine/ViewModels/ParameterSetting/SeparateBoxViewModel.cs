@@ -142,6 +142,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     _boxPartsParameterVMCollection.CollectionChanged -= BoxPartsParameterVMCollection_CollectionChanged;
                     _boxPartsParameterVMCollection.CollectionChanged += BoxPartsParameterVMCollection_CollectionChanged;
+                    Parallel.ForEach(_boxPartsParameterVMCollection, item =>
+                    {
+                        item.IsFinishChangedAsync -= Item_IsFinishChanged;
+                        item.IsFinishChangedAsync += Item_IsFinishChanged;
+
+                        item.IsTransportedChangedAsync -= Item_IsTransportedChanged;
+                        item.IsTransportedChangedAsync += Item_IsTransportedChanged;
+                    });
                 }
                 _ = UpdateSeparateBoxValueAsync();
                 OnPropertyChanged();
@@ -151,19 +159,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
  
 
 
-                Parallel.ForEach(collection, item =>
-                {
-                    item.PropertyChanged -= Item_PropertyChanged;
-                    item.PropertyChanged += Item_PropertyChanged;
-
-                    item.IsFinishChanged -= Item_IsFinishChanged;
-                    item.IsFinishChanged += Item_IsFinishChanged;
-
-                    item.IsTransportedChanged -= Item_IsTransportedChanged;
-                    item.IsTransportedChanged += Item_IsTransportedChanged;
-                });
-            }
-        }
 
 
        // public event EventHandler? PartsParameterStateChanged;
