@@ -151,6 +151,20 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
  
 
 
+                Parallel.ForEach(collection, item =>
+                {
+                    item.PropertyChanged -= Item_PropertyChanged;
+                    item.PropertyChanged += Item_PropertyChanged;
+
+                    item.IsFinishChanged -= Item_IsFinishChanged;
+                    item.IsFinishChanged += Item_IsFinishChanged;
+
+                    item.IsTransportedChanged -= Item_IsTransportedChanged;
+                    item.IsTransportedChanged += Item_IsTransportedChanged;
+                });
+            }
+        }
+
 
        // public event EventHandler? PartsParameterStateChanged;
         /*private void Item_StateChanged(object? sender, EventArgs e)

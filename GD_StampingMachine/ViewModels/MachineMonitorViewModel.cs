@@ -541,7 +541,6 @@ namespace GD_StampingMachine.ViewModels
                     //await Task.Delay(1000);
                     //manager?.Close();
                     SendMachiningProgress = 0;
-
                 }
             }, () => !SendMachiningCommand.IsRunning && !CompleteMachiningDataCommand.IsRunning);
         }
