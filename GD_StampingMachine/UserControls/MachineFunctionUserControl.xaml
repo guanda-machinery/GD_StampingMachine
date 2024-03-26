@@ -581,7 +581,7 @@
 
                                                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >
                                                     <TextBlock Foreground="Black"
-                                        Text="{c:Binding Row.FinishProgress/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
+                                        Text="{c:Binding Row.FinishProgress/100,Mode=OneWay,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
                                                 </StackPanel>
                                             </Grid>
                                         </DataTemplate>

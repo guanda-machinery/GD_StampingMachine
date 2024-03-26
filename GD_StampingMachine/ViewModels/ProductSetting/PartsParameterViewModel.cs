@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.DataAccess.Json;
+using DevExpress.Office.Utils;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.PropertyGrid.Internal;
 using DevExpress.Xpo.DB;
@@ -8,6 +9,7 @@ using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model.ProductionSetting;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels.ParameterSetting;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,8 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using static Opc.Ua.NodeState;
 
@@ -44,11 +48,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public readonly PartsParameterModel PartsParameter;
 
 
-        public event EventHandler<bool>? IsFinishChanged;
+        public event EventHandler<bool>? IsFinishChangedAsync;
 
-        public event EventHandler<bool>? IsTransportedChanged;
+        public event EventHandler<bool>? IsTransportedChangedAsync;
 
-
+        public event EventHandler<float>? FinishProgressChangedAsync;
 
         /// <summary>
         /// 加工進程
@@ -59,9 +63,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 PartsParameter.Processing = value;
-                OnPropertyChanged();
+                OnPropertyChanged(); 
+                _ = Task.Run(() => FinishProgressChangedAsync?.Invoke(this, value));
             }
         }
+
+
+
+
 
         /// <summary>
         ///加工分配專案名
@@ -170,7 +179,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.IsFinish = value;
                     OnPropertyChanged();
-                    IsFinishChanged?.Invoke(this,value);
+
+                    _ = Task.Run(() => IsFinishChangedAsync?.Invoke(this, value));
                 }
             }
         }
@@ -187,7 +197,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     PartsParameter.IsTransported = value;
                     OnPropertyChanged();
-                    IsTransportedChanged?.Invoke(this, value);
+                    _ = Task.Run(() => IsTransportedChangedAsync?.Invoke(this, value));
                 }
             }
         }
@@ -458,10 +468,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             foreach (var item in list)
             {
-                item.PropertyChanged += Item_PropertyChanged;
+                item.IsFinishChangedAsync -= Item_IsFinishChanged; ;
+                item.FinishProgressChangedAsync -= Item_FinishProgressChanged; ;
+                item.IsFinishChangedAsync += Item_IsFinishChanged; ;
+                item.FinishProgressChangedAsync += Item_FinishProgressChanged; ;
             }
-            CalcNotifyCollectionChange();
+             _ = CalcNotifyCollectionChangeAsync();
         }
+
 
         public PartsParameterViewModelObservableCollection(IEnumerable<PartsParameterViewModel> collection):base(collection) 
         {
@@ -472,19 +486,37 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
             foreach (var item in collection)
             {
-                item.PropertyChanged += Item_PropertyChanged;
+                item.IsFinishChangedAsync -= Item_IsFinishChanged; ;
+                item.FinishProgressChangedAsync -= Item_FinishProgressChanged; ;
+                item.IsFinishChangedAsync += Item_IsFinishChanged; ;
+                item.FinishProgressChangedAsync += Item_FinishProgressChanged; ;
             }
-
-            CalcNotifyCollectionChange();
+            _ = CalcNotifyCollectionChangeAsync();
         }
+
+        private void Item_IsFinishChanged(object? sender, bool e)
+        {
+            _ = CalcNotifyCollectionChangeAsync();
+        }
+        private void Item_FinishProgressChanged(object? sender, float e)
+        {
+            _ = CalcNotifyCollectionChangeAsync();
+        }
+
+
+
 
         public void AddRange(IEnumerable<PartsParameterViewModel> items)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                (this.Items as List<PartsParameterViewModel>)?.AddRange(items);
-                var NotifyE = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items as List<PartsParameterViewModel>);
-                this.OnCollectionChanged(NotifyE);
+               (this.Items as List<PartsParameterViewModel>)?.AddRange(items); 
+                if (items is List<PartsParameterViewModel>list)
+                {
+                    var NotifyE = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, list);
+                    this.OnCollectionChanged(NotifyE);
+                }
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(this.Count)));
             });
         }
 
@@ -496,7 +528,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (newItem is PartsParameterViewModel item)
                     {
-                        item.PropertyChanged += Item_PropertyChanged;
+                        item.IsFinishChangedAsync -= Item_IsFinishChanged; ;
+                        item.FinishProgressChangedAsync -= Item_FinishProgressChanged; ;
+                        item.IsFinishChangedAsync += Item_IsFinishChanged; ;
+                        item.FinishProgressChangedAsync += Item_FinishProgressChanged; ;
                     }
                 }
             }
@@ -506,80 +541,91 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (oldItems is PartsParameterViewModel item)
                     {
-                        item.PropertyChanged += Item_PropertyChanged;
-
+                        item.IsFinishChangedAsync -= Item_IsFinishChanged; ;
+                        item.FinishProgressChangedAsync -= Item_FinishProgressChanged; ;
                     }
                 }
             }
 
-            CalcNotifyCollectionChange();
+            _ = CalcNotifyCollectionChangeAsync();
             //CalcSeparateBoxValue();
 
             base.OnCollectionChanged(e);
         }
         protected override void InsertItem(int index, PartsParameterViewModel item)
         {
-            item.PropertyChanged += Item_PropertyChanged;
+            item.IsFinishChangedAsync -= Item_IsFinishChanged; ;
+            item.FinishProgressChangedAsync -= Item_FinishProgressChanged; ;
+            item.IsFinishChangedAsync += Item_IsFinishChanged; ;
+            item.FinishProgressChangedAsync += Item_FinishProgressChanged; ;
             Application.Current.Dispatcher.Invoke(() =>
             {
                 base.InsertItem(index, item);
             });
-            CalcNotifyCollectionChange();
         }
 
-        private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            CalcNotifyCollectionChange();
-        }
 
-        private void CalcNotifyCollectionChange()
+
+        private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        private async Task CalcNotifyCollectionChangeAsync()
         {
-            ItemFinish = this.Select(p => p.IsFinish);
-            FinishProgress = this.Any() ? this.Average(p => p.FinishProgress) : 0;
-            UnFinishedCount = this.Any() ? this.Count(p => !p.IsFinish) : 0;
-            NotAssignedProductProjectCount = this.Any() ? this.Count(p => string.IsNullOrEmpty(p.DistributeName) && !p.IsFinish) : 0;
+            await Task.Run(() =>
+            {
+                try
+                {
+                    semaphoreSlim.Wait();
+                    try
+                    {
+                        OnPropertyChanged(new PropertyChangedEventArgs(nameof(ItemFinish)));
+                        OnPropertyChanged(new PropertyChangedEventArgs(nameof(FinishProgress)));
+                        OnPropertyChanged(new PropertyChangedEventArgs(nameof(UnFinishedCount)));
+                        //OnPropertyChanged(new PropertyChangedEventArgs(nameof(NotAssignedProductProjectCount)));
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    semaphoreSlim.Release();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            });
         }
 
         protected override void RemoveItem(int index)
         {
-            this[index].PropertyChanged -= Item_PropertyChanged;
+
+            this[index].IsFinishChangedAsync -= Item_IsFinishChanged; ;
+            this[index].FinishProgressChangedAsync -= Item_FinishProgressChanged; ;
 
             Application.Current.Dispatcher.Invoke(() =>
             {
                 base.RemoveItem(index);
             });
-            CalcNotifyCollectionChange();
         }
 
 
 
 
-        private IEnumerable<bool>? _itemFinish;
+        //private IEnumerable<bool>? _itemFinish;
         /// <summary>
         /// 進度條(平均值)
         /// </summary>
         public IEnumerable<bool> ItemFinish
         {
-            get => _itemFinish ??= new List<bool>();
-            set
-            {
-                _itemFinish = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ItemFinish)));
-            }
+            get => this.Select(p => p.IsFinish);
         }
 
-        private float _finishProgress;
+        //private float _finishProgress;
         /// <summary>
         /// 進度條(平均值)
         /// </summary>
         public float FinishProgress
         {
-            get => _finishProgress;
-            set
-            {
-                _finishProgress = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(FinishProgress)));
-            }
+            get => this.Any() ? this.Average(p => p.FinishProgress) : 0;
         }
 
         private int _unFinishedCount;
@@ -588,30 +634,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public int UnFinishedCount
         {
-            get => _unFinishedCount;
-            private set
-            {
-                _unFinishedCount = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(UnFinishedCount)));
-            }
+            get => this.Any() ? this.Count(p => !p.IsFinish) : 0;
         }
 
 
-        private int _notAssignedProductProjectCount;
+        //private int _notAssignedProductProjectCount;
         /// <summary>
         /// 未排版的資料
         /// </summary>
-        public int NotAssignedProductProjectCount
+       /* public int NotAssignedProductProjectCount
         {
-            get => _notAssignedProductProjectCount;
-            private set
-            {
-                _notAssignedProductProjectCount = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(NotAssignedProductProjectCount)));
-            }
-        }
-
-
+            get => this.Any() ? this.Count(p => string.IsNullOrEmpty(p.DistributeName) && !p.IsFinish) : 0;
+        }*/
 
     }
 

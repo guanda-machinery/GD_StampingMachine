@@ -83,7 +83,7 @@ namespace GD_CommonLibrary.Method
             var readRet = ReadJsonFile<T>(fileName, out _);
             if (!readRet)
             {
-                Debugger.Break();
+               // Debugger.Break();
             }
             return wirteRet && readRet;
         }

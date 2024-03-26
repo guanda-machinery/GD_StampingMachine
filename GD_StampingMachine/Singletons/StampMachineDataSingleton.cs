@@ -1109,7 +1109,7 @@ namespace GD_StampingMachine.Singletons
                                                                     || machineSetting.ShearingIsFinish != plateMonitorVM.ShearingIsFinish)
                                                                     {
                                                                         //  var invoke =
-                                                                        await Application.Current.Dispatcher.InvokeAsync(async () =>
+                                                                        Application.Current.Dispatcher.Invoke(() =>
                                                                         {
                                                                             try
                                                                             {
@@ -1120,7 +1120,6 @@ namespace GD_StampingMachine.Singletons
                                                                             {
 
                                                                             }
-                                                                            await Task.Yield();
                                                                         });
                                                                     }
                                                                 }
@@ -1130,12 +1129,53 @@ namespace GD_StampingMachine.Singletons
                                                     }
                                                 }
                                                 //訂閱所有鐵牌的id
-                                                
-                                                for (int i = 0; i < MachineConst.PlateCount; i++)
+
+                                                if (false)
                                                 {
-                                                    int index = i;
-                                                    string nodeID = $"{StampingOpcUANode.system.sv_IronPlateData}[{index + MachineConst.PlateFirstNumber}]";
-                                                    await this.opcUaClient.SubscribeNodeDataChangeAsync<int>(nodeID+ ".iIronPlateID",
+                                                    for (int i = 0; i < MachineConst.PlateCount; i++)
+                                                    {
+                                                        int index = i;
+                                                        string nodeID = $"{StampingOpcUANode.system.sv_IronPlateData}[{index + MachineConst.PlateFirstNumber}]";
+                                                        await this.opcUaClient.SubscribeNodeDataChangeAsync<int>(nodeID + ".iIronPlateID",
+                                                            (sender, e) =>
+                                                            {
+                                                                try
+                                                                {
+                                                                    _ = Task.Run(async () =>
+                                                                    {
+                                                                        try
+                                                                        {
+                                                                            var NewIronPlateID = e.NewValue;
+                                                                            if (PlateBaseObservableCollection[index].ID != NewIronPlateID)
+                                                                            {
+                                                                                var ret = await GetIronPlateAsync(nodeID);
+                                                                                if (ret.Item1)
+                                                                                {
+                                                                                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                                                                                    {
+                                                                                        PlateBaseObservableCollection[index] = new PlateMonitorViewModel(ret.Item2);
+                                                                                    });
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        catch (Exception ex)
+                                                                        {
+                                                                            _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, ex, true);
+                                                                        }
+                                                                    });
+                                                                }
+                                                                catch
+                                                                {
+
+                                                                }
+                                                            }, 2000);
+                                                    }
+                                                }
+                                                //只訂閱第一個鐵牌id 若第一個有變化則代表全部都變
+                                                
+                                            
+                                                    string PlateIDnodeID = $"{StampingOpcUANode.system.sv_IronPlateData}[1]";
+                                                    await this.opcUaClient.SubscribeNodeDataChangeAsync<int>(PlateIDnodeID + ".iIronPlateID",
                                                         (sender, e) =>
                                                         {
                                                             try
@@ -1144,17 +1184,22 @@ namespace GD_StampingMachine.Singletons
                                                                 {
                                                                     try
                                                                     {
-                                                                        var NewIronPlateID = e.NewValue;
-                                                                        if (PlateBaseObservableCollection[index].ID != NewIronPlateID)
+                                                                        var ret = await GetIronPlateDataCollectionAsync();
+                                                                        if (ret.Item1)
                                                                         {
-                                                                            var ret = await GetIronPlateAsync(nodeID);
-                                                                            if (ret.Item1)
+                                                                            var tmpList = ret.Item2.Select(x => new PlateMonitorViewModel(x)).ToList();
+
+                                                                            var oldCollection = PlateBaseObservableCollection;
+
+                                                                            for (int i = 0; i < tmpList.Count; i++)
                                                                             {
                                                                                 await Application.Current.Dispatcher.InvokeAsync(() =>
                                                                                 {
-                                                                                    PlateBaseObservableCollection[index] = new PlateMonitorViewModel(ret.Item2);
+                                                                                    PlateBaseObservableCollection[i] = tmpList[i];
                                                                                 });
                                                                             }
+                                                                            PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>>(oldCollection, PlateBaseObservableCollection));
+
                                                                         }
                                                                     }
                                                                     catch (Exception ex)
@@ -1168,7 +1213,11 @@ namespace GD_StampingMachine.Singletons
 
                                                             }
                                                         }, 2000);
-                                                }
+                                                
+
+
+
+
 
                                                 //鋼印旋盤
                                                 var rotatingTurntableInfoList = await GetRotatingTurntableInfoAsync();
@@ -1668,7 +1717,7 @@ namespace GD_StampingMachine.Singletons
                                         }
                                     };
                                 }
-
+                                /*
                                 var IronPlateDataCollectionTask = Task.Run(async () =>
                                 {
                                     try 
@@ -1732,12 +1781,12 @@ namespace GD_StampingMachine.Singletons
                                     {
 
                                     }
-                                });
+                                });*/
 
                                 await Task.Yield();
                                 await Task.WhenAny(Task.Delay(-1, token), Task.Delay(-1, reconnectCts.Token));
 
-                                await IronPlateDataCollectionTask;
+                                //await IronPlateDataCollectionTask;
 
                                 if (token.IsCancellationRequested)
                                     token.ThrowIfCancellationRequested();
@@ -3264,10 +3313,16 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ObservableCollection<StampingTypeViewModel> RotatingTurntableInfoCollection
         {
-            get => _rotatingTurntableInfo ??= new ObservableCollection<StampingTypeViewModel>(); private set { _rotatingTurntableInfo = value; OnPropertyChanged(); }
-        }
+            get => _rotatingTurntableInfo ??= new ObservableCollection<StampingTypeViewModel>(); 
+            private set 
+            {
+                _rotatingTurntableInfo = value; 
+                OnPropertyChanged(); 
 
+            }
+        }
         ObservableCollection<PlateMonitorViewModel>? _plateBaseObservableCollection;
+
         /// <summary>
         /// 實際加工狀態[25]
         /// </summary>
@@ -3295,19 +3350,18 @@ namespace GD_StampingMachine.Singletons
             }
             set
             {
-                _plateBaseObservableCollection = value;OnPropertyChanged();
+                PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>>(_plateBaseObservableCollection, value));
+                _plateBaseObservableCollection = value;
+                OnPropertyChanged();
+                
             }
         }
 
+        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>>>? PlateBaseObservableCollectionChanged;
 
 
 
 
-
-
-
-
-       
         /*private IronPlateDataModel? _hMIIronPlateDataModel;
         public IronPlateDataModel HMIIronPlateDataModel
         {

@@ -342,9 +342,9 @@ namespace GD_MachineConnect.Machine
             {
                 DataValueCollection results;
                 DiagnosticInfoCollection diagnosticInfos;
-                ResponseHeader responseHeader = m_session.EndRead(ar, out results, out diagnosticInfos);
                 try
                 {
+                    ResponseHeader responseHeader = m_session.EndRead(ar, out results, out diagnosticInfos);
                     if (!StatusCode.IsGood(responseHeader.ServiceResult))
                         throw new Exception($"Invalid response from the server.");
                     if (!StatusCode.IsGood(results[0].StatusCode))
@@ -382,9 +382,10 @@ namespace GD_MachineConnect.Machine
             {
                 DataValueCollection results;
                 DiagnosticInfoCollection diagnosticInfos;
-                ResponseHeader responseHeader = m_session.EndRead(ar, out results, out diagnosticInfos);
                 try
                 {
+                    ResponseHeader responseHeader = m_session.EndRead(ar, out results, out diagnosticInfos);
+
                     if (!StatusCode.IsGood(responseHeader.ServiceResult))
                         throw new Exception($"Invalid response from the server.");
 
