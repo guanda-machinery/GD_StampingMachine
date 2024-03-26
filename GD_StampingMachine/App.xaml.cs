@@ -48,7 +48,7 @@ namespace GD_StampingMachine
             DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
             // manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window); 
             manager.Show(null, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window,-1);
-       
+    
 
             StampingMachineWindow MachineWindow = new()
             {

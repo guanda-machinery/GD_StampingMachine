@@ -10,6 +10,8 @@ namespace GD_CommonLibrary.SplashScreenWindows
         public StartSplashScreen()
         {
             InitializeComponent();
+            if(this.Focusable)
+                this.Focus();
         }
     }
 }

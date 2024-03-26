@@ -112,13 +112,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue = value;
                 OnPropertyChanged();
-            }
-        }
 
-        public ICommand SingleSetting_SeparateBoxValueChanged
-        {
-            get => new RelayCommand<RoutedPropertyChangedEventArgs<double>>(e =>
-            {
                 if (SettingType == SettingTypeEnum.UnifiedSetting)
                 {
                     SeparateBoxVMObservableCollectionClone.ForEach(x =>
@@ -126,12 +120,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         x.BoxSliderValue = SingleSetting_SeparateBoxValue;
                     });
                 }
-            });
+            }
         }
-
-
-
-
 
 
 

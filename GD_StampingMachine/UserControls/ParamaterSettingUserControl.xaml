@@ -2348,7 +2348,6 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                     Grid.Row="0" Grid.Column="1"  
                                         FontWeight="Bold"
                                       Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                                        MainSliderValueChanged="{Binding SingleSetting_SeparateBoxValueChanged}"
                                     MainSliderValue="{Binding SingleSetting_SeparateBoxValue, Mode=TwoWay}"/>
                                 </Grid>
                             

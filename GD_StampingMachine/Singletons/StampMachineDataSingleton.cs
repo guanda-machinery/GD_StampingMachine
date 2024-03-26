@@ -2914,6 +2914,11 @@ namespace GD_StampingMachine.Singletons
                 OnPropertyChanged();
             }
         }
+
+
+
+
+
         private float _engravingFeeding = 0;
         public float EngravingFeeding
         {

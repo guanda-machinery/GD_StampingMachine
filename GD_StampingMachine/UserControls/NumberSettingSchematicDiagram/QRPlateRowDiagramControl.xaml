@@ -128,12 +128,12 @@
                 <Canvas Margin="0" >
                     <ItemsControl  Canvas.Top="{Binding StampingMarginPosVM.rXAxisPos1}" Canvas.Left="{Binding StampingMarginPosVM.rYAxisPos1}"
                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
-            ItemsSource="{Binding PlateNumberList1, UpdateSourceTrigger=PropertyChanged}" 
+            ItemsSource="{Binding PlateNumberList1, IsAsync=True,UpdateSourceTrigger=PropertyChanged}" 
                                IsEnabled="{Binding PlateNumber, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter} }" >
                     </ItemsControl>
                     <ItemsControl  Canvas.Top="{Binding StampingMarginPosVM.rXAxisPos2}" Canvas.Left="{Binding StampingMarginPosVM.rYAxisPos2}"
                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
-            ItemsSource="{Binding PlateNumberList2, UpdateSourceTrigger=PropertyChanged}" 
+            ItemsSource="{Binding PlateNumberList2, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
                                IsEnabled="{Binding PlateNumber, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter} }" >
                     </ItemsControl>
                 </Canvas>

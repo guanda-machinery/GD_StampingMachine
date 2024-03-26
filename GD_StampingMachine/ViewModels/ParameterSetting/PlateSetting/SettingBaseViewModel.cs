@@ -5,6 +5,7 @@ using DevExpress.Xpf.Bars;
 using GD_CommonControlLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
+using GD_StampingMachine.ViewModels.MachineMonitor;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -39,14 +40,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         [JsonIgnore]
         public StampPlateSettingModel StampPlateSetting;
 
-        public SheetStampingTypeFormEnum SheetStampingTypeForm 
-        { 
+        public SheetStampingTypeFormEnum SheetStampingTypeForm
+        {
             get => StampPlateSetting.SheetStampingTypeForm;
             set
             {
                 StampPlateSetting.SheetStampingTypeForm = value;
-                OnPropertyChanged(); 
-            } 
+                OnPropertyChanged();
+            }
         }
 
 
@@ -67,12 +68,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public string NumberSettingMode
         {
-            get => StampPlateSetting.NumberSettingMode; 
-            set 
+            get => StampPlateSetting.NumberSettingMode;
+            set
             {
-                StampPlateSetting.NumberSettingMode = value; 
-                OnPropertyChanged(); 
-            } 
+                StampPlateSetting.NumberSettingMode = value;
+                OnPropertyChanged();
+            }
         }
 
 
@@ -275,7 +276,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private ICommand?_changePlateNumberListCommand;
+        private ICommand? _changePlateNumberListCommand;
         public ICommand ChangePlateNumberListCommand
         {
             get => _changePlateNumberListCommand ??= new AsyncRelayCommand(async () =>
@@ -376,7 +377,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         var SearchCount = firstPlateNumber.Count;
                         do
                         {
-                            MinusIndex = pNumber.LastIndexOf('-', SearchIndexStart, SearchCount+1);
+                            MinusIndex = pNumber.LastIndexOf('-', SearchIndexStart, SearchCount + 1);
                             if (MinusIndex != -1)
                             {
                                 SearchIndexStart = MinusIndex - 1;
@@ -475,36 +476,67 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                _plateNumberList1 ??= StampPlateSetting.StampableList1.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
+                _plateNumberList1 ??= new(StampPlateSetting.StampableList1.Select(x => new PlateFontViewModel(x)));
+
+                _plateNumberList1.CollectionChanged -= _plateNumberList1_CollectionChanged;
+                _plateNumberList1.CollectionChanged += _plateNumberList1_CollectionChanged;
                 return _plateNumberList1;
             }
             internal set
             {
+                if (_plateNumberList1 != null)
+                    _plateNumberList1.CollectionChanged -= _plateNumberList1_CollectionChanged;
                 _plateNumberList1 = value;
+                _plateNumberList1.CollectionChanged += _plateNumberList1_CollectionChanged;
+
                 StampPlateSetting.StampableList1 = value.Select(p => p.PlateFont).ToList();
                 OnPropertyChanged();
             }
         }
 
+        private void _plateNumberList1_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (sender is ICollection<PlateFontViewModel> PlateFontCollection)
+            {
+                StampPlateSetting.StampableList1 = PlateFontCollection.Select(p => p.PlateFont).ToList();
+            }
+        }
 
         public ObservableCollection<PlateFontViewModel> PlateNumberList2
         {
             get
             {
-                _plateNumberList2 ??= StampPlateSetting.StampableList2.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
+                _plateNumberList2 ??= new(StampPlateSetting.StampableList2.Select(x => new PlateFontViewModel(x)));
+
+                _plateNumberList2.CollectionChanged -= _plateNumberList2_CollectionChanged;
+                _plateNumberList2.CollectionChanged += _plateNumberList2_CollectionChanged;
                 return _plateNumberList2;
             }
             internal set
             {
+                if (_plateNumberList2 != null)
+                    _plateNumberList2.CollectionChanged -= _plateNumberList2_CollectionChanged;
+
                 _plateNumberList2 = value;
+                _plateNumberList2.CollectionChanged += _plateNumberList2_CollectionChanged;
                 StampPlateSetting.StampableList2 = value.Select(p => p.PlateFont).ToList();
                 OnPropertyChanged();
             }
         }
 
 
-
+        private void _plateNumberList2_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (sender is ICollection<PlateFontViewModel> PlateFontCollection)
+            {
+                StampPlateSetting.StampableList2 = PlateFontCollection.Select(p => p.PlateFont).ToList();
+            }
+                // StampPlateSetting.StampableList1 = value.Select(p => p.PlateFont).ToList();
+                //throw new NotImplementedException();
+        }
     }
+
+
 
     /// <summary>
     /// 鐵片資料

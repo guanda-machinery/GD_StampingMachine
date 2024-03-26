@@ -20,44 +20,50 @@ namespace GD_StampingMachine.UserControls
 
         private void RepeatButton_Minus_Click(object sender, RoutedEventArgs e)
         {
+
+            var tmp = MainSliderValue;
+
             if (double.IsNegativeInfinity(MainSliderValue))
             {
 
             }
             else if (double.IsPositiveInfinity(MainSliderValue))
             {
-                MainSliderValue = Maximum;
+                tmp = Maximum;
             }
-            else if (MainSliderValue < Minimum)
+            else if (MainSliderValue <= Minimum)
             {
-                MainSliderValue = Minimum;
+                tmp = Minimum;
             }
             else
             {
-                MainSliderValue -= TickFrequency;
+                tmp -= TickFrequency;
             }
+
+            MainSliderValue = tmp;
         }
         private void RepeatButton_Plus_Click(object sender, RoutedEventArgs e)
         {
-            MainSliderValue += TickFrequency;
+            var tmp = MainSliderValue;
+
             if (double.IsNegativeInfinity(MainSliderValue))
             {
-                MainSliderValue = Minimum;
+                tmp = Minimum;
             }
             else if (double.IsPositiveInfinity(MainSliderValue))
             {
 
             }
-            else if (MainSliderValue > Maximum)
+            else if (MainSliderValue >= Maximum)
             {
-                MainSliderValue = Maximum;
+                tmp = Maximum;
             }
             else
             {
-                MainSliderValue += TickFrequency;
+                tmp += TickFrequency;
             }
 
-
+            MainSliderValue= tmp;
         }
 
         public double MainSliderValue
