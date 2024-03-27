@@ -94,7 +94,7 @@ namespace GD_StampingMachine.ViewModels
         /// 鋼印機上的字模
         /// </summary>
 
-        public StampingTypeViewModel StampingFontSelected
+        public StampingTypeViewModel? StampingFontSelected
         {
             get
             {
@@ -215,15 +215,15 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        private StampingTypeModelMatrixViewModel? _stampingTypeModelMartix = new();
+        private StampingTypeModelMatrixViewModel? _stampingTypeModelMatrix;
 
-        public StampingTypeModelMatrixViewModel StampingTypeModelMartix
+        public StampingTypeModelMatrixViewModel StampingTypeModelMatrix
         {
-            get => _stampingTypeModelMartix;
+            get => _stampingTypeModelMatrix??=new();
             set
             {
-                _stampingTypeModelMartix = value;
-                OnPropertyChanged(nameof(StampingTypeModelMartix));
+                _stampingTypeModelMatrix = value;
+                OnPropertyChanged(nameof(StampingTypeModelMatrix));
             }
         }
 
@@ -268,7 +268,7 @@ namespace GD_StampingMachine.ViewModels
                         var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_ReadyStamping));
                         if (FIndex != -1)
                         {
-                            StampingTypeModelMartix = new();
+                            StampingTypeModelMatrix = new();
                             //離原點差距的角度-以逆時針計算
 
                             double TargetAngle = -360 * FIndex / StampingTypeVMObservableCollection.Count;
@@ -297,7 +297,7 @@ namespace GD_StampingMachine.ViewModels
                             try
                             {
                                 StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
-                                StampingTypeModelMartix.BottomStampingTypeModel = StampingTypeVMObservableCollection[FIndex];
+                                StampingTypeModelMatrix.BottomStampingTypeModel = StampingTypeVMObservableCollection[FIndex];
                                 double RotateGap = StampingTypeVMObservableCollection.Count / 4;
 
                                 var LeftIndex = FIndex + RotateGap * 1;
@@ -305,21 +305,21 @@ namespace GD_StampingMachine.ViewModels
                                 {
                                     LeftIndex -= StampingTypeVMObservableCollection.Count;
                                 }
-                                StampingTypeModelMartix.LeftStampingTypeModel = StampingTypeVMObservableCollection[(int)LeftIndex];
+                                StampingTypeModelMatrix.LeftStampingTypeModel = StampingTypeVMObservableCollection[(int)LeftIndex];
 
                                 var TopIndex = FIndex + RotateGap * 2;
                                 while (TopIndex >= StampingTypeVMObservableCollection.Count)
                                 {
                                     TopIndex -= StampingTypeVMObservableCollection.Count;
                                 }
-                                StampingTypeModelMartix.TopStampingTypeModel = StampingTypeVMObservableCollection[(int)TopIndex];
+                                StampingTypeModelMatrix.TopStampingTypeModel = StampingTypeVMObservableCollection[(int)TopIndex];
 
                                 var RightIndex = FIndex + RotateGap * 3;
                                 while (RightIndex >= StampingTypeVMObservableCollection.Count)
                                 {
                                     RightIndex -= StampingTypeVMObservableCollection.Count;
                                 }
-                                StampingTypeModelMartix.RightStampingTypeModel = StampingTypeVMObservableCollection[(int)RightIndex];
+                                StampingTypeModelMatrix.RightStampingTypeModel = StampingTypeVMObservableCollection[(int)RightIndex];
 
 
                             }

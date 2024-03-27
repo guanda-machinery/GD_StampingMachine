@@ -761,7 +761,7 @@ namespace GD_StampingMachine.Singletons
 
             //啟動時預設值
 
-            /*for (int i = 0; i < MachineConst.PlateCount; i++)
+            /*for (int i = 0; i < MachineConstants.PlateCount; i++)
             {
                 PlateBaseObservableCollection.Add(new PlateMonitorViewModel()
                 {
@@ -788,7 +788,7 @@ namespace GD_StampingMachine.Singletons
                             Random random = new Random();
                             var oldCollection = PlateBaseObservableCollection;
 
-                            for (int i = 0; i < MachineConst.PlateCount; i++)
+                            for (int i = 0; i < MachineConstants.PlateCount; i++)
                             {
                                 var randomDouble = random.NextDouble() * 100;
 
@@ -829,6 +829,7 @@ namespace GD_StampingMachine.Singletons
                         }
                         catch (Exception ex)
                         {
+                            _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, ex);
                             Debugger.Break();
                         }
                         await Task.Delay(1000);
@@ -840,18 +841,7 @@ namespace GD_StampingMachine.Singletons
                 }
             });
 
-
-
-
-
-
-
         }
-
-
-
-
-
 
 
         protected override async ValueTask DisposeAsyncCoreAsync()
@@ -1091,7 +1081,7 @@ namespace GD_StampingMachine.Singletons
                                                 {
                                                     var plateMonitorVMCollection = ironPlateCollection.Select(x => (new PlateMonitorViewModel(x)));
 
-                                                    var collection = plateMonitorVMCollection?.Take(MachineConst.PlateCount)?.ToList();
+                                                    var collection = plateMonitorVMCollection?.Take(MachineConstants.PlateCount)?.ToList();
                                                     if (collection != null)
                                                     {
                                                         if (PlateBaseObservableCollection.Count != collection.Count)
@@ -1140,10 +1130,10 @@ namespace GD_StampingMachine.Singletons
 
                                                 if (false)
                                                 {
-                                                    for (int i = 0; i < MachineConst.PlateCount; i++)
+                                                    for (int i = 0; i < MachineConstants.PlateCount; i++)
                                                     {
                                                         int index = i;
-                                                        string nodeID = $"{StampingOpcUANode.system.sv_IronPlateData}[{index + MachineConst.PlateFirstNumber}]";
+                                                        string nodeID = $"{StampingOpcUANode.system.sv_IronPlateData}[{index + MachineConstants.PlateFirstNumber}]";
                                                         await this.opcUaClient.SubscribeNodeDataChangeAsync<int>(nodeID + ".iIronPlateID",
                                                             (sender, e) =>
                                                             {
@@ -1542,13 +1532,13 @@ namespace GD_StampingMachine.Singletons
                                                     HydraulicPumpIsActive = e.NewValue;
                                                 });
 
-                                                var getRdatabit = await GetRequestDatabitAsync();
-                                                if (getRdatabit.Item1)
-                                                    Rdatabit = getRdatabit.Item2;
+                                                var getReadDataBit = await GetRequestDatabitAsync();
+                                                if (getReadDataBit.Item1)
+                                                    ReadDataBit = getReadDataBit.Item2;
                                                 await opcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.sv_bRequestDatabit, (sender, e) =>
                                                 {
-                                                    Rdatabit = e.NewValue;
-                                                }, 1000);
+                                                    ReadDataBit = e.NewValue;
+                                                }, 500);
 
                                                 var getDI_PowerON = await this.ReadNodeAsync<bool>($"{StampingOpcUANode.system.di_PowerON}");
                                                 if (getDI_PowerON.result)
@@ -1735,7 +1725,7 @@ namespace GD_StampingMachine.Singletons
                                             {
                                                 var plateMonitorVMCollection = ironPlateCollection.Select(x => (new PlateMonitorViewModel(x)));
 
-                                                var collection = plateMonitorVMCollection?.Take(MachineConst.PlateCount)?.ToList();
+                                                var collection = plateMonitorVMCollection?.Take(MachineConstants.PlateCount)?.ToList();
                                                 if (collection != null)
                                                 {
                                                     if (PlateBaseObservableCollection.Count != collection.Count)
@@ -1908,11 +1898,10 @@ namespace GD_StampingMachine.Singletons
                         var dataIsDifferent = (string)Application.Current.TryFindResource("Notify_PunchedFontsDataIsDifferent");
                         if (dataIsDifferent != null)
                         {
-                            var numberlist = DifferentContent_StampingTypeNumberList.ExpandToString();
-                            string Outputstring = string.Format(dataIsDifferent, numberlist);
+                            string Outputting = string.Format(dataIsDifferent, (string?)DifferentContent_StampingTypeNumberList.ExpandToString());
 
                             await MessageBoxResultShow.ShowOKAsync(null,(string)Application.Current.TryFindResource("Text_notify"),
-                                Outputstring , GD_MessageBoxNotifyResult.NotifyYe);
+                                Outputting , GD_MessageBoxNotifyResult.NotifyYe);
                         }
 
 
@@ -3209,7 +3198,7 @@ namespace GD_StampingMachine.Singletons
         {
             get => _feedingVelocityChangedCommand ??= new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e =>
             {
-                if (opcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true && e!=null)
                 {
                     bool ret = false;
                     ret = await SetFeedingSetupVelocityAsync((float)e.NewValue);
@@ -3248,7 +3237,8 @@ namespace GD_StampingMachine.Singletons
         {
             get => _rotateVelocityChangedCommand ??= new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e =>
             {
-                if (opcUaClient?.IsConnected == true)
+
+                if (opcUaClient?.IsConnected == true && e!=null)
                 {
                     bool ret = false;
                     ret = await SetEngravingRotateSetupVelocityAsync((float)e.NewValue);
@@ -3339,7 +3329,7 @@ namespace GD_StampingMachine.Singletons
                 if (_plateBaseObservableCollection == null)
                 {
                     _plateBaseObservableCollection = new();
-                    for (int i = 0; i < MachineConst.PlateCount; i++)
+                    for (int i = 0; i < MachineConstants.PlateCount; i++)
                     {
                         PlateBaseObservableCollection.Add(new PlateMonitorViewModel()
                         {
@@ -3415,7 +3405,7 @@ namespace GD_StampingMachine.Singletons
         private bool _cylinder_HydraulicCutting_IsCutPoint;
 
         private bool _hydraulicPumpIsActive;
-        private bool _rdatabit;
+        private bool _readDataBit;
 
         /// <summary>
         /// 氣壓缸1上方磁簧
@@ -3609,9 +3599,9 @@ namespace GD_StampingMachine.Singletons
         /// <summary>
         /// 加工許可訊號
         /// </summary>
-        public bool Rdatabit
+        public bool ReadDataBit
         {
-            get => _rdatabit; private set { _rdatabit = value; OnPropertyChanged(); }
+            get => _readDataBit; private set { _readDataBit = value; OnPropertyChanged(); }
         }
 
 
@@ -3672,7 +3662,7 @@ namespace GD_StampingMachine.Singletons
         private CancellationTokenSource cts = new();
         private Task? RotateTask;
 
-        readonly ParameterSettingViewModel ParameterSettingVM = Singletons.StampingMachineSingleton.Instance.ParameterSettingVM;
+        readonly ParameterSettingViewModel? ParameterSettingVM = Singletons.StampingMachineSingleton.Instance.ParameterSettingVM;
 
         private async Task SeparateBox_RotateAsync(int isUsingIndex, int step)
         {
@@ -3748,7 +3738,7 @@ namespace GD_StampingMachine.Singletons
 
 
 
-        // private int oldvalue = 0;
+        // private int devalue = 0;
         /// <summary>
         /// 取得第一片id
         /// </summary>
@@ -3762,7 +3752,7 @@ namespace GD_StampingMachine.Singletons
             return (false, 0);
         }*/
 
-        // private int oldvalue = 0;
+        // private int devalue = 0;
         /// <summary>
         /// 取得正在打印鋼印的金屬片id
         /// </summary>
@@ -4456,10 +4446,10 @@ Y軸馬達位置移動命令
 
         public async Task<bool> SetHydraulicPumpMotorAsync(bool Active)
         {
-            var pumptask = await GetHydraulicPumpMotorAsync();
-            if (pumptask.Item1)
+            var pumpTask = await GetHydraulicPumpMotorAsync();
+            if (pumpTask.Item1)
             {
-                if (pumptask.Item2 == Active)
+                if (pumpTask.Item2 == Active)
                     return true;
                 await this.WriteNodeAsync(StampingOpcUANode.Motor1.sv_bButtonMotor, true);
                 await Task.Delay(1000);
@@ -4473,7 +4463,7 @@ Y軸馬達位置移動命令
         /// 油壓單元
         /// </summary>
         /// <returns></returns>
-        public async Task<(bool, bool)> GetHydraulicPumpMotorAsync()
+        public async Task<(bool ret, bool pump)> GetHydraulicPumpMotorAsync()
         {
             return await this.ReadNodeAsync<bool>(StampingOpcUANode.Motor1.sv_bMotorStarted);
         }
@@ -4602,9 +4592,9 @@ Y軸馬達位置移動命令
                 {
                     //剪切
                     //ironPlateDataList.Add(new IronPlateDataModel());
-                    for (int i = 0; i < MachineConst.PlateCount; i++)
+                    for (int i = 0; i < MachineConstants.PlateCount; i++)
                     {
-                        var node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i+ MachineConst.PlateFirstNumber}]";
+                        var node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i+ MachineConstants.PlateFirstNumber}]";
                         if ((await GetIronPlateAsync(node)).Item1)
                         {
                             ironPlateDataList.Add((await GetIronPlateAsync(node)).Item2);
@@ -4966,7 +4956,7 @@ Y軸馬達位置移動命令
             //return await this.WriteNodeAsync($"{StampingOpcUANode.system.sv_iTargetAStation}", Station + 1);
         }*/
 
-        private async Task<(bool, int[]?)> GetRotatingTurntableInfoINTAsync()
+        private async Task<(bool ret, int[]? TurntableInfo)> GetRotatingTurntableInfoINTAsync()
             => await this.ReadNodeAsync<int[]>($"{StampingOpcUANode.system.sv_RotateCodeDefinition}");
 
         private async Task<bool> SetRotatingTurntableInfoINTAsync(int[] fonts)
@@ -4995,7 +4985,7 @@ Y軸馬達位置移動命令
             var turntableInfoList = new List<StampingTypeModel>();
             if (ret.Item1)
             {
-                for (int i = 0; i < ret.Item2.Length; i++)
+                for (int i = 0; i < ret.Item2?.Length; i++)
                 {
                     turntableInfoList.Add(new StampingTypeModel()
                     {

@@ -1,6 +1,6 @@
 ﻿namespace GD_StampingMachine
 {
-    internal class MachineConst
+    internal class MachineConstants
     {
         /// <summary>
         /// 鋼印機Y軸壓印起始座標

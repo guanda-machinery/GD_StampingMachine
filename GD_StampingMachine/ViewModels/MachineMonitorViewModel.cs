@@ -418,8 +418,8 @@ namespace GD_StampingMachine.ViewModels
                                              iStackingID = boxIndex,
                                              rXAxisPos1 = readyMachining.SettingBaseVM.StampingMarginPosVM.rXAxisPos1, //     10
                                              rXAxisPos2 = readyMachining.SettingBaseVM.StampingMarginPosVM.rXAxisPos2,//25
-                                             rYAxisPos1 = readyMachining.SettingBaseVM.StampingMarginPosVM.rYAxisPos1 + MachineConst.StampingMachineYPosition, //119 = 14+105 //
-                                             rYAxisPos2 = readyMachining.SettingBaseVM.StampingMarginPosVM.rYAxisPos1 + MachineConst.StampingMachineYPosition, //*14+105 // 
+                                             rYAxisPos1 = readyMachining.SettingBaseVM.StampingMarginPosVM.rYAxisPos1 + MachineConstants.StampingMachineYPosition, //119 = 14+105 //
+                                             rYAxisPos2 = readyMachining.SettingBaseVM.StampingMarginPosVM.rYAxisPos1 + MachineConstants.StampingMachineYPosition, //*14+105 // 
                                              sDataMatrixName1 = string.IsNullOrWhiteSpace(readyMachining.ParameterC) ? string.Empty : readyMachining.ParameterC,
                                              sDataMatrixName2 = string.IsNullOrWhiteSpace(readyMachining.QR_Special_Text) ? string.Empty : readyMachining.QR_Special_Text,
                                              sIronPlateName1 = string.IsNullOrWhiteSpace(plateFirstValue) ? string.Empty : plateFirstValue,
@@ -431,13 +431,13 @@ namespace GD_StampingMachine.ViewModels
                                          {
                                              _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WaitRequestSignal"));
 
-                                             var Rdatabit = false;
-                                             var requestDatabit = StampMachineData.GetRequestDatabitAsync();
-                                             if ((await requestDatabit).Item1)
-                                                 Rdatabit = (await requestDatabit).Item2;
+                                             var readDataBit = false;
+                                             var requestDataBit = StampMachineData.GetRequestDatabitAsync();
+                                             if ((await requestDataBit).Item1)
+                                                 readDataBit = (await requestDataBit).Item2;
 
-                                             if (!Rdatabit)
-                                                 await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.Rdatabit, 2000, token);
+                                             if (!readDataBit)
+                                                 await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.ReadDataBit, 2000, token);
                                          }
                                          catch
                                          {
@@ -445,16 +445,16 @@ namespace GD_StampingMachine.ViewModels
                                              continue;
                                          }
 
-                                         var sendhmi = false;
+                                         var retHMI = false;
 
                                          do
                                          {
                                              if (token.IsCancellationRequested)
                                                  token.ThrowIfCancellationRequested();
                                              _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WritingMachiningData"));
-                                             sendhmi = await StampMachineData.SetHMIIronPlateDataAsync(_HMIIronPlateData);
+                                             retHMI = await StampMachineData.SetHMIIronPlateDataAsync(_HMIIronPlateData);
                                              //hmi設定完之後還需要進行設定變更!
-                                             if (sendhmi)
+                                             if (retHMI)
                                              {
                                                  do
                                                  {
@@ -465,7 +465,7 @@ namespace GD_StampingMachine.ViewModels
                                                      {
                                                          if (await StampMachineData.SetRequestDatabitAsync(false))
                                                          {
-                                                             await WaitForCondition.WaitAsyncIsFalse(() => StampMachineData.Rdatabit, token);
+                                                             await WaitForCondition.WaitAsyncIsFalse(() => StampMachineData.ReadDataBit, token);
                                                              break;
                                                          }
                                                      }
@@ -486,7 +486,7 @@ namespace GD_StampingMachine.ViewModels
                                                  _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WritingMachiningDataSuccessful"));
                                              }
                                          }
-                                         while (!sendhmi);
+                                         while (!retHMI);
 
                                          await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_MachiningIsProcessing"));
 
@@ -546,7 +546,7 @@ namespace GD_StampingMachine.ViewModels
 
         private void StampMachineData_PlateBaseObservableCollectionChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?> e)
         {
-            _ = Task.Run(async () =>
+            _ = Task.Run(() =>
             {
                 try
                 {
@@ -767,7 +767,7 @@ namespace GD_StampingMachine.ViewModels
                                     //等待加工訊號
                                     try
                                     {
-                                        await WaitForCondition.WaitAsync(() => StampMachineData.Rdatabit, true, 5000);
+                                        await WaitForCondition.WaitAsync(() => StampMachineData.ReadDataBit, true, 5000);
                                     }
                                     catch
                                     {
@@ -790,7 +790,7 @@ namespace GD_StampingMachine.ViewModels
                                         sIronPlateName1 = string.Empty,
                                         sIronPlateName2 = string.Empty
                                     };
-                                    var sendhmi = false;
+                                    var retHMI = false;
                                     do
                                     {
                                         if (token.IsCancellationRequested)
@@ -798,16 +798,16 @@ namespace GD_StampingMachine.ViewModels
                                         // var send = StampMachineData.AsyncSendMachiningData(readyMachining.SettingBaseVM, token, int.MaxValue);
 
                                         ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WritingMachiningData");
-                                        sendhmi = await StampMachineData.SetHMIIronPlateDataAsync(_HMIIronPlateData);
+                                        retHMI = await StampMachineData.SetHMIIronPlateDataAsync(_HMIIronPlateData);
                                         //hmi設定完之後還需要進行設定變更!
-                                        if (sendhmi)
+                                        if (retHMI)
                                         {
                                             bool setRequestDatabitSuccessful = false;
                                             do
                                             {
                                                 if (await StampMachineData.SetRequestDatabitAsync(false))
                                                 {
-                                                    await WaitForCondition.WaitAsyncIsFalse(() => StampMachineData.Rdatabit, token);
+                                                    await WaitForCondition.WaitAsyncIsFalse(() => StampMachineData.ReadDataBit, token);
                                                 }
                                                 await Task.Delay(100, token);
                                             }
@@ -818,7 +818,7 @@ namespace GD_StampingMachine.ViewModels
                                         }
                                         await Task.Delay(100, token);
                                     }
-                                    while (!sendhmi);
+                                    while (!retHMI);
                                 }
                                 catch (OperationCanceledException)
                                 {
@@ -1259,9 +1259,9 @@ namespace GD_StampingMachine.ViewModels
                 {
                     var partsParameterVMCollection = new List<PartsParameterViewModel>();
 
-                    if (e is IList<PartsParameterViewModel> Itemsources)
+                    if (e is IList<PartsParameterViewModel> ItemSources)
                     {
-                        partsParameterVMCollection = Itemsources.ToList();
+                        partsParameterVMCollection = ItemSources.ToList();
                     }
                     else if (e is IEnumerable enumerableSources)
                     {
@@ -1489,7 +1489,6 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        //private DevExpress.Mvvm.DelegateCommand<RowFilterArgs> _boxPartsParameterVMRowFilterCommand;
         [JsonIgnore]
         public DevExpress.Mvvm.DelegateCommand<RowFilterArgs> BoxPartsParameterVMRowFilterCommand
         {
@@ -1579,7 +1578,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ICommand _openMachiningManagerWindowCommand;
+        private ICommand? _openMachiningManagerWindowCommand;
         public ICommand OpenMachiningManagerWindowCommand
         {
             get => _openMachiningManagerWindowCommand ??= new AsyncRelayCommand(async () =>
@@ -1591,9 +1590,11 @@ namespace GD_StampingMachine.ViewModels
                 pop.DataContext = this;
                 pop.Content = new MachiningManagerUserControl();
 
-
-                pop.Show();
-
+                await Application.Current.MainWindow.Dispatcher.InvokeAsync(() =>
+                {
+                    pop.Show();
+                });
+               
             });
         }
 

@@ -656,7 +656,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 manager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                 try
                 {
-                    ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Importing") + "...";
+                    ManagerVM.Status = (string)System.Windows.Application.Current!.TryFindResource("Text_Importing") + "...";
                     List<PartsParameterViewModel> importPartsParameterVMList = new();
                     await Task.Run(async () =>
                     {

@@ -55,10 +55,10 @@
                                     IsChecked="{Binding IsUsed, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsUsedEditedable}" >
                                             <ToggleButton.Style>
                                                 <Style TargetType="ToggleButton">
-                                                    <Setter Property="Width" Value="{Binding MachineConstFontWidth}"/>
-                                                    <Setter Property="Height" Value="{Binding MachineConstFontHeight}"/>
-                                                    <Setter Property="Canvas.Left" Value="{calc:Binding FontIndex*MachineConstFontHorizonInterval}"/>
-                                                    <Setter Property="Canvas.Top" Value="{calc:Binding (-MachineConstFontVerticalInterval/2)}"/>
+                                                    <Setter Property="Width" Value="{Binding MachineConstantsFontWidth}"/>
+                                                    <Setter Property="Height" Value="{Binding MachineConstantsFontHeight}"/>
+                                                    <Setter Property="Canvas.Left" Value="{calc:Binding FontIndex*MachineConstantsFontHorizonInterval}"/>
+                                                    <Setter Property="Canvas.Top" Value="{calc:Binding (-MachineConstantsFontVerticalInterval/2)}"/>
                                                     <Setter Property="Padding" Value="0"/>
                                                     <Setter Property="BorderThickness" Value="0.1"/>
                                                     <Setter Property="BorderBrush" Value="Black"/>

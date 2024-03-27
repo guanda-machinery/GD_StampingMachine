@@ -153,12 +153,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         StampingMarginPosVM.rXAxisPos2 = 25;
                         break;
                     case VerticalAlignEnum.Center:
-                        StampingMarginPosVM.rXAxisPos1 = 10 + MachineConst.FontVerticalInterval / 2; ;
-                        StampingMarginPosVM.rXAxisPos2 = 25 + MachineConst.FontVerticalInterval / 2;
+                        StampingMarginPosVM.rXAxisPos1 = 10 + MachineConstants.FontVerticalInterval / 2; ;
+                        StampingMarginPosVM.rXAxisPos2 = 25 + MachineConstants.FontVerticalInterval / 2;
                         break;
                     case VerticalAlignEnum.Bottom:
-                        StampingMarginPosVM.rXAxisPos1 = 10 + MachineConst.FontVerticalInterval;
-                        StampingMarginPosVM.rXAxisPos2 = 25 + MachineConst.FontVerticalInterval;
+                        StampingMarginPosVM.rXAxisPos1 = 10 + MachineConstants.FontVerticalInterval;
+                        StampingMarginPosVM.rXAxisPos2 = 25 + MachineConstants.FontVerticalInterval;
                         break;
                     default:
                         break;
@@ -181,12 +181,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     StampingMarginPosVM.rYAxisPos2 = 14;
                     break;
                 case HorizontalAlignEnum.Center:
-                    StampingMarginPosVM.rYAxisPos1 = 14 + (diff * MachineConst.FontHorizonInterval) / 2;// +MachineConst.FontWidth;
-                    StampingMarginPosVM.rYAxisPos2 = 14 + (diff * MachineConst.FontHorizonInterval) / 2;
+                    StampingMarginPosVM.rYAxisPos1 = 14 + (diff * MachineConstants.FontHorizonInterval) / 2;// +MachineConstants.FontWidth;
+                    StampingMarginPosVM.rYAxisPos2 = 14 + (diff * MachineConstants.FontHorizonInterval) / 2;
                     break;
                 case HorizontalAlignEnum.Right:
-                    StampingMarginPosVM.rYAxisPos1 = 14 + diff * MachineConst.FontHorizonInterval;
-                    StampingMarginPosVM.rYAxisPos2 = 14 + diff * MachineConst.FontHorizonInterval;
+                    StampingMarginPosVM.rYAxisPos1 = 14 + diff * MachineConstants.FontHorizonInterval;
+                    StampingMarginPosVM.rYAxisPos2 = 14 + diff * MachineConstants.FontHorizonInterval;
                     break;
                 default:
                     break;
@@ -618,10 +618,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
         public StampingMarginPosViewModel(StampingMarginPosModel stampingMarginPos)
         {
-            _stampingMarginPos = stampingMarginPos;
+            _stampingMarginPos = stampingMarginPos ?? new();
         }
 
-        internal readonly StampingMarginPosModel? _stampingMarginPos;
+        internal readonly StampingMarginPosModel _stampingMarginPos;
         public float rXAxisPos1 { get => _stampingMarginPos.rXAxisPos1; set { _stampingMarginPos.rXAxisPos1 = value; OnPropertyChanged(); } }
         public float rYAxisPos1 { get => _stampingMarginPos.rYAxisPos1; set { _stampingMarginPos.rYAxisPos1 = value; OnPropertyChanged(); } }
         public float rXAxisPos2 { get => _stampingMarginPos.rXAxisPos2; set { _stampingMarginPos.rXAxisPos2 = value; OnPropertyChanged(); } }

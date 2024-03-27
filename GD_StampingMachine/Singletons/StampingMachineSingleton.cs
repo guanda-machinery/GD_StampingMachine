@@ -252,9 +252,6 @@ namespace GD_StampingMachine.Singletons
             {
 
             }
-
-
-
         }
     
 

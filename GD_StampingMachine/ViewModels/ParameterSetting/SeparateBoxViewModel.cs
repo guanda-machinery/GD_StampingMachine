@@ -129,13 +129,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                _boxPartsParameterVMCollection??= new PartsParameterViewModelObservableCollection();
+                _boxPartsParameterVMCollection ??= new PartsParameterViewModelObservableCollection();
                 if (_boxPartsParameterVMCollection != null)
                 {
                     _boxPartsParameterVMCollection.CollectionChanged -= BoxPartsParameterVMCollection_CollectionChanged;
                     _boxPartsParameterVMCollection.CollectionChanged += BoxPartsParameterVMCollection_CollectionChanged;
                 }
-                return _boxPartsParameterVMCollection;
+                return _boxPartsParameterVMCollection!;
             }
             set
             {
@@ -161,7 +161,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<PartsParameterViewModelObservableCollection>?>? BoxPartsParameterVMCollectionChanged;
+        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<PartsParameterViewModelObservableCollection?>>? BoxPartsParameterVMCollectionChanged;
 
 
 
@@ -417,7 +417,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private void BoxPartsParameterVMCollectionChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<PartsParameterViewModelObservableCollection>? e)
+        private void BoxPartsParameterVMCollectionChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<PartsParameterViewModelObservableCollection?> e)
         {
             if (e.OldValue != null)
             {
@@ -445,7 +445,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public event EventHandler? InternalPartsParameterStateChanged;
 
 
-        public static implicit operator SeparateBoxExtViewModelObservableCollection(ObservableCollection<SeparateBoxViewModel> v)
+        public static implicit operator SeparateBoxExtViewModelObservableCollection?(ObservableCollection<SeparateBoxViewModel> v)
         {
             if (v == null)
             {
@@ -464,13 +464,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            var newItems = e.NewItems as ICollection;
-            var oldItems = e.OldItems as ICollection;
-
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    if (newItems != null)
+                    if (e.NewItems is ICollection newItems)
                     {
                         foreach (var item in newItems)
                         {
@@ -488,48 +485,46 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
+
+                    if (e.OldItems is ICollection oldItems)
                     {
-                        if (oldItems != null)
+                        foreach (var item in oldItems)
                         {
-                            foreach (var item in oldItems)
+                            if (item is SeparateBoxExtViewModel separateBox)
                             {
-                                if (item is SeparateBoxExtViewModel separateBox)
+                                separateBox.BoxPartsParameterVMCollection.CollectionChanged -= BoxPartsParameterVMCollection_CollectionChanged;
+
+                                foreach (var part in separateBox.BoxPartsParameterVMCollection)
                                 {
-                                    separateBox.BoxPartsParameterVMCollection.CollectionChanged -= BoxPartsParameterVMCollection_CollectionChanged;
-
-                                    foreach (var part in separateBox.BoxPartsParameterVMCollection)
-                                    {
-                                        this.RemovePartsParameter(part);
-                                        //part.PropertyChanged -= NewPartsParameter_PropertyChanged;
-                                    }
-
+                                    this.RemovePartsParameter(part);
+                                    //part.PropertyChanged -= NewPartsParameter_PropertyChanged;
                                 }
+
                             }
                         }
                     }
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    {
-                        if (e.NewItems is ICollection newCollection && e.OldItems is ICollection oldCollection)
-                        {
-                            var replacements = oldCollection.OfType<SeparateBoxExtViewModel>()
-                            .Zip(newCollection.OfType<SeparateBoxExtViewModel>(), (oldItem, newItem) => (oldItem, newItem));
-                            foreach (var (oldItem, newItem) in replacements)
-                            {
-                                oldItem.BoxPartsParameterVMCollection.CollectionChanged -= BoxPartsParameterVMCollection_CollectionChanged;
-                                newItem.BoxPartsParameterVMCollection.CollectionChanged += BoxPartsParameterVMCollection_CollectionChanged;
-                                
-                                foreach (var Opart in oldItem.BoxPartsParameterVMCollection)
-                                {
-                                  //  Opart.PropertyChanged -= NewPartsParameter_PropertyChanged;
-                                    this.RemovePartsParameter(Opart);
-                                }
 
-                                foreach (var Npart in newItem.BoxPartsParameterVMCollection)
-                                {
-                               //     Npart.PropertyChanged -= NewPartsParameter_PropertyChanged;
-                                    this.AddPartsParameter(Npart);
-                                }
+                    if (e.NewItems is ICollection newCollection && e.OldItems is ICollection oldCollection)
+                    {
+                        var replacements = oldCollection.OfType<SeparateBoxExtViewModel>()
+                        .Zip(newCollection.OfType<SeparateBoxExtViewModel>(), (oldItem, newItem) => (oldItem, newItem));
+                        foreach (var (oldItem, newItem) in replacements)
+                        {
+                            oldItem.BoxPartsParameterVMCollection.CollectionChanged -= BoxPartsParameterVMCollection_CollectionChanged;
+                            newItem.BoxPartsParameterVMCollection.CollectionChanged += BoxPartsParameterVMCollection_CollectionChanged;
+
+                            foreach (var Opart in oldItem.BoxPartsParameterVMCollection)
+                            {
+                                //  Opart.PropertyChanged -= NewPartsParameter_PropertyChanged;
+                                this.RemovePartsParameter(Opart);
+                            }
+
+                            foreach (var Npart in newItem.BoxPartsParameterVMCollection)
+                            {
+                                //     Npart.PropertyChanged -= NewPartsParameter_PropertyChanged;
+                                this.AddPartsParameter(Npart);
                             }
                         }
                     }
@@ -621,22 +616,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         private void ReplacePartsParameter(PartsParameterViewModel oldPartsParameter, PartsParameterViewModel newPartsParameter)
         {
-            var scheduledIndex = ScheduledPartsParameterCollection.IndexOf(oldPartsParameter);
-            var unscheduledIndex = UnscheduledPartsParameterCollection.IndexOf(oldPartsParameter);
-            /*
-            if (oldPartsParameter.IsScheduled == newPartsParameter.IsScheduled)
-            {
-                if (ScheduledPartsParameterCollection.Contains(oldPartsParameter))
-                {
-                    if(scheduledIndex!=-1)
-                        ScheduledPartsParameterCollection[scheduledIndex] = newPartsParameter;
-                }
-                else if (UnscheduledPartsParameterCollection.Contains(oldPartsParameter))
-                {
-                    if (unscheduledIndex != -1)
-                        UnscheduledPartsParameterCollection[unscheduledIndex] = newPartsParameter;
-                }
-            }*/
             if (oldPartsParameter.IsScheduled == newPartsParameter.IsScheduled)
             {
                 var sIndex = ScheduledPartsParameterCollection.IndexOf(oldPartsParameter);
@@ -696,9 +675,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(UnscheduledPartsParameterCollection)));
             }
         }
-        PartsParameterViewModelObservableCollection _unscheduledPartsParameterCollection;
+        PartsParameterViewModelObservableCollection? _unscheduledPartsParameterCollection;
 
 
+        PartsParameterViewModelObservableCollection? _scheduledPartsParameterCollection;
         /// <summary>
         /// 已排加工的鐵牌
         /// </summary>
@@ -711,7 +691,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(ScheduledPartsParameterCollection)));
             }
         }
-        PartsParameterViewModelObservableCollection _scheduledPartsParameterCollection;
 
 
 

@@ -1,5 +1,4 @@
-﻿using DevExpress.Mvvm.Native;
-using GD_StampingMachine.Method;
+﻿using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using System.Collections.Generic;
@@ -80,12 +79,12 @@ namespace GD_StampingMachine.ViewModels
             NumberSettingPageVM = new NumberSettingPageViewModel();
             if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, out List<StampPlateSettingModel> nSavedCollection, false))
             {
-                NumberSettingPageVM.NumberSettingModelCollection = nSavedCollection.Select(x => new NumberSettingViewModel(x)).ToObservableCollection();
+                NumberSettingPageVM.NumberSettingModelCollection =new( nSavedCollection.Select(x => new NumberSettingViewModel(x)));
             }
             QRSettingPageVM = new QRSettingPageViewModel();
             if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, out List<StampPlateSettingModel> qrSavedCollection, false))
             {
-                QRSettingPageVM.QRSettingModelCollection = qrSavedCollection.Select(x => new QRSettingViewModel(x)).ToObservableCollection();
+                QRSettingPageVM.QRSettingModelCollection = new(qrSavedCollection.Select(x => new QRSettingViewModel(x)));
             }
             AxisSettingVM = new AxisSettingViewModel(_parameterSetting.AxisSetting);
             TimingSettingVM = new TimingSettingViewModel(_parameterSetting.TimingSetting);

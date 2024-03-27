@@ -399,7 +399,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public bool IsShowAllProject { get => _isShowAllProject; set { _isShowAllProject = value; OnPropertyChanged(); } }
 
 
-        public ICommand _updateFiltrationLogicCommand;
+        public ICommand? _updateFiltrationLogicCommand;
         public ICommand UpdateFiltrationLogicCommand
         {
             get => _updateFiltrationLogicCommand ??= new RelayCommand(() =>

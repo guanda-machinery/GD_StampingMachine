@@ -8,6 +8,7 @@ using DevExpress.XtraRichEdit.Layout;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model.ProductionSetting;
 using GD_StampingMachine.Method;
+using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
@@ -566,14 +567,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim semaphoreSlim = new(1, 1);
         private async Task CalcNotifyCollectionChangeAsync()
         {
             await Task.Run(() =>
             {
                 try
                 {
-                    semaphoreSlim.Wait();
+                    semaphoreSlim.Wait(1);
                     try
                     {
                         OnPropertyChanged(new PropertyChangedEventArgs(nameof(ItemFinish)));
@@ -583,12 +584,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     }
                     catch (Exception ex)
                     {
+                        _ = LogDataSingleton.Instance.AddLogDataAsync(null, ex);
 
                     }
                     semaphoreSlim.Release();
                 }
                 catch (Exception ex)
                 {
+                    _ = LogDataSingleton.Instance.AddLogDataAsync(null, ex);
 
                 }
 
@@ -628,7 +631,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => this.Any() ? this.Average(p => p.FinishProgress) : 0;
         }
 
-        private int _unFinishedCount;
+        //private int _unFinishedCount;
         /// <summary>
         /// 未完成的總和
         /// </summary>

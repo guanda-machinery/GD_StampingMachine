@@ -71,9 +71,9 @@ namespace GD_StampingMachine.ViewModels.MachineMonitor
             settingBaseVM.StampingMarginPosVM = new StampingMarginPosViewModel()
             {
                 rXAxisPos1 = ironPlateData.rXAxisPos1,
-                rYAxisPos1 = ironPlateData.rYAxisPos1 - MachineConst.StampingMachineYPosition,
+                rYAxisPos1 = ironPlateData.rYAxisPos1 - MachineConstants.StampingMachineYPosition,
                 rXAxisPos2 = ironPlateData.rXAxisPos2,
-                rYAxisPos2 = ironPlateData.rYAxisPos2 - MachineConst.StampingMachineYPosition,
+                rYAxisPos2 = ironPlateData.rYAxisPos2 - MachineConstants.StampingMachineYPosition,
             };
             foreach (var num1 in settingBaseVM.PlateNumberList1)
             {

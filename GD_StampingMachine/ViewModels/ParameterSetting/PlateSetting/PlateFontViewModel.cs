@@ -58,13 +58,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
         [JsonIgnore]
-        public double MachineConstFontWidth => MachineConst.FontWidth;
+        public double MachineConstantsFontWidth => MachineConstants.FontWidth;
         [JsonIgnore]
-        public double MachineConstFontHorizonInterval => MachineConst.FontHorizonInterval;
+        public double MachineConstantsFontHorizonInterval => MachineConstants.FontHorizonInterval;
         [JsonIgnore]
-        public double MachineConstFontHeight => MachineConst.FontHeight;
+        public double MachineConstantsFontHeight => MachineConstants.FontHeight;
         [JsonIgnore]
-        public double MachineConstFontVerticalInterval => MachineConst.FontVerticalInterval;
+        public double MachineConstantsFontVerticalInterval => MachineConstants.FontVerticalInterval;
 
 
     }

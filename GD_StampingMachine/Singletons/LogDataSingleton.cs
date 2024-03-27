@@ -41,7 +41,7 @@ namespace GD_StampingMachine.Singletons
 
         private readonly SemaphoreSlim semaphoreSlim = new(1, 1);
 
-        public async Task AddLogDataAsync(string SourceName, Exception ex, bool IsAlarm = false)
+        public async Task AddLogDataAsync(string? SourceName, Exception ex, bool IsAlarm = false)
         {
             await AddLogDataAsync(SourceName, ex.Message , IsAlarm);
         }
@@ -61,7 +61,7 @@ namespace GD_StampingMachine.Singletons
 
                     var OperatingLog = (new OperatingLogModel(DateTime.Now, LogSource, ResourceString, IsAlarm));
 
-                    await System.Windows.Application.Current.Dispatcher.InvokeAsync((() =>
+                    await System.Windows.Application.Current?.Dispatcher.InvokeAsync((() =>
                     {
                         this.DataObservableCollection.Add(new OperatingLogViewModel(OperatingLog));
                     }));
