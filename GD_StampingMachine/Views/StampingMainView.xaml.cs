@@ -15,14 +15,19 @@ namespace GD_StampingMachine.Views
             InitializeComponent();
         }
 
-        private void ColorZone_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+
+
+        private bool isMouseDown;
+
+        private void ColorZone_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Window parentWindow = Application.Current?.MainWindow;// Window.GetWindow(this);
+            Window parentWindow = Application.Current.MainWindow;// Window.GetWindow(this);
             if (parentWindow != null)
             {
                 if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
                 {
-                    parentWindow.DragMove();
+                    isMouseDown = e.MouseDevice.LeftButton == MouseButtonState.Pressed;
                 }
                 if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
                 {
@@ -32,9 +37,29 @@ namespace GD_StampingMachine.Views
                         parentWindow.WindowState = WindowState.Maximized;
                 }
             }
-
-
         }
+
+        private void ColorZone_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            isMouseDown = false;
+        }
+        private void ColorZone_LostMouseCapture(object sender, MouseEventArgs e)
+        {
+            isMouseDown = false;
+        }
+
+        private void ColorZone_MouseMove(object sender, MouseEventArgs e)
+        {
+            Window parentWindow = Application.Current.MainWindow;
+            if (isMouseDown && e.LeftButton == MouseButtonState.Pressed)
+            {
+                isMouseDown = false;
+                parentWindow.DragMove();
+            }
+        }
+
+
+
 
         private void FunctionToggleUserControl_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
@@ -46,5 +71,7 @@ namespace GD_StampingMachine.Views
                 }
             }
         }
+
+
     }
 }

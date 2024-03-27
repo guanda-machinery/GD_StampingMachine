@@ -135,6 +135,13 @@ namespace GD_CommonLibrary.Method
                 MessageBoxButton.YesNo, boxNotify, lockWindow);
         }
 
+        public static Task<MessageBoxResult> ShowYesNoCancelAsync(Window? Parent, string? MessageTitle, string MessageString, GD_MessageBoxNotifyResult boxNotify = GD_MessageBoxNotifyResult.NotifyBl, bool lockWindow = true)
+        {
+            return ShowAsync(Parent, MessageTitle, MessageString,
+                MessageBoxButton.YesNoCancel, boxNotify, lockWindow);
+        }
+
+
         public static Task<MessageBoxResult> ShowOKAsync(Window? Parent, string MessageTitle, string MessageString, GD_MessageBoxNotifyResult boxNotify , bool lockWindow = true)
         {
            return ShowAsync(Parent, MessageTitle, MessageString,

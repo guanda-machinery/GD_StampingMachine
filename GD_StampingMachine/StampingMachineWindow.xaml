@@ -65,7 +65,14 @@
                 <RowDefinition Height="32"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid MouseDown="Grid_MouseLeftButtonDown" Name="TitleGrid">
+            <Grid 
+                  MouseDown="Grid_MouseDown"
+                MouseUp="Grid_MouseUp"
+                MouseMove="Grid_MouseMove"
+                  LostMouseCapture="Grid_LostMouseCapture"
+                  
+                  
+                  Name="TitleGrid">
                 <Border Background="{DynamicResource MaterialDesign.Brush.Primary.Dark}" CornerRadius="0,0,0,0" />
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource Logo}" Height="20" Margin="10,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>

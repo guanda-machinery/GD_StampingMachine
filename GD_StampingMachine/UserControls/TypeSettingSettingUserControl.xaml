@@ -594,7 +594,7 @@
                                          SelectionMode="Row"
                                          AutoGenerateColumns="None"
                                          ItemsSource="{Binding ReadyToTypeSettingProductProjectVMSelected.UnBoxPartsParameterVMObservableCollection,  
-                            IsAsync=True,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"   >
                             <dxg:GridControl.View >
                                 <!--RowDoubleClickCommand="{Binding ProjectGridControlRowDoubleClickCommand}"-->

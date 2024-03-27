@@ -1,0 +1,472 @@
+﻿<UserControl x:Class="GD_StampingMachine.UserControls.MachiningManagerUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GD_StampingMachine.UserControls"
+             mc:Ignorable="d" 
+             
+             
+             xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"                       
+             xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling"          
+             xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
+             xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:GD_StampingMachine_UserControls="clr-namespace:GD_StampingMachine.UserControls"
+             
+             xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
+             
+             xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" 
+             xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary" xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+             d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineMonitorViewModel}"
+             
+              xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             xmlns:GD_Popup="clr-namespace:GD_CommonControlLibrary.GD_Popup;assembly=GD_CommonControlLibrary" 
+             xmlns:MachineMonitorViewModel="clr-namespace:GD_StampingMachine.ViewModels.MachineMonitor"
+             d:DesignHeight="1000" d:DesignWidth="1000">
+    <Grid>
+        <Border 
+                                CornerRadius="10"
+                               Background="{DynamicResource MaterialDesign.Brush.Primary.Dark}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <GroupBox Header="{DynamicResource btnMachiningDataManage}" FontSize="30"  
+                          Style="{StaticResource MaterialDesignGroupBox}" Margin="5">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <dxg:GridControl Grid.Row="0"  
+                        Name="NotArrangeWorkGridControl"
+                        HorizontalAlignment="Stretch"     
+                    Grid.Column="0" Margin="10,0"
+                    Background="Transparent"  Height="300"      
+                   
+                                Style="{StaticResource ProjectGridControl}"
+                    AutoGenerateColumns="None"  
+                 ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.UnscheduledPartsParameterCollection ,IsAsync=True}"
+               >
+                        <dxg:GridControl.View >
+                            <dxg:TableView   
+                                        IsColumnMenuEnabled ="False"
+                                        AllowSorting="false"
+                                        AllowColumnFiltering="False"
+                                        AllowColumnMoving="False"
+                                        AllowEditing="False"
+                                        ShowColumnHeaders="True"
+                                        HeaderHorizontalAlignment="Center"
+                                        VerticalScrollbarVisibility="Auto"
+                                        HorizontalScrollbarVisibility="Auto"
+                                        ShowGroupPanel="False"
+                                        ShowSearchPanelMode="Never"
+                                        SearchPanelNullText="Search Tasks(Ctrl + F)" 
+                                        SearchPanelFindMode="Always"
+                                        ShowIndicator="False"
+                                        SearchDelay="0"                            
+                                        AllowDragDrop="False"
+                                        AllowDrop="False"
+                                        ShowDragDropHint="False"
+                                    >
+
+
+                            </dxg:TableView>
+                        </dxg:GridControl.View>
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Box}"  FieldName="BoxIndex"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  
+            HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+
+                                    <Grid DataContext="{Binding Row}">
+                                        <GD_SchematicDiagram:QRPlateRowDiagramControl   DataContext="{Binding SettingBaseVM , IsAsync=True}"   IsEnabled="False"
+                                                      RedMeasurementLineVisibility="Collapsed" >
+                                        </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                    </Grid>
+
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="MachiningStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                    </dxg:GridControl>
+                    <StackPanel Grid.Row="1"  
+                                Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                        <Button Command="{Binding ArrangeWorkCommand}" Margin="5,0"  
+                            CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=SelectedItems}" >
+                            <Image VerticalAlignment="Center"  Height="15">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Source" Value="{StaticResource Arrow_Down_WhiteDrawingImage}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
+                                                <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Button>
+                        <Button Command="{Binding ArrangeWorkCommand}"  Margin="5,0"
+                            CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=ItemsSource}" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image VerticalAlignment="Center"  Height="15">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Source" Value="{StaticResource Arrow_Down_WhiteDrawingImage}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                    <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
+                                                    <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                                <TextBlock Text="ALL" Padding="5,2,0,0" />
+                            </StackPanel>
+
+
+                        </Button>
+                        <Button Command="{Binding CancelArrangeWorkCommand}"  Margin="5,0"
+                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=SelectedItems}">
+                            <Image VerticalAlignment="Center"  Height="15">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Source" Value="{StaticResource Arrow_Up_WhiteDrawingImage}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
+                                                <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Button>
+                        <Button Command="{Binding CancelArrangeWorkCommand}"  Margin="5,0"
+                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=ItemsSource}" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image VerticalAlignment="Center"  Height="15">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Source" Value="{StaticResource Arrow_Up_WhiteDrawingImage}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                    <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
+                                                    <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                                <TextBlock Text="ALL" Padding="5,2,0,0" />
+                            </StackPanel>
+                        </Button>
+
+                        <ToggleButton Name="TestToggle"  Style="{StaticResource GD_ToggleButton_Gray}" IsChecked="{Binding TestedIsChecked}"
+                                Content="Test" Visibility="{Binding IsDebuggerAttached , Converter={dx:BooleanToVisibilityConverter}}">
+
+                        </ToggleButton>
+
+                        <ToggleButton Style="{StaticResource GD_ToggleButton_Gray}"
+        IsChecked="{Binding ShowIsTransported}"
+                     Content="{DynamicResource btnShowFinishItem}"
+                  Padding="5,3,5,0" Margin="5,5,5,5"/>
+
+
+                    </StackPanel>
+                    <dxg:GridControl Grid.Row="2"  
+                        Name="ArrangeWorkGridControl" HorizontalAlignment="Stretch" 
+                    Grid.Column="0" Margin="10,0"
+                    Background="Transparent"  Height="300" 
+                    Style="{StaticResource ProjectGridControl}"
+                                         CustomRowFilterCommand="{Binding ArrangeWorkRowFilterCommand}"
+                    AutoGenerateColumns="None" 
+                 ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection, IsAsync=True}"
+                     >
+                        <dxg:GridControl.View >
+                            <dxg:TableView  
+                                            IsColumnMenuEnabled ="False"
+                                        AllowSorting="False"
+                                        AllowColumnFiltering="False"
+                                        AllowColumnMoving="False"
+                                        AllowEditing="False"
+                                        ShowColumnHeaders="True"
+                                        HeaderHorizontalAlignment="Center"
+                                        VerticalScrollbarVisibility="Auto"
+                                        HorizontalScrollbarVisibility="Auto"
+                                        ShowGroupPanel="False"
+                                        ShowSearchPanelMode="Never"
+                                        SearchPanelNullText="Search Tasks(Ctrl + F)" 
+                                        SearchPanelFindMode="Always"
+                                        ShowIndicator="False"
+                                        SearchDelay="0"                            
+                                        AllowDragDrop="False"
+                                        AllowDrop="False"
+                                        ShowDragDropHint="False"
+                                    >
+                            </dxg:TableView>
+                        </dxg:GridControl.View>
+
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningIndex}"  FieldName="WorkIndex"  
+                                         SortOrder="Ascending"
+                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0;0"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="Uid"  FieldName="ID"  
+                                         SortOrder="Ascending"
+                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0;0"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="Uid"  FieldName="ID"  Visible="{Binding TestedIsChecked}"
+                                         SortOrder="Ascending"
+                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBox Text="{Binding Row.ID ,UpdateSourceTrigger=PropertyChanged}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Box}"  FieldName="BoxIndex"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+                        <dxg:GridColumn  
+            HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ToggleButton 
+                                                    Padding="0" Margin="1" x:Name="MachiningFormTButton">
+                                            <ToggleButton.Style>
+                                                <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_MainToggleButton}">
+                                                    <Setter Property="Width" Value="auto"/>
+                                                    <Setter Property="Height" Value="auto"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="ToggleButton">
+                                                                <Grid>
+                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="IsChecked" Value="True"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter Property="Foreground" Value="Black"/>
+                                                            <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundSkyBlueBrush}"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ToggleButton.Style>
+                                            <ToggleButton.Content>
+                                                <Grid DataContext="{Binding Row, IsAsync=True}">
+                                                    <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"
+                                                        DataContext="{Binding SettingBaseVM, IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
+                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                            <TransformGroup>
+                                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                            </TransformGroup>
+                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                    </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                                </Grid>
+                                            </ToggleButton.Content>
+                                        </ToggleButton>
+
+                                    </Grid>
+
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="MachiningStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsSended"   FieldName="IsSended"
+                                                   AllowEditing="true"
+                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ToggleButton IsChecked="{Binding Row.IsSended}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+
+
+                        <dxg:GridColumn 
+HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningStatus}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <GD_StampingMachine_UserControls:GradientEllipse Width="20"  Height="20" Style="{StaticResource RowGradientEllipse}"/>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+                        <dxg:GridColumn Visible="{Binding ElementName=TestToggle,Path=IsChecked}"
+                                    HorizontalHeaderContentAlignment="Left"  Header="IsFinish"   FieldName="IsTransported"
+                                                   AllowEditing="true"
+                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ToggleButton IsChecked="{Binding Row.IsFinish}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+
+                        <dxg:GridColumn   Visible="{Binding ElementName=TestToggle,Path=IsChecked}"
+                                    HorizontalHeaderContentAlignment="Left"  Header="EngravingIsFinish"   FieldName="EngravingIsFinish"
+                                                   AllowEditing="true"
+                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ToggleButton IsChecked="{Binding Row.EngravingIsFinish}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+
+                        <dxg:GridColumn   Visible="{Binding ElementName=TestToggle,Path=IsChecked}"
+                                    HorizontalHeaderContentAlignment="Left"  Header="IsTransported"   FieldName="IsTransported"
+                                                   AllowEditing="true"
+                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ToggleButton IsChecked="{Binding Row.IsTransported}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+
+
+
+
+
+                    </dxg:GridControl>
+
+
+                    <Button Grid.Row="3"  HorizontalAlignment="Right" Margin="10,5" Padding="5,3,5,0"
+                                Content="{DynamicResource btnExit}"
+                                Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}"  />
+                </Grid>
+
+
+            </GroupBox>
+        </Border>
+    </Grid>
+</UserControl>

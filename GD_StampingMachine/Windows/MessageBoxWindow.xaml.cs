@@ -246,6 +246,7 @@ namespace GD_StampingMachine.Windows
 
 
 
+
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Result = MessageBoxResult.None; 

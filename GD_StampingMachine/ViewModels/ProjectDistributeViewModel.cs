@@ -9,10 +9,13 @@ using DevExpress.Utils.Extensions;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.CodeView;
 using DevExpress.Xpf.Layout.Core;
+using DevExpress.XtraRichEdit.Import.Doc;
 using DevExpress.XtraRichEdit.Layout;
 using DevExpress.XtraRichEdit.Model.History;
 
 using GD_CommonLibrary.Extensions;
+using GD_CommonLibrary.Method;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.ParameterSetting;
@@ -28,7 +31,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using static DevExpress.CodeParser.CodeStyle.Formatting.Rules.Spacing;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -182,9 +184,8 @@ namespace GD_StampingMachine.ViewModels
                 //新寫法
                 if (obj is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel ProductProjectVM)
                 {
-                    var a =
-                    this.StampingBoxPartsVM.SeparateBoxVMObservableCollection.SelectMany(x => x.BoxPartsParameterVMCollection);
-
+                    //var a =                    this.StampingBoxPartsVM.SeparateBoxVMObservableCollection.SelectMany(x => x.BoxPartsParameterVMCollection);
+                    
 
 
                     var CollectionWithThisDistributeName =
@@ -199,7 +200,7 @@ namespace GD_StampingMachine.ViewModels
                         //有已完成的 不可關閉
                         //    if (CollectionWithThisDistributeName.ToList().Exists(x => x.MachiningStatus == MachiningStatusEnum.Finish))
 
-                        if (CollectionWithThisDistributeName.ToList().Exists(x => x.IsFinish))
+                        if (CollectionWithThisDistributeName.ToList().Exists(x => x.IsFinish &&x.DistributeName == this.ProjectDistributeName))
                         {
                             await MethodWinUIMessageBox.CanNotCloseProjectAsync();
                             return;
@@ -295,8 +296,8 @@ namespace GD_StampingMachine.ViewModels
             get 
             {
                 _productProjectVMCollection ??= new ObservableCollection<ProductProjectViewModel>();
-                _productProjectVMCollection.CollectionChanged -= _productProjectVMCollection_CollectionChanged;
-                _productProjectVMCollection.CollectionChanged += _productProjectVMCollection_CollectionChanged;
+                _productProjectVMCollection.CollectionChanged -= ProductProjectVMCollection_CollectionChanged;
+                _productProjectVMCollection.CollectionChanged += ProductProjectVMCollection_CollectionChanged;
                 foreach (var item in _productProjectVMCollection)
                 {
                     item.PartsParameterVMObservableCollection.CollectionChanged -= PartsParameterVMObservableCollection_CollectionChanged;
@@ -309,8 +310,8 @@ namespace GD_StampingMachine.ViewModels
                 _productProjectVMCollection = value; 
                 if (_productProjectVMCollection != null)
                 {
-                    _productProjectVMCollection.CollectionChanged -= _productProjectVMCollection_CollectionChanged;
-                    _productProjectVMCollection.CollectionChanged += _productProjectVMCollection_CollectionChanged;
+                    _productProjectVMCollection.CollectionChanged -= ProductProjectVMCollection_CollectionChanged;
+                    _productProjectVMCollection.CollectionChanged += ProductProjectVMCollection_CollectionChanged;
                     foreach (var item in _productProjectVMCollection)
                     {
                         item.PartsParameterVMObservableCollection.CollectionChanged -= PartsParameterVMObservableCollection_CollectionChanged;
@@ -322,7 +323,7 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        private void _productProjectVMCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void ProductProjectVMCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             switch(e.Action)
             {
@@ -396,13 +397,13 @@ namespace GD_StampingMachine.ViewModels
                             var replacements = oldCollection.OfType<PartsParameterViewModel>()
                                 .Zip(newCollection.OfType<PartsParameterViewModel>(), (oldItem, newItem) => (oldItem, newItem));
 
-                            foreach (var item in replacements)
+                            foreach (var (oldItem, newItem) in replacements)
                             {
-                                if (allSeparateBoxPartsParameterVMCollection.Contains(item.oldItem))
+                                if (allSeparateBoxPartsParameterVMCollection.Contains(oldItem))
                                 {
-                                    var separateBox = StampingBoxPartsVM.SeparateBoxVMObservableCollection.FirstOrDefault(x => x.BoxPartsParameterVMCollection.Contains(item.oldItem));
+                                    var separateBox = StampingBoxPartsVM.SeparateBoxVMObservableCollection.FirstOrDefault(x => x.BoxPartsParameterVMCollection.Contains(oldItem));
                                    if(separateBox != null)
-                                        separateBox.BoxPartsParameterVMCollection.AddOrReplace(x => x == item.oldItem, item.newItem);
+                                        separateBox.BoxPartsParameterVMCollection.AddOrReplace(x => x == oldItem, newItem);
                                 }
 
                                 //StampingBoxPartsVM.SelectedSeparateBoxVM
@@ -516,10 +517,10 @@ namespace GD_StampingMachine.ViewModels
 
         private void SyncProductProject(IList<ProductProjectViewModel> productProjectVMCollection)
         {
-           foreach(var pproject in productProjectVMCollection)
+           foreach(var project in productProjectVMCollection)
             {
-                pproject.ProductProjectIsFinishChanged -= Pproject_ProductProjectIsFinishChanged;
-                pproject.ProductProjectIsFinishChanged += Pproject_ProductProjectIsFinishChanged;
+                project.ProductProjectIsFinishChanged -= Pproject_ProductProjectIsFinishChanged;
+                project.ProductProjectIsFinishChanged += Pproject_ProductProjectIsFinishChanged;
             }
 
 
@@ -1151,63 +1152,105 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _allBoxItemReturnToProjectCommand ??= new AsyncRelayCommand(async () =>
             {
-                await Task.Run(async () =>
+                if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
                 {
-                    if (StampingBoxPartsVM.SelectedSeparateBoxVM == null)
-                        return;
-
-                    try
+                    if (ReadyToTypeSettingProductProjectVMSelected != null)
                     {
-                        var movableCollection = this.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxPartsParameterVMCollection.Where(x =>
-                        (!x.IsFinish && !x.IsSended && !x.IsTransported)).ToList();
-                        if(movableCollection == null)
-                            return;
-
-                        var DiffMovableCollection = this.StampingBoxPartsVM.SelectedSeparateBoxVM?.BoxPartsParameterVMCollection.Except(movableCollection);
-                        this.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxPartsParameterVMCollection = new(DiffMovableCollection);
-
-                        //foreach (var moveableItem in movableCollection)
-                        var options = new ParallelOptions()
+                        await Task.Run(async () =>
                         {
-                            MaxDegreeOfParallelism = 10
-                        };
-                        await Parallel.ForEachAsync(movableCollection, options, async (moveableItem, token) =>
-                      //  await Parallel.ForEachAsync(movableCollection, moveableItem =>
-                        {
-                            //var moveableItem = movableCollection[i];
-                            moveableItem.BoxIndex = null;
-                            moveableItem.WorkIndex = -1;
-                            moveableItem.DistributeName = null;
-                        });
-
-
-                        //依照專案名稱作分類->依序加回專案
-
-                        var projectNameList = movableCollection.Select(x => x.ProductProjectName).Distinct();
-                        foreach(var projectName in projectNameList)
-                        {
-                            var projectVM = this.ProductProjectVMCollection.FirstOrDefault(x =>x.ProductProjectName == projectName);
-                            var collection = movableCollection.Where(x => x.ProductProjectName == projectName);
-                            await Application.Current.Dispatcher.InvokeAsync(() =>
+                            try
                             {
-                                if (projectVM != null)
+                                var oriMovableCollection = this.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxPartsParameterVMCollection
+                                ?.Where(x => (!x.IsFinish && !x.IsSended && !x.IsTransported)).ToList();
+                                var movableCollection = oriMovableCollection?.Intersect(ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMObservableCollection)?.ToList();
+
+                                if (movableCollection?.Any() !=true)
                                 {
-                                    projectVM.UnBoxPartsParameterVMObservableCollection.AddRange(collection);
+                                    if(oriMovableCollection?.Any() == true)
+                                    {
+                                        await MessageBoxResultShow.ShowAsync(null, string.Empty, (string)Application.Current.TryFindResource("NoSelectCorrespondProductSetting"), MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyRd);
+                                    }
+                                    else
+                                    {
+                                         //await MessageBoxResultShow.ShowAsync(null, string.Empty, (string)Application.Current.TryFindResource("NoSelectCorrespondProductSetting"), MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyRd);
+                                    }
+                                    return;
                                 }
-                            });
-                        }
+
+                                if(movableCollection.Exists(x=>x.WorkIndex>=0))
+                                {
+                                    //如果有排定加工但尚未加工的
+                                    var ret = await MessageBoxResultShow.ShowYesNoCancelAsync(null, string.Empty, (string)Application.Current.TryFindResource("AskCancelAlreadyScheduleProductSetting"), GD_MessageBoxNotifyResult.NotifyBl);
+                                    if(ret == MessageBoxResult.Yes)
+                                    {
+
+                                    }
+                                    else if (ret == MessageBoxResult.No)
+                                    {
+                                        movableCollection = movableCollection.Where(x => x.WorkIndex < 0).ToList();
+                                    }
+                                    else
+                                    {
+                                        return;
+                                    }
+                                }
 
 
+                                var options = new ParallelOptions()
+                                {
+                                    MaxDegreeOfParallelism = 100
+                                };
+                                await Parallel.ForEachAsync(movableCollection, options, async (moveableItem, token) =>
+                                {
+                                    moveableItem.BoxIndex = null;
+                                    moveableItem.WorkIndex = -1;
+                                    moveableItem.DistributeName = null;
+                                });
+
+                                //依照專案名稱作分類->依序加回專案
+
+                                var projectNameList = movableCollection.Select(x => x.ProductProjectName).Distinct();
+                                foreach (var projectName in projectNameList)
+                                {
+                                    var projectVM = this.ProductProjectVMCollection.FirstOrDefault(x => x.ProductProjectName == projectName);
+                                    var collection = movableCollection.Where(x => x.ProductProjectName == projectName);
+                                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                                    {
+                                        if (projectVM != null)
+                                        {
+                                            var tmp = projectVM.UnBoxPartsParameterVMObservableCollection.ToList();
+                                            tmp.AddRange(collection);
+                                            projectVM.UnBoxPartsParameterVMObservableCollection = new(tmp);
+
+                                        }
+                                    });
+
+                                }
+
+                                var origin = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxPartsParameterVMCollection!.ToList();
+                                StampingBoxPartsVM.SelectedSeparateBoxVM.BoxPartsParameterVMCollection = new(origin.Except(movableCollection));
+
+                                _ = RefreshBoxPartsParameterVMRowFilterAsync();
+
+                            }
+                            catch (Exception ex)
+                            {
+                               _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ex, true);
+                                Debug.WriteLine(ex.ToString());
+                            }
+                            finally
+                            {
+                            }
+                        });
                     }
-                    catch(Exception ex)
+                    else
                     {
-                        Debug.WriteLine(ex.ToString());
+                        await MessageBoxResultShow.ShowAsync(null, string.Empty, (string)Application.Current.TryFindResource("NoSelectProductSetting"), MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyRd);
                     }
-                    finally
-                    {
-                        _ = RefreshBoxPartsParameterVMRowFilterAsync();
-                    }
-                });
+                }
+
+
+
             });
         }
 

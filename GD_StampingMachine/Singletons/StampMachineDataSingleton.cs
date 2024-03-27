@@ -786,7 +786,7 @@ namespace GD_StampingMachine.Singletons
                         try
                         {
                             Random random = new Random();
-                       
+                            var oldCollection = PlateBaseObservableCollection;
 
                             for (int i = 0; i < MachineConst.PlateCount; i++)
                             {
@@ -794,7 +794,6 @@ namespace GD_StampingMachine.Singletons
 
                                 await Application.Current.Dispatcher.InvokeAsync(() =>
                                 {
-                                    var oldCollection = PlateBaseObservableCollection;
 
                                     PlateBaseObservableCollection[i] = (new PlateMonitorViewModel()
                                     {
@@ -810,15 +809,19 @@ namespace GD_StampingMachine.Singletons
                                         }
                                     }); ;
                                     
-                                    PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?>(oldCollection, PlateBaseObservableCollection));
-
+                                    
                                 });
-                                await Task.Delay(1000);
+                                await Task.Delay(10);
                             }
 
                             j++;
                             if (j > 25)
                                 j = 0;
+
+                            PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?>(oldCollection, PlateBaseObservableCollection));
+
+                            await Task.Delay(1000);
+
                         }
                         catch (OperationCanceledException)
                         {
@@ -926,9 +929,9 @@ namespace GD_StampingMachine.Singletons
                     //scanTask = Task.Run(async () => await RunScanTaskAsync(token));
                     scanTask = RunScanTaskAsync(_cts);
                 }
-                catch (OperationCanceledException ocex)
+                catch (OperationCanceledException oex)
                 {
-                    _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, ocex.Message, true);
+                    _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, oex.Message, true);
                 }
                 catch (Exception ex)
                 {
@@ -1190,9 +1193,9 @@ namespace GD_StampingMachine.Singletons
                                                                     try
                                                                     {
                                                                         var ret = await GetIronPlateDataCollectionAsync();
-                                                                        if (ret.Item1)
+                                                                        if (ret.result)
                                                                         {
-                                                                            var tmpList = ret.Item2.Select(x => new PlateMonitorViewModel(x)).ToList();
+                                                                            var tmpList = ret.ironPlateCollection.Select(x => new PlateMonitorViewModel(x)).ToList();
 
                                                                             var oldCollection = PlateBaseObservableCollection;
                                                                             for (int i = 0; i < tmpList.Count; i++)
@@ -1797,9 +1800,9 @@ namespace GD_StampingMachine.Singletons
                                 if (reconnectCts.Token.IsCancellationRequested)
                                     reconnectCts.Token.ThrowIfCancellationRequested();
                             }
-                            catch (OperationCanceledException ocex)
+                            catch (OperationCanceledException oex)
                             {
-                                if (ocex.CancellationToken == token)
+                                if (oex.CancellationToken == token)
                                     throw;
                             }
                             catch
@@ -1815,10 +1818,10 @@ namespace GD_StampingMachine.Singletons
                             }
                         }
                     }
-                    catch (OperationCanceledException ocex)
+                    catch (OperationCanceledException oex)
                     {
                         Debug.WriteLine("工作已取消");
-                        _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, ocex.Message);
+                        _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, oex.Message);
                     }
                     catch (Exception ex)
                     {
@@ -4649,6 +4652,8 @@ Y軸馬達位置移動命令
             {
                 return (false, new IronPlateDataModel());
             }
+
+
 
 
             /*

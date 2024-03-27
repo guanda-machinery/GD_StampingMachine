@@ -1,19 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using DevExpress.CodeParser;
 using DevExpress.Data.Extensions;
-using DevExpress.DataAccess.Json;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.Utils.Extensions;
 using DevExpress.Xpf.CodeView;
 using DevExpress.Xpf.Core;
-using DevExpress.Xpf.Core.Native;
+using GD_CommonControlLibrary.GD_Popup;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Singletons;
+using GD_StampingMachine.UserControls;
 using GD_StampingMachine.ViewModels.MachineMonitor;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using GD_StampingMachine.Windows;
@@ -24,11 +23,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 
 
@@ -215,7 +216,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        /*private bool _showIsSended = true;
+        /*private bool _showIsSent = true;
         private bool _showDataMatrixIsFinish = true;
         private bool _showEngravingIsFinish = true;
         private bool _showShearingIsFinish = true;
@@ -265,7 +266,6 @@ namespace GD_StampingMachine.ViewModels
                          try
                          {
                              StampMachineData.PlateBaseObservableCollectionChanged += StampMachineData_PlateBaseObservableCollectionChanged; ;
-
                              StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged += StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
                              StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged += StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
                              while (true)
@@ -299,10 +299,10 @@ namespace GD_StampingMachine.ViewModels
 
                                          await WaitForCondition.WaitAsync(() => StampMachineData.IsConnected,true, token, cts.Token);
                                      }
-                                     catch(OperationCanceledException ocex)
+                                     catch(OperationCanceledException oex)
                                      {
                                          //外部解除
-                                         if(ocex.CancellationToken == token)
+                                         if(oex.CancellationToken == token)
                                          {
                                              throw;
                                          }
@@ -329,7 +329,7 @@ namespace GD_StampingMachine.ViewModels
                                      //已上傳
                                      var sendedReadyMachiningCollection = workableMachiningCollection.Where(x => x.IsSended).OrderBy(x => x.WorkIndex);
 
-                                     var readyMachining = readyMachiningCollection?.First();
+                                     var readyMachining = readyMachiningCollection?.FirstOrDefault();
                                      if (readyMachining == null || readyMachiningCollection == null)
                                      {
                                          var result = await MessageBoxResultShow.ShowAsync(null, string.Empty, (string)Application.Current.TryFindResource("NoneMachiningData"), MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyRd);
@@ -391,12 +391,6 @@ namespace GD_StampingMachine.ViewModels
                                          //產生一個獨有的id
                                          //生成一個
 
-                                         //List<PartsParameterViewModel> allBoxPartsParameterViewModel = new();
-                                         //所有排版專案
-                                         /*foreach (var productProject in ProductSettingVM.ProductProjectVMCollection)
-                                         {
-                                             allBoxPartsParameterViewModel.  (productProject.PartsParameterVMObservableCollection);
-                                         }*/
                                          var allBoxPartsParameterViewModel = ProductSettingVM?.ProductProjectVMCollection
                                          .SelectMany(productProject => productProject.PartsParameterVMObservableCollection);
 
@@ -435,7 +429,7 @@ namespace GD_StampingMachine.ViewModels
 
                                          try
                                          {
-                                             _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WaitRequsetSignal"));
+                                             _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WaitRequestSignal"));
 
                                              var Rdatabit = false;
                                              var requestDatabit = StampMachineData.GetRequestDatabitAsync();
@@ -520,9 +514,9 @@ namespace GD_StampingMachine.ViewModels
                          }
                      }, token);
                 }
-                catch (OperationCanceledException ocex)
+                catch (OperationCanceledException oex)
                 {
-                    _ = LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, ocex.Message);
+                    _ = LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, oex.Message);
                 }
                 catch (Exception ex)
                 {
@@ -607,9 +601,9 @@ namespace GD_StampingMachine.ViewModels
                         }
                     }
                 }
-                catch (OperationCanceledException ocex)
+                catch (OperationCanceledException oex)
                 {
-                    _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ocex);
+                    _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, oex);
                 }
                 catch (Exception ex)
                 {
@@ -700,7 +694,7 @@ namespace GD_StampingMachine.ViewModels
                         {
                             //PreviousFirstIronPlateID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault()?.ID;
                             //PreviousMiddleIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
-                            //PreviousLasttIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
+                            //PreviousLastIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
 
 
                             StampMachineData.PlateBaseObservableCollectionChanged += StampMachineData_PlateBaseObservableCollectionChanged;
@@ -767,7 +761,7 @@ namespace GD_StampingMachine.ViewModels
                                         break;
                                     }
 
-                                    ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WaitRequsetSignal");
+                                    ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WaitRequestSignal");
                                     ManagerVM.Subtitle = null;
 
                                     //等待加工訊號
@@ -808,7 +802,7 @@ namespace GD_StampingMachine.ViewModels
                                         //hmi設定完之後還需要進行設定變更!
                                         if (sendhmi)
                                         {
-                                            bool setRequestDatabitSuccesfful = false;
+                                            bool setRequestDatabitSuccessful = false;
                                             do
                                             {
                                                 if (await StampMachineData.SetRequestDatabitAsync(false))
@@ -817,7 +811,7 @@ namespace GD_StampingMachine.ViewModels
                                                 }
                                                 await Task.Delay(100, token);
                                             }
-                                            while (!setRequestDatabitSuccesfful);
+                                            while (!setRequestDatabitSuccessful);
                                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WritingMachiningDataSuccessful");
 
                                             await Task.Delay(100, token);
@@ -836,9 +830,9 @@ namespace GD_StampingMachine.ViewModels
                                 }
                             }
                         }
-                        catch (OperationCanceledException ocex)
+                        catch (OperationCanceledException oex)
                         {
-                            _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ocex, false);
+                            _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, oex, false);
                         }
                         catch (Exception ex)
                         {
@@ -983,9 +977,9 @@ namespace GD_StampingMachine.ViewModels
                     _ = Task.Run(async () =>
                     {
 
-                        if (Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(eRotateStation, out var stamptype))
+                        if (Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(eRotateStation, out var stampType))
                         {
-                            stamptype.StampingTypeUseCount++;
+                            stampType.StampingTypeUseCount++;
                             await Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.SaveStampingTypeVMObservableCollectionAsync();
                         }
 
@@ -1053,9 +1047,9 @@ namespace GD_StampingMachine.ViewModels
                         {
                             //紀錄敲下去那一下是哪一顆字 並記錄次數
                             if(Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM!=null
-                            && Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(eRotateStation, out var stamptype))
+                            && Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(eRotateStation, out var stampType))
                             {
-                                stamptype.StampingTypeUseCount++;
+                                stampType.StampingTypeUseCount++;
                                 await Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.SaveStampingTypeVMObservableCollectionAsync();
                             }
                             // 鐵片
@@ -1289,8 +1283,8 @@ namespace GD_StampingMachine.ViewModels
                                     .ToDictionary(box => box.BoxIndex,
                                     box => box.BoxSliderValue <= 0 ? double.MaxValue : box.BoxSliderValue - box.UnTransportedBoxPieceValue);
 
-                                    var wData = partsParameterVMCollection.Where(x => x.WorkIndex < 0 && !x.IsFinish && !x.IsSended);
-                                    foreach (var partsParameter in wData)
+                                    //var wData = partsParameterVMCollection.Where(x => x.WorkIndex < 0 && !x.IsFinish && !x.IsSended);
+                                    foreach (var partsParameter in partsParameterVMCollection)
                                     {
                                         if (partsParameter.BoxIndex is int boxIndex)
                                         {
@@ -1391,9 +1385,9 @@ namespace GD_StampingMachine.ViewModels
                      {
                          var partsParameterVMCollection = new List<PartsParameterViewModel>();
 
-                         if (e is IList<PartsParameterViewModel> Itemsources)
+                         if (e is IList<PartsParameterViewModel> ItemSources)
                          {
-                             partsParameterVMCollection = Itemsources.ToList();
+                             partsParameterVMCollection = ItemSources.ToList();
                          }
                          else if (e is IEnumerable enumerableSources)
                          {
@@ -1438,11 +1432,11 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ICommand?_separateBoxVMObservableCollectionelectionChangedCommand;
+        private ICommand?_separateBoxVMObservableCollectionSelectionChangedCommand;
         [JsonIgnore]
-        public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
+        public ICommand SeparateBoxVMObservableCollectionSelectionChangedCommand
         {
-            get => _separateBoxVMObservableCollectionelectionChangedCommand ??= new RelayCommand<object>(obj =>
+            get => _separateBoxVMObservableCollectionSelectionChangedCommand ??= new RelayCommand<object>(obj =>
             {
                 RefreshBoxPartsParameterVMRowFilter();
             });
@@ -1584,6 +1578,24 @@ namespace GD_StampingMachine.ViewModels
             }, () => !ClearFinishItemCommand.IsRunning);
         }
 
+
+        private ICommand _openMachiningManagerWindowCommand;
+        public ICommand OpenMachiningManagerWindowCommand
+        {
+            get => _openMachiningManagerWindowCommand ??= new AsyncRelayCommand(async () =>
+            {
+                var pop = new PopupWindow();
+                pop.WindowStyle = WindowStyle.None;
+                pop.AllowsTransparency = true;
+                pop.Background = System.Windows.Media.Brushes.Transparent;
+                pop.DataContext = this;
+                pop.Content = new MachiningManagerUserControl();
+
+
+                pop.Show();
+
+            });
+        }
 
 
 

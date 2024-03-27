@@ -45,11 +45,14 @@ namespace GD_StampingMachine
 
 
 
+        private bool isMouseDown;
+
         //Point _initialMousePosition;
-        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
             {
+                isMouseDown = e.MouseDevice.LeftButton == MouseButtonState.Pressed;
                 this.DragMove();
             }
 
@@ -63,6 +66,23 @@ namespace GD_StampingMachine
 
             //_initialMousePosition = e.GetPosition(null);
 
+        }
+        private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            isMouseDown = false;
+        }
+        private void Grid_LostMouseCapture(object sender, MouseEventArgs e)
+        {
+            isMouseDown = false;
+        }
+
+        private void Grid_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isMouseDown && e.LeftButton == MouseButtonState.Pressed)
+            {
+                isMouseDown = false;
+                DragMove();
+            }
         }
 
 
@@ -128,6 +148,8 @@ namespace GD_StampingMachine
 
             });
         }
+
+
 
 
 

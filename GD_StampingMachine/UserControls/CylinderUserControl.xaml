@@ -38,7 +38,7 @@
             <Button Name="UpRadioButton" Margin="5"
                    IsEnabled="{Binding CylinderUp_IsEnabled}"  
                     Grid.Column="0" Grid.Row="0"  Visibility="{Binding CylinderUpIsActivated, Converter={dx:BooleanToVisibilityConverter}}"
-                             Command="{Binding CylinderUpCommand}" CommandParameter="{Binding CylinderUpCommandParameter}"  
+                             Command="{Binding CylinderUpCommand}" CommandParameter="{Binding CylinderUpCommandParameter}" Cursor="Hand"  
                         >
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource CylinderButton}">
@@ -60,8 +60,17 @@
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
                             <i:InvokeCommandAction Command="{Binding UpPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding UpPreviewMouseLeftButtonUpCommandParameter}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="LostMouseCapture">
+                        <i:InvokeCommandAction Command="{Binding UpPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding UpPreviewMouseLeftButtonUpCommandParameter}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+        
+
+        
+
+
 
                 <local:ImageBrightDarkCustomControl Padding="2"
                                         DarkImageSource="{StaticResource Arrow_Up_WhiteDrawingImage}"
@@ -95,8 +104,11 @@
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
                             <i:InvokeCommandAction Command="{Binding MiddlePreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding MiddlePreviewMouseLeftButtonUpCommandParameter}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="LostMouseCapture">
+                        <i:InvokeCommandAction Command="{Binding MiddlePreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding MiddlePreviewMouseLeftButtonUpCommandParameter}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 
 
                 <local:ImageBrightDarkCustomControl Padding="2"
@@ -130,8 +142,11 @@
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
                             <i:InvokeCommandAction Command="{Binding DownPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding DownPreviewMouseLeftButtonUpCommandParameter}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="LostMouseCapture">
+                        <i:InvokeCommandAction Command="{Binding DownPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding DownPreviewMouseLeftButtonUpCommandParameter}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <local:ImageBrightDarkCustomControl Padding="2"
                                         DarkImageSource="{StaticResource Arrow_Down_WhiteDrawingImage}"
                                         BrightImageSource="{StaticResource Arrow_Down_BlackDrawingImage}"/>

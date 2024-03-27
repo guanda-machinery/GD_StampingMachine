@@ -162,9 +162,9 @@ namespace GD_CommonLibrary.Extensions
                     }
                     tcs.SetResult(true);
                 }
-                catch (OperationCanceledException ocex)
+                catch (OperationCanceledException oex)
                 {
-                    tcs.SetException(ocex);
+                    tcs.SetException(oex);
                 }
                 catch(Exception ex)
                 {

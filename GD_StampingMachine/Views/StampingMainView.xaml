@@ -61,7 +61,10 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
             <materialDesign:ColorZone 
-                MouseLeftButtonDown="ColorZone_MouseLeftButtonDown" 
+                MouseDown="ColorZone_MouseDown"
+                MouseUp="ColorZone_MouseUp"
+                MouseMove="ColorZone_MouseMove"
+                LostMouseCapture="ColorZone_LostMouseCapture"
         Mode="PrimaryDark"  Height="80"
         Padding="8" >
             <Grid>
@@ -770,6 +773,7 @@
 
                                         <ToggleButton IsChecked="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=LightOn}"  Content="Machining"/>
 
+                                        <ToggleButton Content="TestPopupWindow"></ToggleButton>
 
 
                                         <Grid Width="100" Height="100" >
