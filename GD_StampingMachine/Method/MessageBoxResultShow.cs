@@ -10,6 +10,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Microsoft.VisualStudio.Shell;
+using System.Threading;
+using Opc.Ua.Bindings;
 
 namespace GD_CommonLibrary.Method
 {
@@ -57,6 +59,37 @@ namespace GD_CommonLibrary.Method
             MessageBoxResult messageBoxReturn = newWindow!.FloatShow();
             return messageBoxReturn;
         }
+
+        /// <summary>
+        /// 可自動關閉的視窗
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<MessageBoxResult> ShowMessageBoxAsync(CancellationToken? token =null)
+        {
+            if (token is CancellationToken cancellationToken)
+            {
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await Task.Delay(-1, cancellationToken);
+                    }
+                    catch
+                    {
+                        await newWindow!.CloseAsync();
+                    }
+                });
+            }
+
+            MessageBoxResult messageBoxReturn = await Task.Run(() =>
+            {
+                return newWindow!.FloatShow(); ;
+            });
+          
+            return messageBoxReturn;
+        }
+
 
 
 

@@ -2,6 +2,7 @@
 using GD_StampingMachine.GD_Enum;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -221,6 +222,11 @@ namespace GD_StampingMachine.Windows
             }));
 
            return Result;
+        }
+
+        public async Task CloseAsync()
+        {
+           await Task.Run(() => this.CloseMessageBox());
         }
 
         private void CloseMessageBox()

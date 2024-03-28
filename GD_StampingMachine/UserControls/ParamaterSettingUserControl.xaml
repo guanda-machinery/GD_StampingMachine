@@ -69,8 +69,8 @@
                 </ItemsControl.ItemsPanel>
 
                 <GD_UserControls:FunctionToggleUserControl 
-                    x:Name="TbtnNumberSetting" 
-                    IsChecked="{Binding TbtnNumberSettingIsChecked , Mode=TwoWay}" >
+                    x:Name="TBtnNumberSetting" 
+                    IsChecked="{Binding TBtnNumberSettingIsChecked , Mode=TwoWay}" >
                     <GD_UserControls:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_ParameterSetting}">
                             <Setter Property="ControlTitleText" Value="{DynamicResource btnNumberSetting}"      />
@@ -100,8 +100,8 @@
                 </GD_UserControls:FunctionToggleUserControl>
 
                 <GD_UserControls:FunctionToggleUserControl 
-                                        x:Name="TbtnDataMatrixSetting" 
-                                        IsChecked="{Binding TbtnDataMatrixSettingIsChecked, Mode=TwoWay}">
+                                        x:Name="TBtnDataMatrixSetting" 
+                                        IsChecked="{Binding TBtnDataMatrixSettingIsChecked, Mode=TwoWay}">
                     <GD_UserControls:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_ParameterSetting}">
                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDataMatrixSetting}"      />
@@ -132,8 +132,8 @@
                 </GD_UserControls:FunctionToggleUserControl>
 
                 <GD_UserControls:FunctionToggleUserControl
-                                        x:Name="TbtnAxisSetting" 
-                    IsChecked="{Binding TbtnAxisSettingSettingIsChecked, Mode=TwoWay}">
+                                        x:Name="TBtnAxisSetting" 
+                    IsChecked="{Binding TBtnAxisSettingSettingIsChecked, Mode=TwoWay}">
                     <GD_UserControls:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_ParameterSetting}">
                             <Setter Property="ControlTitleText" Value="{DynamicResource btnAxisSetting}"      />
@@ -163,11 +163,11 @@
                 </GD_UserControls:FunctionToggleUserControl>
 
                 <GD_UserControls:FunctionToggleUserControl
-                    x:Name="TbtnTimimgSetting" 
-                    IsChecked="{Binding TbtnTimimgSettingIsChecked , Mode=TwoWay}">
+                    x:Name="TBtnTimingSetting" 
+                    IsChecked="{Binding TBtnTimingSettingIsChecked , Mode=TwoWay}">
                     <GD_UserControls:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_ParameterSetting}">
-                            <Setter Property="ControlTitleText" Value="{DynamicResource btnTimimgSetting}"      />
+                            <Setter Property="ControlTitleText" Value="{DynamicResource btnTimingSetting}"      />
                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_19_Stopwatch_DrawingImage_Mono}"      />
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
@@ -193,8 +193,8 @@
                 </GD_UserControls:FunctionToggleUserControl>
 
                 <GD_UserControls:FunctionToggleUserControl
-                    x:Name="TbtnSegregationSetting" 
-                    IsChecked="{Binding TbtnSegregationSettingIsChecked, Mode=TwoWay}"           >
+                    x:Name="TBtnSegregationSetting" 
+                    IsChecked="{Binding TBtnSegregationSettingIsChecked, Mode=TwoWay}"           >
                     <GD_UserControls:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_ParameterSetting}">
                             <Setter Property="ControlTitleText" Value="{DynamicResource btnSeparateSetting}"      />
@@ -224,8 +224,8 @@
                 </GD_UserControls:FunctionToggleUserControl>
 
                 <GD_UserControls:FunctionToggleUserControl 
-                    x:Name="TbtnInputOutput" 
-                    IsChecked="{Binding  TbtnInputOutputIsChecked, Mode=TwoWay}">
+                    x:Name="TBtnInputOutput" 
+                    IsChecked="{Binding  TBtnInputOutputIsChecked, Mode=TwoWay}">
 
                     <GD_UserControls:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_ParameterSetting}">
@@ -257,8 +257,8 @@
                 </GD_UserControls:FunctionToggleUserControl>
 
                 <GD_UserControls:FunctionToggleUserControl
-                    x:Name="TbtnSeEngineeringMode" 
-                    IsChecked="{Binding TbtnSeEngineeringModeIsChecked, Mode=TwoWay}" >
+                    x:Name="TBtnSeEngineeringMode" 
+                    IsChecked="{Binding TBtnSeEngineeringModeIsChecked, Mode=TwoWay}" >
                     <GD_UserControls:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_ParameterSetting}">
                             <Setter Property="ControlTitleText" Value="{DynamicResource btnSeEngineeringMode}"      />
@@ -298,7 +298,7 @@
                       VerticalContentAlignment="Center"
                       HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
             <TabControl Padding="5,16">
-                <TabItem  IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}"  DataContext="{Binding NumberSettingPageVM}">
+                <TabItem  IsSelected="{Binding ElementName=TBtnNumberSetting, Path=IsChecked}"  DataContext="{Binding NumberSettingPageVM}">
                     <StackPanel HorizontalAlignment="Center">
                         <Grid  Margin="0,0,0,0" Width="700">
                             <Viewbox>
@@ -580,7 +580,7 @@
                         </Grid>
                     </StackPanel>
                 </TabItem>
-                <TabItem  IsSelected="{Binding ElementName=TbtnDataMatrixSetting, Path=IsChecked}" DataContext="{Binding QRSettingPageVM}" Cursor="Hand">
+                <TabItem  IsSelected="{Binding ElementName=TBtnDataMatrixSetting, Path=IsChecked}" DataContext="{Binding QRSettingPageVM}" Cursor="Hand">
                     <Grid HorizontalAlignment="Center" Margin="20,0">
                         <Grid.RowDefinitions>
                             <RowDefinition  Height="auto"/>
@@ -941,7 +941,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
 
                     </Grid>
                 </TabItem>
-                <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnAxisSetting, Path=IsChecked}" DataContext="{Binding AxisSettingVM}">
+                <TabItem Header="123"   IsSelected="{Binding ElementName=TBtnAxisSetting, Path=IsChecked}" DataContext="{Binding AxisSettingVM}">
                     <TabItem.Resources>
                         <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
                             <Setter Property="FontSize" Value="16"/>
@@ -1080,7 +1080,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                         </GroupBox>
                     </Grid>
                 </TabItem>
-                <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnTimimgSetting, Path=IsChecked}" DataContext="{Binding TimingSettingVM}" >
+                <TabItem Header="123"   IsSelected="{Binding ElementName=TBtnTimingSetting, Path=IsChecked}" DataContext="{Binding TimingSettingVM}" >
                     <Grid HorizontalAlignment="Center" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Unloaded">
@@ -2302,7 +2302,7 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                         </GroupBox>
                     </Grid>
                 </TabItem>
-                <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSegregationSetting, Path=IsChecked}" DataContext="{Binding SeparateSettingVM}">
+                <TabItem Header="123"   IsSelected="{Binding ElementName=TBtnSegregationSetting, Path=IsChecked}" DataContext="{Binding SeparateSettingVM}">
                     <StackPanel Orientation="Vertical"  HorizontalAlignment="Center" 
                                 VerticalAlignment="Top">
                         <StackPanel  Margin="10,0"  Orientation="Horizontal" >
@@ -2411,7 +2411,7 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                         </GroupBox>
                     </StackPanel>
                 </TabItem>
-                <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnInputOutput, Path=IsChecked}" DataContext="{Binding InputOutputVM}">
+                <TabItem Header="123"   IsSelected="{Binding ElementName=TBtnInputOutput, Path=IsChecked}" DataContext="{Binding InputOutputVM}">
                     <Grid Name="IO_MainGrid" HorizontalAlignment="Center">
                         <dxg:GridControl 
                                 Style="{StaticResource ProjectGridControl}"  
@@ -2514,7 +2514,7 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                     
                     
                 </TabItem>
-                <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSeEngineeringMode, Path=IsChecked}" DataContext="{Binding EngineerSettingVM}">
+                <TabItem Header="123"   IsSelected="{Binding ElementName=TBtnSeEngineeringMode, Path=IsChecked}" DataContext="{Binding EngineerSettingVM}">
                     <StackPanel HorizontalAlignment="Center" >
                         <GroupBox Grid.Row="1" Header="{DynamicResource Text_lubricationSystem}" Margin="10"  VerticalAlignment="Top" >
                         <Grid HorizontalAlignment="Left">

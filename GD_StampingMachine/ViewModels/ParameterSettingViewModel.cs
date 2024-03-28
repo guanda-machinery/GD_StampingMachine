@@ -44,87 +44,108 @@ namespace GD_StampingMachine.ViewModels
 
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ParameterSettingViewModel");
 
-        private bool _tbtnNumberSettingIsChecked;
-        private bool _tbtnDataMatrixSettingIsChecked;
-        private bool _tbtnAxisSettingSettingIsChecked;
-        private bool _tbtnTimimgSettingIsChecked;
-        private bool _tbtnSegregationSettingIsChecked;
-        private bool _tbtnInputOutputIsChecked;
-        private bool _tbtnSeEngineeringModeIsChecked;
+        private bool _tBtnNumberSettingIsChecked;
+        private bool _tBtnDataMatrixSettingIsChecked;
+        private bool _tBtnAxisSettingSettingIsChecked;
+        private bool _tBtnTimingSettingIsChecked;
+        private bool _tBtnSegregationSettingIsChecked;
+        private bool _tBtnInputOutputIsChecked;
+        private bool _tBtnSeEngineeringModeIsChecked;
 
 
-        public bool TbtnNumberSettingIsChecked { get => _tbtnNumberSettingIsChecked; set { _tbtnNumberSettingIsChecked = value; OnPropertyChanged(); } }
-        public bool TbtnDataMatrixSettingIsChecked { get => _tbtnDataMatrixSettingIsChecked; set { _tbtnDataMatrixSettingIsChecked = value; OnPropertyChanged(); } }
-        public bool TbtnAxisSettingSettingIsChecked { get => _tbtnAxisSettingSettingIsChecked; set { _tbtnAxisSettingSettingIsChecked = value; OnPropertyChanged(); } }
-        public bool TbtnTimimgSettingIsChecked { get => _tbtnTimimgSettingIsChecked; set { _tbtnTimimgSettingIsChecked = value; OnPropertyChanged(); } }
-        public bool TbtnSegregationSettingIsChecked { get => _tbtnSegregationSettingIsChecked; set { _tbtnSegregationSettingIsChecked = value; OnPropertyChanged(); } }
-        public bool TbtnInputOutputIsChecked { get => _tbtnInputOutputIsChecked; set { _tbtnInputOutputIsChecked = value; OnPropertyChanged(); } }
-        public bool TbtnSeEngineeringModeIsChecked { get => _tbtnSeEngineeringModeIsChecked; set { _tbtnSeEngineeringModeIsChecked = value; OnPropertyChanged(); } }
+        public bool TBtnNumberSettingIsChecked { get => _tBtnNumberSettingIsChecked; set { _tBtnNumberSettingIsChecked = value; OnPropertyChanged(); } }
+        public bool TBtnDataMatrixSettingIsChecked { get => _tBtnDataMatrixSettingIsChecked; set { _tBtnDataMatrixSettingIsChecked = value; OnPropertyChanged(); } }
+        public bool TBtnAxisSettingSettingIsChecked { get => _tBtnAxisSettingSettingIsChecked; set { _tBtnAxisSettingSettingIsChecked = value; OnPropertyChanged(); } }
+        public bool TBtnTimingSettingIsChecked { get => _tBtnTimingSettingIsChecked; set { _tBtnTimingSettingIsChecked = value; OnPropertyChanged(); } }
+        public bool TBtnSegregationSettingIsChecked { get => _tBtnSegregationSettingIsChecked; set { _tBtnSegregationSettingIsChecked = value; OnPropertyChanged(); } }
+        public bool TBtnInputOutputIsChecked { get => _tBtnInputOutputIsChecked; set { _tBtnInputOutputIsChecked = value; OnPropertyChanged(); } }
+        public bool TBtnSeEngineeringModeIsChecked { get => _tBtnSeEngineeringModeIsChecked; set { _tBtnSeEngineeringModeIsChecked = value; OnPropertyChanged(); } }
 
 
         public ParameterSettingViewModel()
         {
-            init(new());
+            _parameterSetting = new();
         }
 
 
         public ParameterSettingViewModel(ParameterSettingModel ParameterSetting)
         {
-            init(ParameterSetting);
-        }
-
-        private void init(ParameterSettingModel ParameterSetting)
-        {
             _parameterSetting = ParameterSetting;
-            NumberSettingPageVM = new NumberSettingPageViewModel();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, out List<StampPlateSettingModel> nSavedCollection, false))
-            {
-                NumberSettingPageVM.NumberSettingModelCollection =new( nSavedCollection.Select(x => new NumberSettingViewModel(x)));
-            }
-            QRSettingPageVM = new QRSettingPageViewModel();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, out List<StampPlateSettingModel> qrSavedCollection, false))
-            {
-                QRSettingPageVM.QRSettingModelCollection = new(qrSavedCollection.Select(x => new QRSettingViewModel(x)));
-            }
-            AxisSettingVM = new AxisSettingViewModel(_parameterSetting.AxisSetting);
-            TimingSettingVM = new TimingSettingViewModel(_parameterSetting.TimingSetting);
-            SeparateSettingVM = new SeparateSettingViewModel(_parameterSetting.SeparateSetting);
-            InputOutputVM = new InputOutputViewModel(_parameterSetting.InputOutput);
-            EngineerSettingVM = new EngineerSettingViewModel(_parameterSetting.EngineerSetting);
         }
-
-
-
 
         private ParameterSettingModel? _parameterSetting = new();
 
+
+        public NumberSettingPageViewModel? _numberSettingPageVM;
         /// <summary>
         /// 號碼設定
         /// </summary>
-        public NumberSettingPageViewModel NumberSettingPageVM { get; set; }
+        public NumberSettingPageViewModel NumberSettingPageVM
+        {
+            get
+            {
+                if (_numberSettingPageVM == null)
+                {
+                    JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, out List<StampPlateSettingModel> nSavedCollection, false);
+                    _numberSettingPageVM = new()
+                    { 
+                        NumberSettingModelCollection = new(nSavedCollection.Select(x => new NumberSettingViewModel(x)))
+                    };
+                }
+                return _numberSettingPageVM;
+            }
+        }
+
+        private QRSettingPageViewModel? _qrSettingPageVM;
         /// <summary>
         /// QR設定
         /// </summary>
-        public QRSettingPageViewModel QRSettingPageVM { get; set; }
+        public QRSettingPageViewModel QRSettingPageVM
+        {
+            get
+            {
+                 if (_qrSettingPageVM == null)
+                {
+                    JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, out List<StampPlateSettingModel> qrSavedCollection, false);
+                    _qrSettingPageVM = new()
+                    {
+                        QRSettingModelCollection = new(qrSavedCollection.Select(x => new QRSettingViewModel(x)))
+                    };
+                }
+                return _qrSettingPageVM;
+            }
+        }
+
+        private AxisSettingViewModel? _axisSettingVM;
         /// <summary>
         /// 軸向設定
         /// </summary>
-        public AxisSettingViewModel AxisSettingVM { get; set; }
+        public AxisSettingViewModel AxisSettingVM =>_axisSettingVM ??= new AxisSettingViewModel(_parameterSetting.AxisSetting);
+    
+        private TimingSettingViewModel? _timingSettingVM;
         /// <summary>
         /// 計時設定
         /// </summary>
-        public TimingSettingViewModel TimingSettingVM { get; set; }
+        public TimingSettingViewModel TimingSettingVM => _timingSettingVM ??= new TimingSettingViewModel(_parameterSetting.TimingSetting);
         /// <summary>
         /// 分料設定
         /// </summary>
-        public SeparateSettingViewModel SeparateSettingVM { get; set; }
+        /// 
+        private SeparateSettingViewModel? _separateSettingVM;
+        public SeparateSettingViewModel SeparateSettingVM => _separateSettingVM ??= new SeparateSettingViewModel(_parameterSetting.SeparateSetting);
+
+
+        private InputOutputViewModel? _inputOutputVM;
         /// <summary>
         /// Inputoutput
         /// </summary>
-        public InputOutputViewModel InputOutputVM { get; set; }
+        public InputOutputViewModel InputOutputVM => _inputOutputVM ??= new InputOutputViewModel(_parameterSetting.InputOutput);
+
+
+        private EngineerSettingViewModel? _engineerSettingVM;
         /// <summary>
         /// 工程模式
         /// </summary>
-        public EngineerSettingViewModel EngineerSettingVM { get; set; }
+        public EngineerSettingViewModel EngineerSettingVM => _engineerSettingVM ??= new EngineerSettingViewModel(_parameterSetting.EngineerSetting);
     }
 }

@@ -269,7 +269,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new(() =>
             {
-                StampingMachineSingleton.Instance.ParameterSettingVM.TbtnSeEngineeringModeIsChecked = true;
+                StampingMachineSingleton.Instance.ParameterSettingVM.TBtnSeEngineeringModeIsChecked = true;
             });
         }
 

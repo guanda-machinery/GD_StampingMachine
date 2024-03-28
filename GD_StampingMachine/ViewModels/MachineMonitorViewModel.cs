@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Data.Extensions;
+using DevExpress.Diagram.Core.InteractiveLayout;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.Utils.Extensions;
 using DevExpress.Xpf.CodeView;
+using DevExpress.Xpf.Controls.Internal;
 using DevExpress.Xpf.Core;
 using GD_CommonControlLibrary.GD_Popup;
 using GD_CommonLibrary;
@@ -265,57 +267,18 @@ namespace GD_StampingMachine.ViewModels
                      {
                          try
                          {
+                             bool checkAllowChar = true;
+
                              StampMachineData.PlateBaseObservableCollectionChanged += StampMachineData_PlateBaseObservableCollectionChanged; ;
                              StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged += StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
                              StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged += StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
+                             
                              while (true)
                              {
                                  await Task.Delay(1000,token);
                                  if (token.IsCancellationRequested)
                                      token.ThrowIfCancellationRequested();
-                                 if (!StampMachineData.IsConnected)
-                                 {
-                                     var ConnectManagerVM = new DXSplashScreenViewModel
-                                     {
-                                         Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
-                                         Title = "GD_StampingMachine",
-                                         Status = (string)System.Windows.Application.Current.TryFindResource("WaitConnection"),
-                                         Progress = 0,
-                                         IsIndeterminate = true,
-                                         Subtitle = "",
-                                         Copyright = "Copyright © 2024 GUANDA",
-                                     };
-                                     SplashScreenManager ConnectManager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ConnectManagerVM);
-                                     try
-                                     {
-                                         _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("WaitConnection"));
-                                         await Application.Current.Dispatcher.InvokeAsync(() =>
-                                         {
-                                             ConnectManager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
-                                         });
-                                         //等待連線
-                                         await Task.Delay(10,token);
-                                         CancellationTokenSource cts = new(60000);
 
-                                         await WaitForCondition.WaitAsync(() => StampMachineData.IsConnected,true, token, cts.Token);
-                                     }
-                                     catch(OperationCanceledException oex)
-                                     {
-                                         //外部解除
-                                         if(oex.CancellationToken == token)
-                                         {
-                                             throw;
-                                         }
-                                     }
-                                     catch(Exception)
-                                     {
-                                         break;
-                                     }
-                                     finally
-                                     {
-                                         ConnectManager.Close();
-                                     }
-                                 }
                                  //燈號
                                  //StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection
                                  //取得歷史資料
@@ -338,10 +301,44 @@ namespace GD_StampingMachine.ViewModels
                                      }
                                      else
                                      {
-                                         //檢查：鐵牌上的字是否存在於輪盤上
-                                         foreach (var machining in readyMachiningCollection)
+
+                                         if (checkAllowChar) 
                                          {
-                                             var missingChars = machining.ParameterA.Where(x => !StampMachineData.RotatingTurntableInfoCollection.Any(y => y.StampingTypeString.Contains(x)));
+                                             //允許可以打的字元
+
+                                             HashSet<char> allowCharsList = new();
+                                             for (int i = 33; i <= 126; i++)
+                                             {
+                                                 allowCharsList.Add((char)i);
+                                             }
+
+                                             HashSet<char> ignoreCheckCharsList = new()
+                                             { ' ' , '\0'};
+                                             //檢查：鐵牌上的字是否存在於輪盤上
+                                             var missingCharsList = readyMachiningCollection
+                                             ?.SelectMany(machining => machining.ParameterA)
+                                             ?.Where(charA => !StampMachineData.RotatingTurntableInfoCollection.Any(info => info.StampingTypeString.Contains(charA.ToString())))
+                                             //?.Intersect(allowCharsList)
+                                             ?.Except(ignoreCheckCharsList)
+                                             ?.ToHashSet();
+                                             if (missingCharsList?.Any() == true)
+                                             {
+                                                 //待加工的詢問是否要加工
+                                                 CancellationTokenSource timeout = new(10000);
+                                              
+                                                 var askFloatWinTask= new MessageBoxResultShow(null, string.Empty, (string)Application.Current.TryFindResource("AskFontIsMissingAndContinueProcessing"), MessageBoxButton.YesNo, GD_MessageBoxNotifyResult.NotifyBl);
+                                                
+                                                 var ret = await askFloatWinTask.ShowMessageBoxAsync(timeout.Token);
+                                                 if(ret == MessageBoxResult.No)
+                                                 {
+                                                     break;
+                                                 }
+                                                 else
+                                                 {
+
+                                                 }
+                                                 checkAllowChar = false;
+                                             }
                                          }
 
 
@@ -426,6 +423,53 @@ namespace GD_StampingMachine.ViewModels
                                              sIronPlateName2 = string.IsNullOrWhiteSpace(plateSecondValue) ? string.Empty : plateSecondValue
                                          };
 
+
+
+
+
+                                         if (!StampMachineData.IsConnected)
+                                         {
+                                             var ConnectManagerVM = new DXSplashScreenViewModel
+                                             {
+                                                 Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
+                                                 Title = "GD_StampingMachine",
+                                                 Status = (string)System.Windows.Application.Current.TryFindResource("WaitConnection"),
+                                                 Progress = 0,
+                                                 IsIndeterminate = true,
+                                                 Subtitle = "",
+                                                 Copyright = "Copyright © 2024 GUANDA",
+                                             };
+                                             SplashScreenManager ConnectManager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ConnectManagerVM);
+                                             try
+                                             {
+                                                 _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("WaitConnection"));
+                                                 await Application.Current.Dispatcher.InvokeAsync(() =>
+                                                 {
+                                                     ConnectManager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+                                                 });
+                                                 //等待連線
+                                                 await Task.Delay(10, token);
+                                                 CancellationTokenSource cts = new(60000);
+
+                                                 await WaitForCondition.WaitAsync(() => StampMachineData.IsConnected, true, token, cts.Token);
+                                             }
+                                             catch (OperationCanceledException oex)
+                                             {
+                                                 //外部解除
+                                                 if (oex.CancellationToken == token)
+                                                 {
+                                                     throw;
+                                                 }
+                                             }
+                                             catch (Exception)
+                                             {
+                                                 break;
+                                             }
+                                             finally
+                                             {
+                                                 ConnectManager.Close();
+                                             }
+                                         }
 
                                          try
                                          {
@@ -675,8 +719,6 @@ namespace GD_StampingMachine.ViewModels
             {
                 try
                 {
-                    await Task.Run(async () =>
-                    {
                         var ManagerVM = new DXSplashScreenViewModel
                         {
                             Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
@@ -689,6 +731,8 @@ namespace GD_StampingMachine.ViewModels
                         };
                         SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
 
+                    await Task.Run(async () =>
+                    {
                         manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                         try
                         {

@@ -95,7 +95,7 @@
     <sys:String x:Key="btnNumberSetting">號碼設定</sys:String>
     <sys:String x:Key="btnDataMatrixSetting">DataMatrix</sys:String>
     <sys:String x:Key="btnAxisSetting">軸向設定</sys:String>
-    <sys:String x:Key="btnTimimgSetting">計時設定</sys:String>
+    <sys:String x:Key="btnTimingSetting">計時設定</sys:String>
     <sys:String x:Key="btnSeparateSetting">分料設定</sys:String>
     <sys:String x:Key="btnIOTable">I/O&#x000A;Table</sys:String>
     <sys:String x:Key="btnInput">Input</sys:String>
@@ -446,7 +446,10 @@
     <sys:String x:Key="NoSelectProductSetting">未選擇製品專案</sys:String>
     <sys:String x:Key="NoSelectCorrespondProductSetting">未選擇對應的製品專案</sys:String>
     <sys:String x:Key="AskCancelAlreadyScheduleProductSetting">選擇的項目有已排定的零件，是否要一併解除</sys:String>
+    <sys:String x:Key="AskFontIsMissingAndContinueProcessing">機台上缺少對應的字模，是否要繼續加工</sys:String>
 
+    
+    
     <sys:String x:Key="MachiningDataIsAlreadySended">所選擇的資料已進入機台，不可解除加工</sys:String>
     <sys:String x:Key="RemainingMachiningData">剩餘的加工資料</sys:String>
     

@@ -79,7 +79,7 @@
     <sys:String x:Key="btnNumberSetting">號碼設定</sys:String>
     <sys:String x:Key="btnDataMatrixSetting">QR碼設定</sys:String>
     <sys:String x:Key="btnAxisSetting">軸向設定</sys:String>
-    <sys:String x:Key="btnTimimgSetting">計時設定</sys:String>
+    <sys:String x:Key="btnTimingSetting">計時設定</sys:String>
     <sys:String x:Key="btnSeparateSetting">分料設定</sys:String>
     <sys:String x:Key="btnIOTable">I/O&#x000A;Table</sys:String>
     <sys:String x:Key="btnInput">Input</sys:String>

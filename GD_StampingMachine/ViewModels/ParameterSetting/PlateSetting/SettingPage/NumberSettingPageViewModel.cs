@@ -16,6 +16,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     public class NumberSettingPageViewModel : PlateSettingPageBaseViewModel
     {
 
+
+
         readonly StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
 
         [JsonIgnore]
@@ -54,7 +56,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (value != null)
                 {
                     NumberSettingVM = new NumberSettingViewModel(value.StampPlateSetting.DeepCloneByJson());
-                    //NumberSettingVM = _numberSettingVMModelCollectionSelected.DeepCloneByJson();
                 }
                 OnPropertyChanged();
             }

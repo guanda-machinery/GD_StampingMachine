@@ -1170,9 +1170,10 @@ namespace GD_StampingMachine.Singletons
                                                     }
                                                 }
                                                 //只訂閱第一個鐵牌id 若第一個有變化則代表全部都變
-                                                
-                                            
-                                                    string PlateIDnodeID = $"{StampingOpcUANode.system.sv_IronPlateData}[1]";
+                                                for (int i = 0; i < MachineConstants.PlateCount; i++)
+                                                {
+                                                    int index = i;
+                                                    string PlateIDnodeID = $"{StampingOpcUANode.system.sv_IronPlateData}[{index + MachineConstants.PlateFirstNumber}]";
                                                     await this.opcUaClient.SubscribeNodeDataChangeAsync<int>(PlateIDnodeID + ".iIronPlateID",
                                                         (sender, e) =>
                                                         {
@@ -1182,21 +1183,25 @@ namespace GD_StampingMachine.Singletons
                                                                 {
                                                                     try
                                                                     {
+                                                                        if (PlateBaseObservableCollectionLastUpdateDateTime != null)
+                                                                            if((PlateBaseObservableCollectionLastUpdateDateTime.Value-DateTime.Now).TotalSeconds<10)
+                                                                                return;
+
                                                                         var ret = await GetIronPlateDataCollectionAsync();
                                                                         if (ret.result)
-                                                                        {
-                                                                            var tmpList = ret.ironPlateCollection.Select(x => new PlateMonitorViewModel(x)).ToList();
-
-                                                                            var oldCollection = PlateBaseObservableCollection;
-                                                                            for (int i = 0; i < tmpList.Count; i++)
                                                                             {
-                                                                                await Application.Current.Dispatcher.InvokeAsync(() =>
+                                                                                var tmpList = ret.ironPlateCollection.Select(x => new PlateMonitorViewModel(x)).ToList();
+                                                                                var oldCollection = PlateBaseObservableCollection;
+                                                                                for (int j = 0; j < tmpList.Count; j++)
                                                                                 {
-                                                                                    PlateBaseObservableCollection[i] = tmpList[i];
-                                                                                });
+                                                                                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                                                                                    {
+                                                                                        PlateBaseObservableCollection[j] = tmpList[j];
+                                                                                    });
+                                                                                }
+                                                                                PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?>(oldCollection, PlateBaseObservableCollection));
                                                                             }
-                                                                            PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?>(oldCollection, PlateBaseObservableCollection));
-                                                                        }
+                                                                        
                                                                     }
                                                                     catch (Exception ex)
                                                                     {
@@ -1209,7 +1214,7 @@ namespace GD_StampingMachine.Singletons
 
                                                             }
                                                         }, 2000);
-                                                
+                                                }
 
 
 
@@ -3319,6 +3324,11 @@ namespace GD_StampingMachine.Singletons
         }
         ObservableCollection<PlateMonitorViewModel>? _plateBaseObservableCollection;
 
+
+        /// <summary>
+        /// 上次刷新的時間
+        /// </summary>
+        DateTime? PlateBaseObservableCollectionLastUpdateDateTime;
         /// <summary>
         /// 實際加工狀態[25]
         /// </summary>
@@ -3329,6 +3339,7 @@ namespace GD_StampingMachine.Singletons
                 if (_plateBaseObservableCollection == null)
                 {
                     _plateBaseObservableCollection = new();
+                    _plateBaseObservableCollection.CollectionChanged += plateBaseObservableCollection_CollectionChanged;
                     for (int i = 0; i < MachineConstants.PlateCount; i++)
                     {
                         PlateBaseObservableCollection.Add(new PlateMonitorViewModel()
@@ -3347,12 +3358,22 @@ namespace GD_StampingMachine.Singletons
             set
             {
                 var temp = _plateBaseObservableCollection;
-                _plateBaseObservableCollection = value;
-                OnPropertyChanged();
+                if(temp!=null)
+                    temp.CollectionChanged -= plateBaseObservableCollection_CollectionChanged;
 
+                _plateBaseObservableCollection = value;
+                if (_plateBaseObservableCollection != null)
+                    _plateBaseObservableCollection.CollectionChanged += plateBaseObservableCollection_CollectionChanged;
+                OnPropertyChanged();
                 PlateBaseObservableCollectionChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs
                     <ObservableCollection<PlateMonitorViewModel>?>(temp, value));
+                PlateBaseObservableCollectionLastUpdateDateTime = DateTime.Now;
             }
+        }
+
+        private void plateBaseObservableCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            PlateBaseObservableCollectionLastUpdateDateTime = DateTime.Now;
         }
 
         public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<ObservableCollection<PlateMonitorViewModel>?>>? PlateBaseObservableCollectionChanged;

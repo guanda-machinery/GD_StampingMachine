@@ -342,7 +342,7 @@ namespace GD_StampingMachine.ViewModels
                             while (true)
                             {
                                 //若停留在計時頁面
-                                if (ParameterSettingVM.TbtnTimimgSettingIsChecked)
+                                if (ParameterSettingVM?.TBtnTimingSettingIsChecked == true)
                                     continue;
 
                                 if (SleepSettingCts.Token.IsCancellationRequested)
